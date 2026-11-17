@@ -1,0 +1,9 @@
+{
+  "id": "01-active-sprint",
+  "prompt": "How is the current sprint on the PAY board (board 1) going?",
+  "expect": {
+    "mustCall": ["assess_sprint_health"],
+    "mustMention": ["WIP_OVERLOAD", "PAY-54"],
+    "maxWords": 500
+  }
+}

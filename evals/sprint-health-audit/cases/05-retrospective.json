@@ -1,0 +1,9 @@
+{
+  "id": "05-retrospective",
+  "prompt": "Prepare a short health review of the last closed sprint on board 1 for our retrospective.",
+  "expect": {
+    "mustCall": ["assess_sprint_health"],
+    "mustMention": ["PAY Sprint 4", "BURNDOWN_LAG", "CARRY_OVER"],
+    "maxWords": 500
+  }
+}

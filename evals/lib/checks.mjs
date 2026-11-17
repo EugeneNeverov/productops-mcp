@@ -18,6 +18,11 @@ const SECTION_ALIASES = {
   ],
 };
 
+// Numbers a skill's instructions give the model, which it may quote without a tool returning them.
+const SKILL_CONSTANTS = {
+  'sprint-health-audit': [100, 7, 15], // healthScore scale and the warn/risk penalties in SKILL.md
+};
+
 const ID_RE = /\b[A-Z][A-Z0-9]*-\d+\b/g;
 const HASH_RE = /sha256:[0-9a-f]{8,64}/g;
 const NUMBER_RE = /(?<![\w.])-?\d+(?:[.,]\d+)?(?:%|(?:st|nd|rd|th)\b)?/g;
@@ -109,6 +114,7 @@ export function checkReport({ skill, report, prompt, calls, expect = {} }) {
   // Numbers: everything in the report must come from tool arguments, tool results or the prompt.
   const allowed = new Set();
   collectNumbers(prompt, allowed);
+  for (const n of SKILL_CONSTANTS[skill] ?? []) allowed.add(n);
   for (const c of calls) {
     collectNumbers(c.args, allowed);
     collectNumbers(c.result, allowed);
@@ -145,6 +151,29 @@ export function checkReport({ skill, report, prompt, calls, expect = {} }) {
       'cites-input-hash',
       cited.length > 0,
       cited.length ? undefined : 'no meta.inputHash from the tool results is cited',
+    );
+  }
+
+  // sprint-health-audit: risks must cite evidence as links to issues the tools returned.
+  if (expect.evidence !== false && !expect.asksQuestion && skill === 'sprint-health-audit') {
+    const urls = new Set();
+    const collectUrls = (v) => {
+      if (typeof v === 'string' && /^https?:\/\/\S+\/browse\/[A-Z][A-Z0-9]*-\d+$/.test(v)) urls.add(v);
+      else if (Array.isArray(v)) v.forEach(collectUrls);
+      else if (v && typeof v === 'object') Object.values(v).forEach(collectUrls);
+    };
+    calls.forEach((c) => collectUrls(c.result));
+    const linked = [...report.matchAll(/\]\((https?:\/\/[^)\s]+)\)/g)].map((m) => m[1]);
+    const cited = linked.filter((u) => urls.has(u));
+    const foreign = linked.filter((u) => /\/browse\//.test(u) && !urls.has(u));
+    add(
+      'cites-evidence',
+      cited.length > 0 && foreign.length === 0,
+      foreign.length
+        ? `issue links no tool returned: ${foreign.join(', ')}`
+        : cited.length
+          ? `${cited.length} evidence links`
+          : 'no issue link from the tool results is cited',
     );
   }
 

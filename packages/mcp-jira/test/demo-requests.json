@@ -1,0 +1,6 @@
+{
+  "_comment": "Reference requests on the bundled demo dataset. Outputs live in examples/reports/jira-demo; scripts/gen-demo-reports.mjs regenerates them.",
+  "assess_sprint_health": { "boardId": 1 },
+  "find_blockers": { "boardId": 1 },
+  "analyze_cycle_time": { "boardId": 1, "window": { "lastSprints": 3 } }
+}

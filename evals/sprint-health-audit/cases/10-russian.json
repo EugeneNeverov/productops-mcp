@@ -1,0 +1,10 @@
+{
+  "id": "10-russian",
+  "prompt": "Как идёт текущий спринт на доске 1 (PAY)? Что самое рискованное и что делать в ближайшие два дня? Ответь по-русски.",
+  "expect": {
+    "mustCall": ["assess_sprint_health"],
+    "mustMention": ["WIP_OVERLOAD"],
+    "language": "ru",
+    "maxWords": 500
+  }
+}

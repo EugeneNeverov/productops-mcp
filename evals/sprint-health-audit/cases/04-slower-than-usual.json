@@ -1,0 +1,9 @@
+{
+  "id": "04-slower-than-usual",
+  "prompt": "Board 1: is the team slower than usual this sprint? Back it up with data.",
+  "expect": {
+    "mustCall": ["assess_sprint_health", "analyze_cycle_time"],
+    "mustMention": ["CYCLE_TIME_REGRESSION"],
+    "maxWords": 500
+  }
+}

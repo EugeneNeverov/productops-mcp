@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -206,5 +206,31 @@ describe('productops-jira live mode without credentials', () => {
     expect(out.status).toBe(0);
     expect(out.stdout.toString()).toBe('');
     expect(out.stderr.toString()).toMatch(/Not signed in/);
+  });
+});
+
+describe('reference outputs in examples/reports/jira-demo', () => {
+  const requests = JSON.parse(
+    readFileSync(new URL('./demo-requests.json', import.meta.url), 'utf8'),
+  ) as Record<string, Record<string, unknown>>;
+  const tools = Object.keys(requests).filter((k) => !k.startsWith('_'));
+  let client: Client;
+  beforeAll(async () => {
+    client = await connect();
+  });
+  afterAll(async () => {
+    await client?.close();
+  });
+
+  // The sprint-health-audit eval checks are tested against an example report written from these.
+  it.each(tools)('%s matches its reference (regenerate with scripts/gen-demo-reports.mjs)', async (tool) => {
+    const { meta, ...rest } = sc(await client.callTool({ name: tool, arguments: requests[tool] }));
+    const reference = JSON.parse(
+      readFileSync(new URL(`../../../examples/reports/jira-demo/${tool}.json`, import.meta.url), 'utf8'),
+    );
+    expect({
+      ...rest,
+      meta: { tool: meta.tool, inputHash: meta.inputHash, warnings: meta.warnings },
+    }).toEqual(reference.response);
   });
 });

@@ -1,0 +1,12 @@
+{
+  "id": "09-open-issues",
+  "prompt": "List the issues in the active sprint on board 1 that are not done yet. Just the list, no report.",
+  "expect": {
+    "mustCall": ["get_sprint_issues"],
+    "mustMention": ["PAY-53", "PAY-57", "PAY-63"],
+    "forbid": ["perfectly healthy"],
+    "sections": false,
+    "evidence": false,
+    "maxWords": 400
+  }
+}

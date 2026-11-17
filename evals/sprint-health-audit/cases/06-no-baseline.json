@@ -1,0 +1,11 @@
+{
+  "id": "06-no-baseline",
+  "prompt": "Board 1, sprint id 1: how healthy was it, and did our cycle time get worse compared with earlier sprints?",
+  "expect": {
+    "mustCall": ["assess_sprint_health"],
+    "mustMention": ["PAY Sprint 1", "baseline"],
+    "forbid": ["cycle time got worse", "cycle time increased", "slower than before", "faster than before"],
+    "evidence": false,
+    "maxWords": 500
+  }
+}

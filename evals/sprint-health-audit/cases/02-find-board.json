@@ -1,0 +1,9 @@
+{
+  "id": "02-find-board",
+  "prompt": "Run a sprint health check for the Payments team.",
+  "expect": {
+    "mustCall": ["list_projects", "assess_sprint_health"],
+    "mustMention": ["PAY Sprint 5"],
+    "maxWords": 500
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "03-blockers",
+  "prompt": "What is blocking the current PAY sprint (board 1), and what should we unblock first?",
+  "expect": {
+    "mustCall": ["find_blockers"],
+    "mustMention": ["PAY-54", "OPS-1"],
+    "maxWords": 500
+  }
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Runs a skill's eval cases against a model and the real MCP server.
 //
-//   node evals/run.mjs roadmap-prioritization [--case 01-demo-plan] [--repeat 1]
+//   node evals/run.mjs roadmap-prioritization|sprint-health-audit [--case <id>] [--repeat 1]
 //
 // Environment:
 //   EVAL_BASE_URL  OpenAI-compatible endpoint (default http://localhost:1234/v1, LM Studio)
@@ -17,7 +17,11 @@ import { StdioClientTransport } from '@modelcontextprotocol/client/stdio';
 import { runAgent } from './lib/agent.mjs';
 import { checkReport } from './lib/checks.mjs';
 
-const SERVERS = { 'roadmap-prioritization': 'packages/mcp-prioritization/dist/bin.js' };
+// Each skill runs against its server on the bundled demo data (the Jira server in fixtures mode).
+const SERVERS = {
+  'roadmap-prioritization': 'packages/mcp-prioritization/dist/bin.js',
+  'sprint-health-audit': 'packages/mcp-jira/dist/bin.js',
+};
 const root = new URL('../', import.meta.url);
 
 const { values, positionals } = parseArgs({

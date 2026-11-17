@@ -1,0 +1,10 @@
+{
+  "id": "07-kanban-no-sprint",
+  "prompt": "How is the sprint on the OPS board (board 2) doing?",
+  "expect": {
+    "forbid": ["health score", "healthScore"],
+    "sections": false,
+    "evidence": false,
+    "maxWords": 250
+  }
+}
