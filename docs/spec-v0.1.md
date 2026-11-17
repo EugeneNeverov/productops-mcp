@@ -463,6 +463,8 @@ export const WorkItem = z.object({
 
 ### 7.3 Tools
 
+> **Реализовано 17.11.2026 (этап 4, часть A):** все 5 tools работают в режиме `fixtures` на синтетических данных (`packages/mcp-jira/demo-data`). Точные определения метрик — в `docs/metrics.md`. Отличия от контрактов ниже: у каждого tool есть параметр `refresh`; `get_sprint_issues.items[]` содержит ещё `status`; `analyze_cycle_time` возвращает `window` (даты и id спринтов); `find_blockers` возвращает `sprint` и `truncated`; `checks[].value` может быть `null` (при `NO_BASELINE` / `SMALL_SAMPLE`).
+
 #### `list_projects`
 ```ts
 In:  z.object({ query: z.string().max(100).optional(), includeBoards: z.boolean().default(true), limit: z.number().int().min(1).max(100).default(50) })
@@ -583,6 +585,8 @@ Out: z.object({
 Когда базовых спринтов меньше нужного числа, проверки, зависящие от базы, получают `status: 'ok'`, `value: NaN → null` и warning `NO_BASELINE`. Модель не должна выдумывать тренд.
 
 ### 7.4 Бюджет запросов, rate limits, кэш
+
+> **Обновлено 17.11.2026 (ADR 0002):** бюджет считается в вызовах upstream-MCP Atlassian: `jira.budget.maxCallsPerTool` (по умолчанию 600) вместо `maxPointsPerCall`/`maxRequestsPerCall`. `meta.source` = `{ mode, cloudId, siteUrl, fromCache, fetchedAt, upstreamCalls }`. Каждый источник резервирует вызовы до чтения, превышение даёт `QUOTA_BUDGET_EXCEEDED`. Очки и заголовки REST ниже относятся к запасному варианту A.
 
 **Очки Atlassian:** 1 за запрос + 1 за каждый core-объект (issue/project) + 2 за identity-объект (user/group). Квота глобальная на приложение (65k/ч в Tier 1), поэтому:
 - **Оценка до выполнения.** Каждый tool сначала оценивает стоимость (число задач × запросы changelog). Если оценка больше `budget.maxPointsPerCall`, возвращается `QUOTA_BUDGET_EXCEEDED` с hint «сократите окно / lastSprints».

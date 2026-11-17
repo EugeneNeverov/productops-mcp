@@ -8,3 +8,4 @@ examples/reports/
 packages/core/src/scoring/__fixtures__/
 coverage/
 packages/*/skills/
+packages/mcp-jira/demo-data/

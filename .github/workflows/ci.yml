@@ -65,6 +65,7 @@ jobs:
         with:
           node-version: 20
       - run: node --version && node scripts/test-client.mjs packages/mcp-prioritization/dist/bin.js ping '{"message":"node20"}'
+      - run: node scripts/test-client.mjs packages/mcp-jira/dist/bin.js assess_sprint_health '{"boardId":1}'
 
   secrets:
     name: Secret scan

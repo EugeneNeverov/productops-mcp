@@ -3,7 +3,7 @@
 // server can serve it as an MCP prompt. skills/ stays the single source; the copies are gitignored.
 import { cpSync, rmSync } from 'node:fs';
 
-const map = { 'mcp-prioritization': ['roadmap-prioritization'] };
+const map = { 'mcp-prioritization': ['roadmap-prioritization'], 'mcp-jira': ['sprint-health-audit'] };
 for (const [pkg, skills] of Object.entries(map)) {
   for (const skill of skills) {
     const dest = new URL(`../packages/${pkg}/skills/${skill}/`, import.meta.url);

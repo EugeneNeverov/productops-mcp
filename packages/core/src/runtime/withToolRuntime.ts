@@ -1,5 +1,5 @@
 import { ToolFailure, type ToolError } from '../schemas/errors.js';
-import type { Meta, Warning } from '../schemas/meta.js';
+import type { Meta, SourceInfo, Warning } from '../schemas/meta.js';
 import { inputHash } from './hash.js';
 import type { Logger } from './logger.js';
 import { allowAllPolicy, type ToolPolicy } from './policy.js';
@@ -23,6 +23,8 @@ export interface ToolOutcome<T extends Record<string, unknown>> {
   data: T;
   /** Short human-readable summary for clients that ignore structuredContent (≤ 1500 chars). */
   summary: string;
+  /** Where the data came from, for tools that read an external system. */
+  source?: SourceInfo;
 }
 
 export interface RuntimeDeps {
@@ -92,6 +94,7 @@ export function withToolRuntime<I, T extends Record<string, unknown>>(
         computedAt,
         inputHash: inputHash(input),
         warnings,
+        ...(outcome.source ? { source: outcome.source } : {}),
       };
       const structured = { ...outcome.data, meta };
       deps.logger.info('tool ok', {

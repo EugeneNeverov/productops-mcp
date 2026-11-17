@@ -1,0 +1,32 @@
+{
+  "name": "@productops/mcp-jira",
+  "version": "0.0.0",
+  "description": "Read-only MCP server for Jira sprint health, cycle time and blockers. Reads Jira through the official Atlassian MCP server; ships a demo dataset.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "productops-jira": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/server.d.ts",
+      "default": "./dist/server.js"
+    }
+  },
+  "files": [
+    "dist",
+    "demo-data",
+    "skills"
+  ],
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.4.0",
+    "@productops/core": "workspace:*",
+    "zod": "^4.2.0"
+  }
+}

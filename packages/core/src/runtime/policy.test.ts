@@ -24,11 +24,21 @@ describe('tool policy', () => {
 
 describe('loadConfig', () => {
   it('returns defaults when PRODUCTOPS_CONFIG is unset', () => {
-    expect(loadConfig({})).toEqual({
+    const config = loadConfig({});
+    expect(config).toMatchObject({
       tools: { allow: ['*'], deny: [] },
       writes: { enabled: false },
       files: { allowedRoots: ['./data'] },
+      jira: {
+        mode: 'fixtures',
+        sites: [],
+        budget: { maxCallsPerTool: 600 },
+        returnText: { maxChars: 500 },
+        people: 'displayName',
+        blockedStatuses: ['Blocked'],
+      },
     });
+    expect(config.jira.health.thresholds.SCOPE_CREEP).toEqual({ warn: 10, risk: 25 });
   });
 
   it('rejects a config that tries to enable writes', () => {

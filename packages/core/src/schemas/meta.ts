@@ -7,14 +7,17 @@ export const Warning = z.object({
 });
 export type Warning = z.infer<typeof Warning>;
 
-/** Source block, present only for tools that read an external system (Jira). */
+/**
+ * Source block, present only for tools that read an external system (Jira).
+ * Upstream calls are calls to the Atlassian MCP server, which cost the customer Rovo credits (ADR 0002).
+ */
 export const SourceInfo = z.object({
+  mode: z.enum(['live', 'fixtures']),
   cloudId: z.string(),
   siteUrl: z.string().url(),
   fromCache: z.boolean(),
   fetchedAt: z.string().datetime(),
-  requestsMade: z.number().int(),
-  estimatedPoints: z.number().int(),
+  upstreamCalls: z.number().int(),
 });
 export type SourceInfo = z.infer<typeof SourceInfo>;
 
