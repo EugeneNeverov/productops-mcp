@@ -418,6 +418,14 @@ export const ExplainRankingOutput = z.object({
 ## 7. Компонент B — Jira Product Intelligence MCP (`packages/mcp-jira`)
 
 ### 7.1 Upstream API
+
+> **Обновлено 17.11.2026 (ADR 0002):** источник данных — официальный MCP-сервер Atlassian, а не REST напрямую. Endpoint’ы ниже — справочно, для запасного варианта A. Вместо них используются tools Atlassian:
+> - `listJiraProjects`, `listJiraBoards`, `listJiraBoardSprints`;
+> - `getJiraBoardSprintData`, `getJiraBoardIssueData`;
+> - `searchJiraIssuesUsingJql`, `listJiraIssueChangelogs`.
+>
+> Бюджет в разделе 7.4 считается в вызовах upstream-MCP, которые расходуют Rovo credits клиента, а не в очках REST.
+
 - Базовый URL: `https://api.atlassian.com/ex/jira/{cloudId}/…`. `cloudId` берётся из `GET https://api.atlassian.com/oauth/token/accessible-resources` и фильтруется по `jira.sites`.
 - Используемые endpoint’ы (**сверить на этапе 4**, в рамках проверки фактов не подтверждены):
   - `GET /rest/api/3/project/search` — проекты;
@@ -698,7 +706,11 @@ Out: z.object({
 
 Распространение 3LO-приложения: по умолчанию оно приватное. Для шаринга нужно включить Distribution. Без одобрения Atlassian пользователи видят предупреждение. Одобрение идёт через процесс сторонних интеграций Marketplace, листинг не обязателен.
 
-**Решение для v0.2:** реализовать вариант A за интерфейсом `TokenProvider`, плюс режим `fixtures` (раздел 11.3) для демо без Jira вовсе. Перед кодом этапа 4 сделать spike по варианту D. Брокер — единственный облачный компонент. Он stateless и отключаем: если брокера нет, Jira MCP работает только в fixtures-режиме.
+**Решение для v0.2 (принято владельцем 17.11.2026):** вариант D. `productops-jira` остаётся нашим MCP-сервером с контрактами раздела 7.3, но данные берёт как MCP-клиент официального сервера Atlassian (`https://mcp.atlassian.com/v2/mcp`).
+
+- Вход — OAuth 2.1 с dynamic client registration и PKCE, без `client_secret`, через loopback redirect.
+- Брокер и собственное 3LO-приложение не нужны.
+- Подробности, проверенные факты, критерии spike и запасной путь (вариант A) — в `docs/decisions/0002-jira-via-atlassian-mcp.md`.
 
 ### 9.4 Цепочка поставки
 - Публикация в npm **с provenance** из GitHub Actions (OIDC trusted publishing), без долгоживущего npm-токена.
