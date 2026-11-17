@@ -1,0 +1,5 @@
+dist/
+coverage/
+pnpm-lock.yaml
+docs/spec-v0.1.md
+LICENSE

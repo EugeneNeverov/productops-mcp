@@ -1,0 +1,25 @@
+{
+  "name": "@productops/core",
+  "version": "0.0.0",
+  "description": "Shared schemas, tool runtime, errors and policy for ProductOps MCP servers.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "zod": "^4.2.0"
+  }
+}

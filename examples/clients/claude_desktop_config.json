@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "productops-prioritization": {
+      "command": "node",
+      "args": ["/ABSOLUTE/PATH/TO/productops-mcp/packages/mcp-prioritization/dist/bin.js"],
+      "env": { "PRODUCTOPS_LOG_LEVEL": "info" }
+    }
+  }
+}

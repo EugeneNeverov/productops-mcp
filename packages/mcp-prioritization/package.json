@@ -1,0 +1,30 @@
+{
+  "name": "@productops/mcp-prioritization",
+  "version": "0.0.0",
+  "description": "Local MCP server for product prioritization (RICE, WSJF, capacity scenarios). Works fully offline.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "productops-prioritization": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/server.d.ts",
+      "default": "./dist/server.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.4.0",
+    "@productops/core": "workspace:*",
+    "zod": "^4.2.0"
+  }
+}
