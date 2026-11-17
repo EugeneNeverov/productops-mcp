@@ -6,11 +6,11 @@ Status: early development. See [docs/spec-v0.1.md](docs/spec-v0.1.md) (in Russia
 
 ## Packages
 
-| Package                          | What it is                                                                                                                                                                                                                                                |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@productops/core`               | Shared schemas (`Meta`, `ToolError`), tool runtime, policy, config, stderr logger                                                                                                                                                                         |
-| `@productops/mcp-prioritization` | Local MCP server (stdio), fully offline: `calculate_rice`, `calculate_wsjf`, `compare_initiatives`, `simulate_capacity`, `explain_ranking`                                                                                                                |
-| `@productops/mcp-jira`           | Read-only MCP server (stdio) for sprint health: `list_projects`, `get_sprint_issues`, `analyze_cycle_time`, `find_blockers`, `assess_sprint_health`. Ships a synthetic demo dataset; live Jira (through the official Atlassian MCP server) is in progress |
+| Package                          | What it is                                                                                                                                                                                                                                                                                                                  |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@productops/core`               | Shared schemas (`Meta`, `ToolError`), tool runtime, policy, config, stderr logger                                                                                                                                                                                                                                           |
+| `@productops/mcp-prioritization` | Local MCP server (stdio), fully offline: `calculate_rice`, `calculate_wsjf`, `compare_initiatives`, `simulate_capacity`, `explain_ranking`                                                                                                                                                                                  |
+| `@productops/mcp-jira`           | Read-only MCP server (stdio) for sprint health: `list_projects`, `get_sprint_issues`, `analyze_cycle_time`, `find_blockers`, `assess_sprint_health`. Ships a synthetic demo dataset; reads your Jira Cloud through the official Atlassian MCP server after `productops-jira login` ([docs/jira-live.md](docs/jira-live.md)) |
 
 ## Try it
 

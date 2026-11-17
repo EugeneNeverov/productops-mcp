@@ -25,6 +25,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
+    "@modelcontextprotocol/client": "2.4.0",
     "@modelcontextprotocol/server": "2.4.0",
     "@productops/core": "workspace:*",
     "zod": "^4.2.0"

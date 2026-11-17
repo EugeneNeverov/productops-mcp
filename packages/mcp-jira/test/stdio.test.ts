@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process';
 import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -16,8 +17,8 @@ type Result = { isError?: boolean; structuredContent?: unknown; content?: { type
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- loose access to tool JSON in assertions
 const sc = (r: unknown) => (r as Result).structuredContent as Record<string, any>;
 
-async function connect(config?: object) {
-  const env: Record<string, string> = { PRODUCTOPS_LOG_LEVEL: 'silent' };
+async function connect(config?: object, extraEnv: Record<string, string> = {}) {
+  const env: Record<string, string> = { PRODUCTOPS_LOG_LEVEL: 'silent', ...extraEnv };
   if (config) {
     const dir = mkdtempSync(join(tmpdir(), 'pojira-'));
     const path = join(dir, 'productops.config.json');
@@ -181,5 +182,29 @@ describe('productops-jira configuration', () => {
     expect(names.length).toBeGreaterThan(0);
     for (const n of names) expect(n).toMatch(/^person-[0-9a-f]{8}$/);
     await client.close();
+  });
+});
+
+describe('productops-jira live mode without credentials', () => {
+  it('asks the user to log in instead of touching the network', async () => {
+    const home = mkdtempSync(join(tmpdir(), 'pohome-'));
+    const client = await connect(undefined, { PRODUCTOPS_JIRA_MODE: 'live', PRODUCTOPS_HOME: home });
+    const r = await client.callTool({ name: 'list_projects', arguments: {} });
+    expect(r.isError).toBe(true);
+    expect(sc(r).error).toMatchObject({
+      code: 'AUTH_REQUIRED',
+      hint: expect.stringContaining('productops-jira login'),
+    });
+    await client.close();
+  });
+
+  it('reports sign-in status on the command line', () => {
+    const home = mkdtempSync(join(tmpdir(), 'pohome-'));
+    const out = spawnSync(process.execPath, [BIN, 'status'], {
+      env: { ...process.env, PRODUCTOPS_HOME: home },
+    });
+    expect(out.status).toBe(0);
+    expect(out.stdout.toString()).toBe('');
+    expect(out.stderr.toString()).toMatch(/Not signed in/);
   });
 });

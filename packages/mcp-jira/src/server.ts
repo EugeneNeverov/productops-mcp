@@ -14,6 +14,10 @@ import {
 import { DEMO_FIXTURES, FixtureSource, loadFixtureFile } from './source/fixtures.js';
 import { Normalizer } from './source/normalize.js';
 import type { JiraSource } from './source/types.js';
+import { AtlassianMcpSource } from './source/atlassian/adapter.js';
+import { defaultCredentialsPath, FileCredentialStore } from './source/atlassian/auth.js';
+import { serverConnector } from './source/atlassian/connect.js';
+import { Upstream } from './source/atlassian/upstream.js';
 import { JIRA_READ, type JiraEnv } from './tools/common.js';
 import {
   createListProjectsHandler,
@@ -76,13 +80,9 @@ export function loadDeps(env: NodeJS.ProcessEnv = process.env): ServerDeps {
     return { config, logger, source: new FixtureSource(loadFixtureFile(file), normalizer) };
   }
   if (mode === 'live') {
-    throw new ToolFailure(
-      'VALIDATION_ERROR',
-      'Live mode (Atlassian MCP) is not available in this build yet.',
-      {
-        hint: 'Use PRODUCTOPS_JIRA_MODE=fixtures for the demo data.',
-      },
-    );
+    const store = new FileCredentialStore(defaultCredentialsPath(env));
+    const upstream = new Upstream(serverConnector(store, env.PRODUCTOPS_ATLASSIAN_MCP_URL || undefined));
+    return { config, logger, source: new AtlassianMcpSource(upstream, config.jira, normalizer) };
   }
   throw new ToolFailure('VALIDATION_ERROR', `Unknown Jira mode "${mode}". Use "fixtures" or "live".`);
 }

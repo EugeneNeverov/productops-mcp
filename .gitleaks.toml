@@ -1,0 +1,7 @@
+# Default gitleaks rules, plus false positives that are not secrets.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Atlassian MCP tool names that match the atlassian-api-token pattern (24 letters after 'Jira')"
+regexes = ['''(?i)^searchJiraIssuesUsingJql$''']
