@@ -1,0 +1,923 @@
+{
+  "request": {
+    "initiatives": {
+      "kind": "demo"
+    },
+    "rankBy": "RICE",
+    "capacity": [
+      {
+        "team": "Growth",
+        "amount": 10
+      },
+      {
+        "team": "Platform",
+        "amount": 12
+      },
+      {
+        "team": "Mobile",
+        "amount": 12
+      }
+    ],
+    "scenarios": [
+      {
+        "name": "base"
+      },
+      {
+        "name": "minus-20-percent-people",
+        "capacityMultiplier": 0.8
+      },
+      {
+        "name": "estimates-30-percent-low",
+        "effortMultiplier": 1.3
+      }
+    ]
+  },
+  "response": {
+    "rankBy": "RICE",
+    "scenarios": [
+      {
+        "name": "base",
+        "included": [
+          {
+            "id": "INIT-034",
+            "rank": 1,
+            "effort": 1.5,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-027",
+            "rank": 2,
+            "effort": 1.5,
+            "team": "Platform",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-012",
+            "rank": 3,
+            "effort": 1,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-005",
+            "rank": 4,
+            "effort": 0.5,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-024",
+            "rank": 5,
+            "effort": 0.5,
+            "team": "Platform",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-009",
+            "rank": 6,
+            "effort": 1,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-031",
+            "rank": 8,
+            "effort": 1,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-037",
+            "rank": 9,
+            "effort": 0.5,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-023",
+            "rank": 10,
+            "effort": 0.5,
+            "team": "Platform",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-008",
+            "rank": 11,
+            "effort": 1.5,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-017",
+            "rank": 12,
+            "effort": 1.5,
+            "team": "Platform",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-035",
+            "rank": 13,
+            "effort": 1.5,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-029",
+            "rank": 15,
+            "effort": 1.5,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-025",
+            "rank": 16,
+            "effort": 0.5,
+            "team": "Platform",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-016",
+            "rank": 17,
+            "effort": 1.5,
+            "team": "Platform",
+            "via": "DEPENDENCY"
+          },
+          {
+            "id": "INIT-006",
+            "rank": 19,
+            "effort": 1,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-033",
+            "rank": 20,
+            "effort": 0.5,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-036",
+            "rank": 22,
+            "effort": 5.5,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-014",
+            "rank": 23,
+            "effort": 5.5,
+            "team": "Platform",
+            "via": "MANDATORY"
+          },
+          {
+            "id": "INIT-018",
+            "rank": 24,
+            "effort": 0.5,
+            "team": "Platform",
+            "via": "MANDATORY"
+          },
+          {
+            "id": "INIT-003",
+            "rank": 25,
+            "effort": 0.5,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-013",
+            "rank": 27,
+            "effort": 0.5,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-011",
+            "rank": 31,
+            "effort": 4,
+            "team": "Growth",
+            "via": "RANK"
+          }
+        ],
+        "deferred": [
+          {
+            "id": "INIT-022",
+            "rank": 7,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-020",
+            "rank": 14,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-019",
+              "INIT-015"
+            ]
+          },
+          {
+            "id": "INIT-028",
+            "rank": 18,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-004",
+            "rank": 21,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-026"
+            ]
+          },
+          {
+            "id": "INIT-019",
+            "rank": 26,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-021",
+            "rank": 28,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-030",
+            "rank": 29,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-015",
+            "rank": 30,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-019"
+            ]
+          },
+          {
+            "id": "INIT-001",
+            "rank": 32,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-002",
+            "rank": 33,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-038",
+            "rank": 34,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-039",
+            "rank": 35,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-010",
+            "rank": 36,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-026",
+              "INIT-004"
+            ]
+          },
+          {
+            "id": "INIT-040",
+            "rank": 37,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-026",
+            "rank": 38,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-032",
+            "rank": 39,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-007",
+            "rank": 40,
+            "reason": "CAPACITY"
+          }
+        ],
+        "utilization": {
+          "Growth": {
+            "used": 10,
+            "capacity": 10,
+            "pct": 100
+          },
+          "Mobile": {
+            "used": 12,
+            "capacity": 12,
+            "pct": 100
+          },
+          "Platform": {
+            "used": 12,
+            "capacity": 12,
+            "pct": 100
+          }
+        },
+        "totalScoreIncluded": 76277.1591,
+        "overCommitted": false
+      },
+      {
+        "name": "minus-20-percent-people",
+        "included": [
+          {
+            "id": "INIT-034",
+            "rank": 1,
+            "effort": 1.5,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-027",
+            "rank": 2,
+            "effort": 1.5,
+            "team": "Platform",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-012",
+            "rank": 3,
+            "effort": 1,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-005",
+            "rank": 4,
+            "effort": 0.5,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-024",
+            "rank": 5,
+            "effort": 0.5,
+            "team": "Platform",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-009",
+            "rank": 6,
+            "effort": 1,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-031",
+            "rank": 8,
+            "effort": 1,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-037",
+            "rank": 9,
+            "effort": 0.5,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-008",
+            "rank": 11,
+            "effort": 1.5,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-035",
+            "rank": 13,
+            "effort": 1.5,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-029",
+            "rank": 15,
+            "effort": 1.5,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-016",
+            "rank": 17,
+            "effort": 1.5,
+            "team": "Platform",
+            "via": "DEPENDENCY"
+          },
+          {
+            "id": "INIT-006",
+            "rank": 19,
+            "effort": 1,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-033",
+            "rank": 20,
+            "effort": 0.5,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-014",
+            "rank": 23,
+            "effort": 5.5,
+            "team": "Platform",
+            "via": "MANDATORY"
+          },
+          {
+            "id": "INIT-018",
+            "rank": 24,
+            "effort": 0.5,
+            "team": "Platform",
+            "via": "MANDATORY"
+          },
+          {
+            "id": "INIT-003",
+            "rank": 25,
+            "effort": 0.5,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-013",
+            "rank": 27,
+            "effort": 0.5,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-002",
+            "rank": 33,
+            "effort": 1,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-032",
+            "rank": 39,
+            "effort": 3,
+            "team": "Mobile",
+            "via": "RANK"
+          }
+        ],
+        "deferred": [
+          {
+            "id": "INIT-022",
+            "rank": 7,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-023",
+            "rank": 10,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-017",
+            "rank": 12,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-023"
+            ]
+          },
+          {
+            "id": "INIT-020",
+            "rank": 14,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-019",
+              "INIT-015"
+            ]
+          },
+          {
+            "id": "INIT-025",
+            "rank": 16,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-028",
+            "rank": 18,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-004",
+            "rank": 21,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-026"
+            ]
+          },
+          {
+            "id": "INIT-036",
+            "rank": 22,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-019",
+            "rank": 26,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-021",
+            "rank": 28,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-030",
+            "rank": 29,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-015",
+            "rank": 30,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-019"
+            ]
+          },
+          {
+            "id": "INIT-011",
+            "rank": 31,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-001",
+            "rank": 32,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-038",
+            "rank": 34,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-039",
+            "rank": 35,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-010",
+            "rank": 36,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-026",
+              "INIT-004"
+            ]
+          },
+          {
+            "id": "INIT-040",
+            "rank": 37,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-026",
+            "rank": 38,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-007",
+            "rank": 40,
+            "reason": "CAPACITY"
+          }
+        ],
+        "utilization": {
+          "Growth": {
+            "used": 7,
+            "capacity": 8,
+            "pct": 87.5
+          },
+          "Mobile": {
+            "used": 9.5,
+            "capacity": 9.6,
+            "pct": 98.96
+          },
+          "Platform": {
+            "used": 9.5,
+            "capacity": 9.6,
+            "pct": 98.96
+          }
+        },
+        "totalScoreIncluded": 67026.4394,
+        "overCommitted": false
+      },
+      {
+        "name": "estimates-30-percent-low",
+        "included": [
+          {
+            "id": "INIT-034",
+            "rank": 1,
+            "effort": 1.95,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-027",
+            "rank": 2,
+            "effort": 1.95,
+            "team": "Platform",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-012",
+            "rank": 3,
+            "effort": 1.3,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-005",
+            "rank": 4,
+            "effort": 0.65,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-009",
+            "rank": 6,
+            "effort": 1.3,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-031",
+            "rank": 8,
+            "effort": 1.3,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-037",
+            "rank": 9,
+            "effort": 0.65,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-008",
+            "rank": 11,
+            "effort": 1.95,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-035",
+            "rank": 13,
+            "effort": 1.95,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-029",
+            "rank": 15,
+            "effort": 1.95,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-016",
+            "rank": 17,
+            "effort": 1.95,
+            "team": "Platform",
+            "via": "DEPENDENCY"
+          },
+          {
+            "id": "INIT-006",
+            "rank": 19,
+            "effort": 1.3,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-033",
+            "rank": 20,
+            "effort": 0.65,
+            "team": "Mobile",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-014",
+            "rank": 23,
+            "effort": 7.15,
+            "team": "Platform",
+            "via": "MANDATORY"
+          },
+          {
+            "id": "INIT-018",
+            "rank": 24,
+            "effort": 0.65,
+            "team": "Platform",
+            "via": "MANDATORY"
+          },
+          {
+            "id": "INIT-003",
+            "rank": 25,
+            "effort": 0.65,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-013",
+            "rank": 27,
+            "effort": 0.65,
+            "team": "Growth",
+            "via": "RANK"
+          },
+          {
+            "id": "INIT-002",
+            "rank": 33,
+            "effort": 1.3,
+            "team": "Growth",
+            "via": "RANK"
+          }
+        ],
+        "deferred": [
+          {
+            "id": "INIT-024",
+            "rank": 5,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-022",
+            "rank": 7,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-023",
+            "rank": 10,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-017",
+            "rank": 12,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-023"
+            ]
+          },
+          {
+            "id": "INIT-020",
+            "rank": 14,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-019",
+              "INIT-015"
+            ]
+          },
+          {
+            "id": "INIT-025",
+            "rank": 16,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-028",
+            "rank": 18,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-004",
+            "rank": 21,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-026"
+            ]
+          },
+          {
+            "id": "INIT-036",
+            "rank": 22,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-019",
+            "rank": 26,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-021",
+            "rank": 28,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-030",
+            "rank": 29,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-015",
+            "rank": 30,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-019"
+            ]
+          },
+          {
+            "id": "INIT-011",
+            "rank": 31,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-001",
+            "rank": 32,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-038",
+            "rank": 34,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-039",
+            "rank": 35,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-010",
+            "rank": 36,
+            "reason": "CAPACITY",
+            "blockedBy": [
+              "INIT-026",
+              "INIT-004"
+            ]
+          },
+          {
+            "id": "INIT-040",
+            "rank": 37,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-026",
+            "rank": 38,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-032",
+            "rank": 39,
+            "reason": "CAPACITY"
+          },
+          {
+            "id": "INIT-007",
+            "rank": 40,
+            "reason": "CAPACITY"
+          }
+        ],
+        "utilization": {
+          "Growth": {
+            "used": 9.1,
+            "capacity": 10,
+            "pct": 91
+          },
+          "Mobile": {
+            "used": 8.45,
+            "capacity": 12,
+            "pct": 70.42
+          },
+          "Platform": {
+            "used": 11.7,
+            "capacity": 12,
+            "pct": 97.5
+          }
+        },
+        "totalScoreIncluded": 60103.1061,
+        "overCommitted": false
+      }
+    ],
+    "diffVsFirst": [
+      {
+        "scenario": "minus-20-percent-people",
+        "added": [
+          "INIT-002",
+          "INIT-032"
+        ],
+        "removed": [
+          "INIT-011",
+          "INIT-017",
+          "INIT-023",
+          "INIT-025",
+          "INIT-036"
+        ]
+      },
+      {
+        "scenario": "estimates-30-percent-low",
+        "added": [
+          "INIT-002"
+        ],
+        "removed": [
+          "INIT-011",
+          "INIT-017",
+          "INIT-023",
+          "INIT-024",
+          "INIT-025",
+          "INIT-036"
+        ]
+      }
+    ],
+    "meta": {
+      "tool": "simulate_capacity",
+      "inputHash": "sha256:2d2ff8c857d34436b0a59bc4f56097c64c6cb233ecbfa55ab98429dab2c4f09c",
+      "warnings": []
+    }
+  }
+}

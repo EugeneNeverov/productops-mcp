@@ -3,3 +3,7 @@ coverage/
 pnpm-lock.yaml
 docs/spec-v0.1.md
 LICENSE
+**/__snapshots__/
+examples/reports/
+packages/core/src/scoring/__fixtures__/
+coverage/

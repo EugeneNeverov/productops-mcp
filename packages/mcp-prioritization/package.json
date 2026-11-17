@@ -17,7 +17,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "demo-data"
   ],
   "scripts": {
     "build": "tsc -b"

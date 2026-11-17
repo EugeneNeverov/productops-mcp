@@ -1,0 +1,559 @@
+{
+  "request": {
+    "initiatives": {
+      "kind": "demo"
+    }
+  },
+  "response": {
+    "method": "RICE",
+    "formula": "(reach × impact × confidence) / effort",
+    "units": {
+      "effort": "person-months",
+      "reachPeriod": "quarter"
+    },
+    "items": [
+      {
+        "id": "INIT-034",
+        "title": "Home screen widgets",
+        "score": 9920,
+        "rank": 1,
+        "components": {
+          "reach": 9300,
+          "impact": 2,
+          "confidence": 0.8,
+          "effort": 1.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-027",
+        "title": "Status page and incident comms",
+        "score": 8266.6667,
+        "rank": 2,
+        "components": {
+          "reach": 7750,
+          "impact": 2,
+          "confidence": 0.8,
+          "effort": 1.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-012",
+        "title": "Partner marketplace listing",
+        "score": 7350,
+        "rank": 3,
+        "components": {
+          "reach": 7350,
+          "impact": 1,
+          "confidence": 1,
+          "effort": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-005",
+        "title": "Trial expiry email sequence",
+        "score": 7200,
+        "rank": 4,
+        "components": {
+          "reach": 3600,
+          "impact": 1,
+          "confidence": 1,
+          "effort": 0.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-024",
+        "title": "Customer-managed encryption keys",
+        "score": 6900,
+        "rank": 5,
+        "components": {
+          "reach": 6900,
+          "impact": 1,
+          "confidence": 0.5,
+          "effort": 0.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-009",
+        "title": "Win-back campaign for churned accounts",
+        "score": 6000,
+        "rank": 6,
+        "components": {
+          "reach": 2500,
+          "impact": 3,
+          "confidence": 0.8,
+          "effort": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-022",
+        "title": "Rate limiting for public API",
+        "score": 5965.7143,
+        "rank": 7,
+        "components": {
+          "reach": 8700,
+          "impact": 3,
+          "confidence": 0.8,
+          "effort": 3.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-031",
+        "title": "Biometric login",
+        "score": 4680,
+        "rank": 8,
+        "components": {
+          "reach": 5850,
+          "impact": 1,
+          "confidence": 0.8,
+          "effort": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-037",
+        "title": "In-app feedback widget",
+        "score": 4325,
+        "rank": 9,
+        "components": {
+          "reach": 8650,
+          "impact": 0.5,
+          "confidence": 0.5,
+          "effort": 0.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-023",
+        "title": "Background job queue migration",
+        "score": 4150,
+        "rank": 10,
+        "components": {
+          "reach": 4150,
+          "impact": 1,
+          "confidence": 0.5,
+          "effort": 0.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-008",
+        "title": "Product tour for new workspaces",
+        "score": 2766.6667,
+        "rank": 11,
+        "components": {
+          "reach": 4150,
+          "impact": 1,
+          "confidence": 1,
+          "effort": 1.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-017",
+        "title": "Webhooks with retries",
+        "score": 2316.6667,
+        "rank": 12,
+        "components": {
+          "reach": 6950,
+          "impact": 1,
+          "confidence": 0.5,
+          "effort": 1.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-035",
+        "title": "Mobile onboarding redesign",
+        "score": 2266.6667,
+        "rank": 13,
+        "components": {
+          "reach": 3400,
+          "impact": 1,
+          "confidence": 1,
+          "effort": 1.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-020",
+        "title": "SOC 2 evidence automation",
+        "score": 2125,
+        "rank": 14,
+        "components": {
+          "reach": 8500,
+          "impact": 2,
+          "confidence": 0.5,
+          "effort": 4
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-029",
+        "title": "Push notification preferences",
+        "score": 1933.3333,
+        "rank": 15,
+        "components": {
+          "reach": 7250,
+          "impact": 0.5,
+          "confidence": 0.8,
+          "effort": 1.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-025",
+        "title": "Bulk import from CSV",
+        "score": 1920,
+        "rank": 16,
+        "components": {
+          "reach": 1200,
+          "impact": 1,
+          "confidence": 0.8,
+          "effort": 0.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-016",
+        "title": "Public REST API v2",
+        "score": 1525,
+        "rank": 17,
+        "components": {
+          "reach": 9150,
+          "impact": 0.25,
+          "confidence": 1,
+          "effort": 1.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-028",
+        "title": "Offline mode for mobile",
+        "score": 1107.6923,
+        "rank": 18,
+        "components": {
+          "reach": 3600,
+          "impact": 2,
+          "confidence": 1,
+          "effort": 6.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-006",
+        "title": "Pricing page A/B test framework",
+        "score": 950,
+        "rank": 19,
+        "components": {
+          "reach": 4750,
+          "impact": 0.25,
+          "confidence": 0.8,
+          "effort": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-033",
+        "title": "Mobile file attachments",
+        "score": 800,
+        "rank": 20,
+        "components": {
+          "reach": 250,
+          "impact": 2,
+          "confidence": 0.8,
+          "effort": 0.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-004",
+        "title": "Usage-based pricing tier",
+        "score": 773.3333,
+        "rank": 21,
+        "components": {
+          "reach": 5800,
+          "impact": 0.25,
+          "confidence": 0.8,
+          "effort": 1.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-036",
+        "title": "Crash reporting dashboard",
+        "score": 763.6364,
+        "rank": 22,
+        "components": {
+          "reach": 8400,
+          "impact": 1,
+          "confidence": 0.5,
+          "effort": 5.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-014",
+        "title": "SSO with SAML for enterprise",
+        "score": 727.2727,
+        "rank": 23,
+        "components": {
+          "reach": 5000,
+          "impact": 1,
+          "confidence": 0.8,
+          "effort": 5.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-018",
+        "title": "Data residency in EU region",
+        "score": 550,
+        "rank": 24,
+        "components": {
+          "reach": 1100,
+          "impact": 0.5,
+          "confidence": 0.5,
+          "effort": 0.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-003",
+        "title": "In-app referral program",
+        "score": 380,
+        "rank": 25,
+        "components": {
+          "reach": 950,
+          "impact": 0.25,
+          "confidence": 0.8,
+          "effort": 0.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-019",
+        "title": "Role-based access control",
+        "score": 360,
+        "rank": 26,
+        "components": {
+          "reach": 1800,
+          "impact": 0.5,
+          "confidence": 1,
+          "effort": 2.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-013",
+        "title": "Account health score for CSMs",
+        "score": 320,
+        "rank": 27,
+        "components": {
+          "reach": 200,
+          "impact": 1,
+          "confidence": 0.8,
+          "effort": 0.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-021",
+        "title": "Search indexing rewrite",
+        "score": 320,
+        "rank": 28,
+        "components": {
+          "reach": 300,
+          "impact": 2,
+          "confidence": 0.8,
+          "effort": 1.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-030",
+        "title": "Mobile dark mode",
+        "score": 312,
+        "rank": 29,
+        "components": {
+          "reach": 3900,
+          "impact": 0.5,
+          "confidence": 0.8,
+          "effort": 5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-015",
+        "title": "Audit log export",
+        "score": 288,
+        "rank": 30,
+        "components": {
+          "reach": 900,
+          "impact": 2,
+          "confidence": 0.8,
+          "effort": 5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-011",
+        "title": "Localized checkout (EU currencies)",
+        "score": 266.25,
+        "rank": 31,
+        "components": {
+          "reach": 7100,
+          "impact": 0.5,
+          "confidence": 0.3,
+          "effort": 4
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-001",
+        "title": "Self-serve onboarding checklist",
+        "score": 191.3462,
+        "rank": 32,
+        "components": {
+          "reach": 9950,
+          "impact": 0.25,
+          "confidence": 0.5,
+          "effort": 6.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-002",
+        "title": "Annual plan discount at checkout",
+        "score": 142.5,
+        "rank": 33,
+        "components": {
+          "reach": 1900,
+          "impact": 0.25,
+          "confidence": 0.3,
+          "effort": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-038",
+        "title": "Mobile search",
+        "score": 92.1875,
+        "rank": 34,
+        "components": {
+          "reach": 2950,
+          "impact": 0.5,
+          "confidence": 0.5,
+          "effort": 8
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-039",
+        "title": "Deep links from email",
+        "score": 73.3333,
+        "rank": 35,
+        "components": {
+          "reach": 1100,
+          "impact": 1,
+          "confidence": 0.5,
+          "effort": 7.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-010",
+        "title": "Self-serve plan upgrade in app",
+        "score": 70,
+        "rank": 36,
+        "components": {
+          "reach": 700,
+          "impact": 0.5,
+          "confidence": 1,
+          "effort": 5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-040",
+        "title": "Accessibility pass (screen readers)",
+        "score": 51.4286,
+        "rank": 37,
+        "components": {
+          "reach": 300,
+          "impact": 2,
+          "confidence": 0.3,
+          "effort": 3.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-026",
+        "title": "Usage metering service",
+        "score": 48,
+        "rank": 38,
+        "components": {
+          "reach": 1800,
+          "impact": 0.25,
+          "confidence": 0.8,
+          "effort": 7.5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-032",
+        "title": "iPad layout",
+        "score": 23.3333,
+        "rank": 39,
+        "components": {
+          "reach": 350,
+          "impact": 0.25,
+          "confidence": 0.8,
+          "effort": 3
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-007",
+        "title": "Team invite flow redesign",
+        "score": 6.25,
+        "rank": 40,
+        "components": {
+          "reach": 250,
+          "impact": 0.25,
+          "confidence": 0.5,
+          "effort": 5
+        },
+        "excluded": false
+      }
+    ],
+    "summary": {
+      "count": 40,
+      "excludedCount": 0,
+      "scoreMin": 6.25,
+      "scoreMedian": 786.6667,
+      "scoreMax": 9920
+    },
+    "meta": {
+      "tool": "calculate_rice",
+      "inputHash": "sha256:726bb3ea3520dfee506f97b7135872c139b73eb23a6f65f867d5d092071dd1b4",
+      "warnings": [
+        {
+          "code": "LOW_CONFIDENCE",
+          "message": "Confidence below 50%: treat these scores as rough.",
+          "itemIds": [
+            "INIT-011",
+            "INIT-002",
+            "INIT-040"
+          ]
+        }
+      ]
+    }
+  }
+}

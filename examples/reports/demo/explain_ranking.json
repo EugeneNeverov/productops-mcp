@@ -1,0 +1,271 @@
+{
+  "request": {
+    "initiatives": {
+      "kind": "demo"
+    },
+    "method": "RICE",
+    "ids": [
+      "INIT-034",
+      "INIT-013",
+      "INIT-014"
+    ],
+    "compareWith": "neighbors"
+  },
+  "response": {
+    "method": "RICE",
+    "explanations": [
+      {
+        "id": "INIT-034",
+        "rank": 1,
+        "score": 9920,
+        "contributions": [
+          {
+            "component": "reach",
+            "value": 9300,
+            "vsMedian": 0.9083,
+            "logShare": 0.5672
+          },
+          {
+            "component": "impact",
+            "value": 2,
+            "vsMedian": 0.6931,
+            "logShare": 0.4328
+          },
+          {
+            "component": "confidence",
+            "value": 0.8,
+            "vsMedian": 0,
+            "logShare": 0
+          },
+          {
+            "component": "effort",
+            "value": 1.5,
+            "vsMedian": 0,
+            "logShare": 0
+          }
+        ],
+        "sensitivity": [
+          {
+            "component": "reach",
+            "toOvertake": null,
+            "toBeOvertaken": {
+              "byId": "INIT-027",
+              "thresholdValue": 7749.9999,
+              "changePct": -16.67
+            }
+          },
+          {
+            "component": "impact",
+            "toOvertake": null,
+            "toBeOvertaken": {
+              "byId": "INIT-027",
+              "thresholdValue": 1,
+              "changePct": -50
+            }
+          },
+          {
+            "component": "confidence",
+            "toOvertake": null,
+            "toBeOvertaken": {
+              "byId": "INIT-027",
+              "thresholdValue": 0.6666,
+              "changePct": -16.68
+            }
+          },
+          {
+            "component": "effort",
+            "toOvertake": null,
+            "toBeOvertaken": {
+              "byId": "INIT-027",
+              "thresholdValue": 1.8001,
+              "changePct": 20.01
+            }
+          }
+        ],
+        "flags": []
+      },
+      {
+        "id": "INIT-013",
+        "rank": 27,
+        "score": 320,
+        "contributions": [
+          {
+            "component": "reach",
+            "value": 200,
+            "vsMedian": -2.9312,
+            "logShare": 0.7274
+          },
+          {
+            "component": "impact",
+            "value": 1,
+            "vsMedian": 0,
+            "logShare": 0
+          },
+          {
+            "component": "confidence",
+            "value": 0.8,
+            "vsMedian": 0,
+            "logShare": 0
+          },
+          {
+            "component": "effort",
+            "value": 0.5,
+            "vsMedian": 1.0986,
+            "logShare": 0.2726
+          }
+        ],
+        "sensitivity": [
+          {
+            "component": "reach",
+            "toOvertake": {
+              "targetId": "INIT-019",
+              "requiredValue": 225.0001,
+              "changePct": 12.5
+            },
+            "toBeOvertaken": {
+              "byId": "INIT-021",
+              "thresholdValue": 199.9999,
+              "changePct": 0
+            }
+          },
+          {
+            "component": "impact",
+            "toOvertake": {
+              "targetId": "INIT-019",
+              "requiredValue": 2,
+              "changePct": 100
+            },
+            "toBeOvertaken": {
+              "byId": "INIT-021",
+              "thresholdValue": 0.5,
+              "changePct": -50
+            }
+          },
+          {
+            "component": "confidence",
+            "toOvertake": {
+              "targetId": "INIT-019",
+              "requiredValue": 0.9001,
+              "changePct": 12.51
+            },
+            "toBeOvertaken": {
+              "byId": "INIT-021",
+              "thresholdValue": 0.7999,
+              "changePct": -0.01
+            }
+          },
+          {
+            "component": "effort",
+            "toOvertake": {
+              "targetId": "INIT-019",
+              "requiredValue": 0.4444,
+              "changePct": -11.12
+            },
+            "toBeOvertaken": {
+              "byId": "INIT-021",
+              "thresholdValue": 0.5001,
+              "changePct": 0.02
+            }
+          }
+        ],
+        "flags": [
+          "SINGLE_COMPONENT_DOMINATES",
+          "NEAR_TIE"
+        ]
+      },
+      {
+        "id": "INIT-014",
+        "rank": 23,
+        "score": 727.2727,
+        "contributions": [
+          {
+            "component": "reach",
+            "value": 5000,
+            "vsMedian": 0.2877,
+            "logShare": 0.1813
+          },
+          {
+            "component": "impact",
+            "value": 1,
+            "vsMedian": 0,
+            "logShare": 0
+          },
+          {
+            "component": "confidence",
+            "value": 0.8,
+            "vsMedian": 0,
+            "logShare": 0
+          },
+          {
+            "component": "effort",
+            "value": 5.5,
+            "vsMedian": -1.2993,
+            "logShare": 0.8187
+          }
+        ],
+        "sensitivity": [
+          {
+            "component": "reach",
+            "toOvertake": {
+              "targetId": "INIT-036",
+              "requiredValue": 5250.0001,
+              "changePct": 5
+            },
+            "toBeOvertaken": {
+              "byId": "INIT-018",
+              "thresholdValue": 3781.2499,
+              "changePct": -24.38
+            }
+          },
+          {
+            "component": "impact",
+            "toOvertake": {
+              "targetId": "INIT-036",
+              "requiredValue": 2,
+              "changePct": 100
+            },
+            "toBeOvertaken": {
+              "byId": "INIT-018",
+              "thresholdValue": 0.5,
+              "changePct": -50
+            }
+          },
+          {
+            "component": "confidence",
+            "toOvertake": {
+              "targetId": "INIT-036",
+              "requiredValue": 0.8401,
+              "changePct": 5.01
+            },
+            "toBeOvertaken": {
+              "byId": "INIT-018",
+              "thresholdValue": 0.6049,
+              "changePct": -24.39
+            }
+          },
+          {
+            "component": "effort",
+            "toOvertake": {
+              "targetId": "INIT-036",
+              "requiredValue": 5.238,
+              "changePct": -4.76
+            },
+            "toBeOvertaken": {
+              "byId": "INIT-018",
+              "thresholdValue": 7.2728,
+              "changePct": 32.23
+            }
+          }
+        ],
+        "flags": [
+          "SINGLE_COMPONENT_DOMINATES"
+        ]
+      }
+    ],
+    "meta": {
+      "tool": "explain_ranking",
+      "inputHash": "sha256:81c3c500a7066924452cfda46f7925a4a151d54084c61c49640c2caa6885d324",
+      "warnings": []
+    }
+  }
+}

@@ -1,0 +1,586 @@
+{
+  "request": {
+    "initiatives": {
+      "kind": "demo"
+    }
+  },
+  "response": {
+    "method": "WSJF",
+    "formula": "(businessValue + timeCriticality + riskReductionOpportunity) / jobSize",
+    "normalized": false,
+    "items": [
+      {
+        "id": "INIT-013",
+        "title": "Account health score for CSMs",
+        "score": 35,
+        "rank": 1,
+        "components": {
+          "businessValue": 2,
+          "timeCriticality": 20,
+          "riskReductionOpportunity": 13,
+          "costOfDelay": 35,
+          "jobSize": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-005",
+        "title": "Trial expiry email sequence",
+        "score": 25,
+        "rank": 2,
+        "components": {
+          "businessValue": 2,
+          "timeCriticality": 20,
+          "riskReductionOpportunity": 3,
+          "costOfDelay": 25,
+          "jobSize": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-024",
+        "title": "Customer-managed encryption keys",
+        "score": 20,
+        "rank": 3,
+        "components": {
+          "businessValue": 5,
+          "timeCriticality": 13,
+          "riskReductionOpportunity": 2,
+          "costOfDelay": 20,
+          "jobSize": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-003",
+        "title": "In-app referral program",
+        "score": 17,
+        "rank": 4,
+        "components": {
+          "businessValue": 3,
+          "timeCriticality": 13,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 17,
+          "jobSize": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-037",
+        "title": "In-app feedback widget",
+        "score": 17,
+        "rank": 5,
+        "components": {
+          "businessValue": 13,
+          "timeCriticality": 3,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 17,
+          "jobSize": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-018",
+        "title": "Data residency in EU region",
+        "score": 15,
+        "rank": 6,
+        "components": {
+          "businessValue": 1,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 13,
+          "costOfDelay": 15,
+          "jobSize": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-027",
+        "title": "Status page and incident comms",
+        "score": 15,
+        "rank": 7,
+        "components": {
+          "businessValue": 20,
+          "timeCriticality": 5,
+          "riskReductionOpportunity": 20,
+          "costOfDelay": 45,
+          "jobSize": 3
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-023",
+        "title": "Background job queue migration",
+        "score": 12,
+        "rank": 8,
+        "components": {
+          "businessValue": 3,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 8,
+          "costOfDelay": 12,
+          "jobSize": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-006",
+        "title": "Pricing page A/B test framework",
+        "score": 12,
+        "rank": 9,
+        "components": {
+          "businessValue": 20,
+          "timeCriticality": 3,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 24,
+          "jobSize": 2
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-002",
+        "title": "Annual plan discount at checkout",
+        "score": 8,
+        "rank": 10,
+        "components": {
+          "businessValue": 1,
+          "timeCriticality": 2,
+          "riskReductionOpportunity": 13,
+          "costOfDelay": 16,
+          "jobSize": 2
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-034",
+        "title": "Home screen widgets",
+        "score": 7.6667,
+        "rank": 11,
+        "components": {
+          "businessValue": 5,
+          "timeCriticality": 5,
+          "riskReductionOpportunity": 13,
+          "costOfDelay": 23,
+          "jobSize": 3
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-012",
+        "title": "Partner marketplace listing",
+        "score": 7.5,
+        "rank": 12,
+        "components": {
+          "businessValue": 1,
+          "timeCriticality": 13,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 15,
+          "jobSize": 2
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-029",
+        "title": "Push notification preferences",
+        "score": 7.3333,
+        "rank": 13,
+        "components": {
+          "businessValue": 1,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 20,
+          "costOfDelay": 22,
+          "jobSize": 3
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-025",
+        "title": "Bulk import from CSV",
+        "score": 7,
+        "rank": 14,
+        "components": {
+          "businessValue": 5,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 7,
+          "jobSize": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-033",
+        "title": "Mobile file attachments",
+        "score": 5,
+        "rank": 15,
+        "components": {
+          "businessValue": 1,
+          "timeCriticality": 3,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 5,
+          "jobSize": 1
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-011",
+        "title": "Localized checkout (EU currencies)",
+        "score": 3.75,
+        "rank": 16,
+        "components": {
+          "businessValue": 20,
+          "timeCriticality": 8,
+          "riskReductionOpportunity": 2,
+          "costOfDelay": 30,
+          "jobSize": 8
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-004",
+        "title": "Usage-based pricing tier",
+        "score": 3.6667,
+        "rank": 17,
+        "components": {
+          "businessValue": 8,
+          "timeCriticality": 2,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 11,
+          "jobSize": 3
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-017",
+        "title": "Webhooks with retries",
+        "score": 3.6667,
+        "rank": 18,
+        "components": {
+          "businessValue": 5,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 5,
+          "costOfDelay": 11,
+          "jobSize": 3
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-021",
+        "title": "Search indexing rewrite",
+        "score": 3.3333,
+        "rank": 19,
+        "components": {
+          "businessValue": 1,
+          "timeCriticality": 8,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 10,
+          "jobSize": 3
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-019",
+        "title": "Role-based access control",
+        "score": 3.2,
+        "rank": 20,
+        "components": {
+          "businessValue": 13,
+          "timeCriticality": 2,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 16,
+          "jobSize": 5
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-031",
+        "title": "Biometric login",
+        "score": 3,
+        "rank": 21,
+        "components": {
+          "businessValue": 3,
+          "timeCriticality": 2,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 6,
+          "jobSize": 2
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-022",
+        "title": "Rate limiting for public API",
+        "score": 2.875,
+        "rank": 22,
+        "components": {
+          "businessValue": 5,
+          "timeCriticality": 5,
+          "riskReductionOpportunity": 13,
+          "costOfDelay": 23,
+          "jobSize": 8
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-020",
+        "title": "SOC 2 evidence automation",
+        "score": 2.75,
+        "rank": 23,
+        "components": {
+          "businessValue": 1,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 20,
+          "costOfDelay": 22,
+          "jobSize": 8
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-009",
+        "title": "Win-back campaign for churned accounts",
+        "score": 2.5,
+        "rank": 24,
+        "components": {
+          "businessValue": 1,
+          "timeCriticality": 3,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 5,
+          "jobSize": 2
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-016",
+        "title": "Public REST API v2",
+        "score": 2.3333,
+        "rank": 25,
+        "components": {
+          "businessValue": 5,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 7,
+          "jobSize": 3
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-007",
+        "title": "Team invite flow redesign",
+        "score": 2.3077,
+        "rank": 26,
+        "components": {
+          "businessValue": 20,
+          "timeCriticality": 2,
+          "riskReductionOpportunity": 8,
+          "costOfDelay": 30,
+          "jobSize": 13
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-028",
+        "title": "Offline mode for mobile",
+        "score": 2.2308,
+        "rank": 27,
+        "components": {
+          "businessValue": 20,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 8,
+          "costOfDelay": 29,
+          "jobSize": 13
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-008",
+        "title": "Product tour for new workspaces",
+        "score": 2,
+        "rank": 28,
+        "components": {
+          "businessValue": 3,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 2,
+          "costOfDelay": 6,
+          "jobSize": 3
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-010",
+        "title": "Self-serve plan upgrade in app",
+        "score": 2,
+        "rank": 29,
+        "components": {
+          "businessValue": 5,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 20,
+          "costOfDelay": 26,
+          "jobSize": 13
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-035",
+        "title": "Mobile onboarding redesign",
+        "score": 1.6667,
+        "rank": 30,
+        "components": {
+          "businessValue": 2,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 2,
+          "costOfDelay": 5,
+          "jobSize": 3
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-032",
+        "title": "iPad layout",
+        "score": 1.625,
+        "rank": 31,
+        "components": {
+          "businessValue": 2,
+          "timeCriticality": 3,
+          "riskReductionOpportunity": 8,
+          "costOfDelay": 13,
+          "jobSize": 8
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-026",
+        "title": "Usage metering service",
+        "score": 1.55,
+        "rank": 32,
+        "components": {
+          "businessValue": 20,
+          "timeCriticality": 8,
+          "riskReductionOpportunity": 3,
+          "costOfDelay": 31,
+          "jobSize": 20
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-040",
+        "title": "Accessibility pass (screen readers)",
+        "score": 1.125,
+        "rank": 33,
+        "components": {
+          "businessValue": 5,
+          "timeCriticality": 3,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 9,
+          "jobSize": 8
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-001",
+        "title": "Self-serve onboarding checklist",
+        "score": 0.8462,
+        "rank": 34,
+        "components": {
+          "businessValue": 1,
+          "timeCriticality": 5,
+          "riskReductionOpportunity": 5,
+          "costOfDelay": 11,
+          "jobSize": 13
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-014",
+        "title": "SSO with SAML for enterprise",
+        "score": 0.7692,
+        "rank": 35,
+        "components": {
+          "businessValue": 5,
+          "timeCriticality": 3,
+          "riskReductionOpportunity": 2,
+          "costOfDelay": 10,
+          "jobSize": 13
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-015",
+        "title": "Audit log export",
+        "score": 0.7692,
+        "rank": 36,
+        "components": {
+          "businessValue": 1,
+          "timeCriticality": 8,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 10,
+          "jobSize": 13
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-039",
+        "title": "Deep links from email",
+        "score": 0.55,
+        "rank": 37,
+        "components": {
+          "businessValue": 3,
+          "timeCriticality": 3,
+          "riskReductionOpportunity": 5,
+          "costOfDelay": 11,
+          "jobSize": 20
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-036",
+        "title": "Crash reporting dashboard",
+        "score": 0.5385,
+        "rank": 38,
+        "components": {
+          "businessValue": 5,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 1,
+          "costOfDelay": 7,
+          "jobSize": 13
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-030",
+        "title": "Mobile dark mode",
+        "score": 0.4615,
+        "rank": 39,
+        "components": {
+          "businessValue": 2,
+          "timeCriticality": 1,
+          "riskReductionOpportunity": 3,
+          "costOfDelay": 6,
+          "jobSize": 13
+        },
+        "excluded": false
+      },
+      {
+        "id": "INIT-038",
+        "title": "Mobile search",
+        "score": 0.35,
+        "rank": 40,
+        "components": {
+          "businessValue": 2,
+          "timeCriticality": 3,
+          "riskReductionOpportunity": 2,
+          "costOfDelay": 7,
+          "jobSize": 20
+        },
+        "excluded": false
+      }
+    ],
+    "summary": {
+      "count": 40,
+      "excludedCount": 0,
+      "scoreMin": 0.35,
+      "scoreMedian": 3.1,
+      "scoreMax": 35
+    },
+    "meta": {
+      "tool": "calculate_wsjf",
+      "inputHash": "sha256:6a81a0e9bfc8ce28e2001a16400a0e67f75cc28ace95f38ead0d55f1a733a760",
+      "warnings": []
+    }
+  }
+}

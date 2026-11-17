@@ -1,0 +1,26 @@
+{
+  "_comment": "Requests behind examples/reports/demo/*.json. Regenerate with: pnpm build && node scripts/gen-demo-reports.mjs",
+  "calculate_rice": { "initiatives": { "kind": "demo" } },
+  "calculate_wsjf": { "initiatives": { "kind": "demo" } },
+  "compare_initiatives": { "initiatives": { "kind": "demo" }, "methods": ["RICE", "WSJF"], "topN": 10 },
+  "simulate_capacity": {
+    "initiatives": { "kind": "demo" },
+    "rankBy": "RICE",
+    "capacity": [
+      { "team": "Growth", "amount": 10 },
+      { "team": "Platform", "amount": 12 },
+      { "team": "Mobile", "amount": 12 }
+    ],
+    "scenarios": [
+      { "name": "base" },
+      { "name": "minus-20-percent-people", "capacityMultiplier": 0.8 },
+      { "name": "estimates-30-percent-low", "effortMultiplier": 1.3 }
+    ]
+  },
+  "explain_ranking": {
+    "initiatives": { "kind": "demo" },
+    "method": "RICE",
+    "ids": ["INIT-034", "INIT-013", "INIT-014"],
+    "compareWith": "neighbors"
+  }
+}

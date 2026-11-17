@@ -6,10 +6,20 @@ Status: early development. See [docs/spec-v0.1.md](docs/spec-v0.1.md) (in Russia
 
 ## Packages
 
-| Package                          | What it is                                                                                             |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `@productops/core`               | Shared schemas (`Meta`, `ToolError`), tool runtime, policy, config, stderr logger                      |
-| `@productops/mcp-prioritization` | Local MCP server (stdio). Stage 1 exposes only `ping`; RICE, WSJF and capacity tools arrive in stage 2 |
+| Package                          | What it is                                                                                                                                 |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `@productops/core`               | Shared schemas (`Meta`, `ToolError`), tool runtime, policy, config, stderr logger                                                          |
+| `@productops/mcp-prioritization` | Local MCP server (stdio), fully offline: `calculate_rice`, `calculate_wsjf`, `compare_initiatives`, `simulate_capacity`, `explain_ranking` |
+
+## Try it
+
+After `pnpm install && pnpm build`, ask the server to rank the bundled demo backlog:
+
+```sh
+pnpm client packages/mcp-prioritization/dist/bin.js calculate_rice '{"initiatives":{"kind":"demo"}}'
+```
+
+Your own backlog goes in a CSV or JSON file inside an allowed folder (default `./data`, configurable in `productops.config.json`). The columns match the fields in [docs/algorithms.md](docs/algorithms.md). Sample outputs are in [examples/reports/demo](examples/reports/demo).
 
 ## Development
 

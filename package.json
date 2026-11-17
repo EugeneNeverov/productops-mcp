@@ -16,13 +16,16 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "client": "node scripts/test-client.mjs"
+    "client": "node scripts/test-client.mjs",
+    "coverage": "vitest run --project unit --coverage"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.0",
     "@modelcontextprotocol/client": "2.4.0",
     "@types/node": "^22.19.0",
+    "@vitest/coverage-v8": "^5.1.0",
     "eslint": "^10.15.0",
+    "fast-check": "^4.10.2",
     "prettier": "^3.6.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.73.0",

@@ -1,0 +1,2697 @@
+[
+  {
+    "name": "ping",
+    "title": "Ping",
+    "description": "Health check. Echoes a message back with the server name and version.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "default": "ping",
+          "description": "Text echoed back by the server.",
+          "type": "string",
+          "maxLength": 200
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "pong": {
+          "type": "string"
+        },
+        "server": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "node": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "version",
+            "node"
+          ],
+          "additionalProperties": false
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "computedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            },
+            "inputHash": {
+              "type": "string"
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "itemIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "code",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "cloudId": {
+                  "type": "string"
+                },
+                "siteUrl": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "fromCache": {
+                  "type": "boolean"
+                },
+                "fetchedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "requestsMade": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "estimatedPoints": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "cloudId",
+                "siteUrl",
+                "fromCache",
+                "fetchedAt",
+                "requestsMade",
+                "estimatedPoints"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "computedAt",
+            "inputHash",
+            "warnings"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "pong",
+        "server",
+        "meta"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "calculate_rice",
+    "title": "Calculate RICE scores",
+    "description": "Score initiatives with RICE = (reach × impact × confidence) / effort and rank them. Deterministic; ties break by lower effort, then id. Use this instead of computing scores yourself.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "initiatives": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "inline"
+                },
+                "items": {
+                  "minItems": 1,
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "pattern": "^[A-Za-z0-9._-]+$"
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "team": {
+                        "type": "string",
+                        "maxLength": 64
+                      },
+                      "tags": {
+                        "default": [],
+                        "maxItems": 20,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 32
+                        }
+                      },
+                      "reach": {
+                        "description": "People or events per period",
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "impact": {
+                        "description": "0.25 minimal, 0.5 low, 1 medium, 2 high, 3 massive",
+                        "type": "number",
+                        "enum": [
+                          0.25,
+                          0.5,
+                          1,
+                          2,
+                          3
+                        ]
+                      },
+                      "confidence": {
+                        "description": "0..1, e.g. 0.8 = 80%",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "effort": {
+                        "description": "Person-months by default; also used for capacity",
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "businessValue": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "timeCriticality": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "riskReductionOpportunity": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "jobSize": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "dependsOn": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "mandatory": {
+                        "default": false,
+                        "type": "boolean"
+                      },
+                      "earliestStart": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "deadline": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "title"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "items"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "file"
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024,
+                  "description": "Path inside one of the configured allowedRoots"
+                },
+                "format": {
+                  "description": "Defaults to the file extension",
+                  "type": "string",
+                  "enum": [
+                    "csv",
+                    "json"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "path"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "demo"
+                },
+                "name": {
+                  "default": "saas-roadmap",
+                  "description": "Bundled synthetic dataset",
+                  "type": "string",
+                  "enum": [
+                    "saas-roadmap"
+                  ]
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "options": {
+          "default": {
+            "strict": true,
+            "effortUnit": "person-months",
+            "reachPeriod": "quarter"
+          },
+          "type": "object",
+          "properties": {
+            "strict": {
+              "default": true,
+              "description": "false: items with missing fields are excluded with a warning",
+              "type": "boolean"
+            },
+            "effortUnit": {
+              "default": "person-months",
+              "type": "string",
+              "enum": [
+                "person-months",
+                "person-weeks",
+                "story-points"
+              ]
+            },
+            "reachPeriod": {
+              "default": "quarter",
+              "description": "Label only",
+              "type": "string",
+              "maxLength": 32
+            }
+          }
+        }
+      },
+      "required": [
+        "initiatives"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "RICE"
+        },
+        "formula": {
+          "type": "string"
+        },
+        "units": {
+          "type": "object",
+          "properties": {
+            "effort": {
+              "type": "string"
+            },
+            "reachPeriod": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "effort",
+            "reachPeriod"
+          ],
+          "additionalProperties": false
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "score": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "rank": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "components": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "excluded": {
+                "type": "boolean"
+              },
+              "excludedReason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "score",
+              "rank",
+              "components",
+              "excluded"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "summary": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "excludedCount": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "scoreMin": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "scoreMedian": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "scoreMax": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "count",
+            "excludedCount",
+            "scoreMin",
+            "scoreMedian",
+            "scoreMax"
+          ],
+          "additionalProperties": false
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "computedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            },
+            "inputHash": {
+              "type": "string"
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "itemIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "code",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "cloudId": {
+                  "type": "string"
+                },
+                "siteUrl": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "fromCache": {
+                  "type": "boolean"
+                },
+                "fetchedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "requestsMade": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "estimatedPoints": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "cloudId",
+                "siteUrl",
+                "fromCache",
+                "fetchedAt",
+                "requestsMade",
+                "estimatedPoints"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "computedAt",
+            "inputHash",
+            "warnings"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "method",
+        "formula",
+        "units",
+        "items",
+        "summary",
+        "meta"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "calculate_wsjf",
+    "title": "Calculate WSJF scores",
+    "description": "Score initiatives with WSJF = (business value + time criticality + risk reduction/opportunity) / job size (modified Fibonacci 1–20) and rank them. Deterministic; ties break by smaller job size, then id.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "initiatives": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "inline"
+                },
+                "items": {
+                  "minItems": 1,
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "pattern": "^[A-Za-z0-9._-]+$"
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "team": {
+                        "type": "string",
+                        "maxLength": 64
+                      },
+                      "tags": {
+                        "default": [],
+                        "maxItems": 20,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 32
+                        }
+                      },
+                      "reach": {
+                        "description": "People or events per period",
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "impact": {
+                        "description": "0.25 minimal, 0.5 low, 1 medium, 2 high, 3 massive",
+                        "type": "number",
+                        "enum": [
+                          0.25,
+                          0.5,
+                          1,
+                          2,
+                          3
+                        ]
+                      },
+                      "confidence": {
+                        "description": "0..1, e.g. 0.8 = 80%",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "effort": {
+                        "description": "Person-months by default; also used for capacity",
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "businessValue": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "timeCriticality": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "riskReductionOpportunity": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "jobSize": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "dependsOn": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "mandatory": {
+                        "default": false,
+                        "type": "boolean"
+                      },
+                      "earliestStart": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "deadline": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "title"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "items"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "file"
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024,
+                  "description": "Path inside one of the configured allowedRoots"
+                },
+                "format": {
+                  "description": "Defaults to the file extension",
+                  "type": "string",
+                  "enum": [
+                    "csv",
+                    "json"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "path"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "demo"
+                },
+                "name": {
+                  "default": "saas-roadmap",
+                  "description": "Bundled synthetic dataset",
+                  "type": "string",
+                  "enum": [
+                    "saas-roadmap"
+                  ]
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "options": {
+          "default": {
+            "strict": true,
+            "normalize": false
+          },
+          "type": "object",
+          "properties": {
+            "strict": {
+              "default": true,
+              "type": "boolean"
+            },
+            "normalize": {
+              "default": false,
+              "description": "Rescale each component so its smallest value in the set is 1 (SAFe relative estimation)",
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "required": [
+        "initiatives"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "WSJF"
+        },
+        "formula": {
+          "type": "string"
+        },
+        "normalized": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "score": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "rank": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "components": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "excluded": {
+                "type": "boolean"
+              },
+              "excludedReason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "score",
+              "rank",
+              "components",
+              "excluded"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "summary": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "excludedCount": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "scoreMin": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "scoreMedian": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "scoreMax": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "count",
+            "excludedCount",
+            "scoreMin",
+            "scoreMedian",
+            "scoreMax"
+          ],
+          "additionalProperties": false
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "computedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            },
+            "inputHash": {
+              "type": "string"
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "itemIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "code",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "cloudId": {
+                  "type": "string"
+                },
+                "siteUrl": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "fromCache": {
+                  "type": "boolean"
+                },
+                "fetchedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "requestsMade": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "estimatedPoints": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "cloudId",
+                "siteUrl",
+                "fromCache",
+                "fetchedAt",
+                "requestsMade",
+                "estimatedPoints"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "computedAt",
+            "inputHash",
+            "warnings"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "method",
+        "formula",
+        "normalized",
+        "items",
+        "summary",
+        "meta"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "compare_initiatives",
+    "title": "Compare prioritization methods",
+    "description": "Rank the same initiatives with 2–3 methods (RICE, WSJF, CUSTOM weights) and report how much they agree (Kendall tau, top-N overlap), which items they disagree on and why (HIGH_/LOW_ component drivers).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "initiatives": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "inline"
+                },
+                "items": {
+                  "minItems": 1,
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "pattern": "^[A-Za-z0-9._-]+$"
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "team": {
+                        "type": "string",
+                        "maxLength": 64
+                      },
+                      "tags": {
+                        "default": [],
+                        "maxItems": 20,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 32
+                        }
+                      },
+                      "reach": {
+                        "description": "People or events per period",
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "impact": {
+                        "description": "0.25 minimal, 0.5 low, 1 medium, 2 high, 3 massive",
+                        "type": "number",
+                        "enum": [
+                          0.25,
+                          0.5,
+                          1,
+                          2,
+                          3
+                        ]
+                      },
+                      "confidence": {
+                        "description": "0..1, e.g. 0.8 = 80%",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "effort": {
+                        "description": "Person-months by default; also used for capacity",
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "businessValue": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "timeCriticality": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "riskReductionOpportunity": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "jobSize": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "dependsOn": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "mandatory": {
+                        "default": false,
+                        "type": "boolean"
+                      },
+                      "earliestStart": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "deadline": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "title"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "items"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "file"
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024,
+                  "description": "Path inside one of the configured allowedRoots"
+                },
+                "format": {
+                  "description": "Defaults to the file extension",
+                  "type": "string",
+                  "enum": [
+                    "csv",
+                    "json"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "path"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "demo"
+                },
+                "name": {
+                  "default": "saas-roadmap",
+                  "description": "Bundled synthetic dataset",
+                  "type": "string",
+                  "enum": [
+                    "saas-roadmap"
+                  ]
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "methods": {
+          "default": [
+            "RICE",
+            "WSJF"
+          ],
+          "minItems": 2,
+          "maxItems": 3,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "RICE",
+              "WSJF",
+              "CUSTOM"
+            ]
+          }
+        },
+        "custom": {
+          "type": "object",
+          "properties": {
+            "weights": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "number"
+              },
+              "description": "Field → weight, e.g. {\"reach\": 2, \"effort\": 1}"
+            },
+            "invert": {
+              "default": [
+                "effort",
+                "jobSize"
+              ],
+              "description": "Fields where lower is better",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "weights"
+          ],
+          "description": "Weighted sum of min-max normalized fields"
+        },
+        "topN": {
+          "default": 10,
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        }
+      },
+      "required": [
+        "initiatives"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "rankings": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "rank": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "score": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "id",
+                "rank",
+                "score"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "agreement": {
+          "type": "object",
+          "properties": {
+            "kendallTau": {
+              "type": "number",
+              "description": "Mean pairwise Kendall tau: 1 identical order, 0 unrelated, −1 reversed"
+            },
+            "topNOverlap": {
+              "type": "number",
+              "description": "Mean share of top-N shared between methods"
+            },
+            "pairs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "a": {
+                    "type": "string"
+                  },
+                  "b": {
+                    "type": "string"
+                  },
+                  "kendallTau": {
+                    "type": "number"
+                  },
+                  "topNOverlap": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "a",
+                  "b",
+                  "kendallTau",
+                  "topNOverlap"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "kendallTau",
+            "topNOverlap",
+            "pairs"
+          ],
+          "additionalProperties": false
+        },
+        "disagreements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "ranks": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "drivers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "ranks",
+              "drivers"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "consensusTop": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excluded": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "computedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            },
+            "inputHash": {
+              "type": "string"
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "itemIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "code",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "cloudId": {
+                  "type": "string"
+                },
+                "siteUrl": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "fromCache": {
+                  "type": "boolean"
+                },
+                "fetchedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "requestsMade": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "estimatedPoints": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "cloudId",
+                "siteUrl",
+                "fromCache",
+                "fetchedAt",
+                "requestsMade",
+                "estimatedPoints"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "computedAt",
+            "inputHash",
+            "warnings"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "rankings",
+        "agreement",
+        "disagreements",
+        "consensusTop",
+        "excluded",
+        "meta"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "simulate_capacity",
+    "title": "Simulate capacity scenarios",
+    "description": "Fit ranked initiatives into team capacity and compare up to 5 what-if scenarios (fewer people, underestimated effort, forced in/out). Greedy by rank: mandatory items first, dependencies pulled in together, every deferred item gets a reason.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "initiatives": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "inline"
+                },
+                "items": {
+                  "minItems": 1,
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "pattern": "^[A-Za-z0-9._-]+$"
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "team": {
+                        "type": "string",
+                        "maxLength": 64
+                      },
+                      "tags": {
+                        "default": [],
+                        "maxItems": 20,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 32
+                        }
+                      },
+                      "reach": {
+                        "description": "People or events per period",
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "impact": {
+                        "description": "0.25 minimal, 0.5 low, 1 medium, 2 high, 3 massive",
+                        "type": "number",
+                        "enum": [
+                          0.25,
+                          0.5,
+                          1,
+                          2,
+                          3
+                        ]
+                      },
+                      "confidence": {
+                        "description": "0..1, e.g. 0.8 = 80%",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "effort": {
+                        "description": "Person-months by default; also used for capacity",
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "businessValue": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "timeCriticality": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "riskReductionOpportunity": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "jobSize": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "dependsOn": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "mandatory": {
+                        "default": false,
+                        "type": "boolean"
+                      },
+                      "earliestStart": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "deadline": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "title"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "items"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "file"
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024,
+                  "description": "Path inside one of the configured allowedRoots"
+                },
+                "format": {
+                  "description": "Defaults to the file extension",
+                  "type": "string",
+                  "enum": [
+                    "csv",
+                    "json"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "path"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "demo"
+                },
+                "name": {
+                  "default": "saas-roadmap",
+                  "description": "Bundled synthetic dataset",
+                  "type": "string",
+                  "enum": [
+                    "saas-roadmap"
+                  ]
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "rankBy": {
+          "default": "RICE",
+          "type": "string",
+          "enum": [
+            "RICE",
+            "WSJF",
+            "CUSTOM",
+            "INPUT_ORDER"
+          ]
+        },
+        "custom": {
+          "type": "object",
+          "properties": {
+            "weights": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "number"
+              },
+              "description": "Field → weight, e.g. {\"reach\": 2, \"effort\": 1}"
+            },
+            "invert": {
+              "default": [
+                "effort",
+                "jobSize"
+              ],
+              "description": "Fields where lower is better",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "weights"
+          ],
+          "description": "Weighted sum of min-max normalized fields"
+        },
+        "capacity": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "team": {
+                "default": "*",
+                "description": "Team name, or \"*\" for a shared pool",
+                "type": "string"
+              },
+              "amount": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Same unit as initiative effort"
+              }
+            },
+            "required": [
+              "amount"
+            ]
+          }
+        },
+        "scenarios": {
+          "default": [
+            {
+              "name": "base",
+              "capacityMultiplier": 1,
+              "effortMultiplier": 1,
+              "forceInclude": [],
+              "forceExclude": []
+            }
+          ],
+          "minItems": 1,
+          "maxItems": 5,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40
+              },
+              "capacityMultiplier": {
+                "default": 1,
+                "description": "0.8 = 20% fewer people",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "effortMultiplier": {
+                "default": 1,
+                "description": "1.3 = estimates are 30% too low",
+                "type": "number",
+                "minimum": 0.1,
+                "maximum": 5
+              },
+              "forceInclude": {
+                "default": [],
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "forceExclude": {
+                "default": [],
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        "respectDependencies": {
+          "default": true,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "initiatives",
+        "capacity"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "rankBy": {
+          "type": "string"
+        },
+        "scenarios": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "included": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "rank": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "effort": {
+                      "type": "number"
+                    },
+                    "team": {
+                      "type": "string"
+                    },
+                    "via": {
+                      "type": "string",
+                      "enum": [
+                        "MANDATORY",
+                        "FORCED",
+                        "RANK",
+                        "DEPENDENCY"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "rank",
+                    "effort",
+                    "team",
+                    "via"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "deferred": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "rank": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    "reason": {
+                      "type": "string",
+                      "enum": [
+                        "CAPACITY",
+                        "DEPENDENCY",
+                        "FORCED_OUT"
+                      ]
+                    },
+                    "blockedBy": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "rank",
+                    "reason"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "utilization": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "used": {
+                      "type": "number"
+                    },
+                    "capacity": {
+                      "type": "number"
+                    },
+                    "pct": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "used",
+                    "capacity",
+                    "pct"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "totalScoreIncluded": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "overCommitted": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "name",
+              "included",
+              "deferred",
+              "utilization",
+              "totalScoreIncluded",
+              "overCommitted"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "diffVsFirst": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "scenario": {
+                "type": "string"
+              },
+              "added": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "removed": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "scenario",
+              "added",
+              "removed"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "computedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            },
+            "inputHash": {
+              "type": "string"
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "itemIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "code",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "cloudId": {
+                  "type": "string"
+                },
+                "siteUrl": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "fromCache": {
+                  "type": "boolean"
+                },
+                "fetchedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "requestsMade": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "estimatedPoints": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "cloudId",
+                "siteUrl",
+                "fromCache",
+                "fetchedAt",
+                "requestsMade",
+                "estimatedPoints"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "computedAt",
+            "inputHash",
+            "warnings"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "rankBy",
+        "scenarios",
+        "diffVsFirst",
+        "meta"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "explain_ranking",
+    "title": "Explain a ranking",
+    "description": "Explain why specific initiatives rank where they do: which components push them up or down versus a median item, and the smallest single-component change that would move them past a neighbour (verified by re-ranking). Use this output for trade-off explanations instead of reasoning about the numbers yourself.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "initiatives": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "inline"
+                },
+                "items": {
+                  "minItems": 1,
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "pattern": "^[A-Za-z0-9._-]+$"
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "team": {
+                        "type": "string",
+                        "maxLength": 64
+                      },
+                      "tags": {
+                        "default": [],
+                        "maxItems": 20,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 32
+                        }
+                      },
+                      "reach": {
+                        "description": "People or events per period",
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "impact": {
+                        "description": "0.25 minimal, 0.5 low, 1 medium, 2 high, 3 massive",
+                        "type": "number",
+                        "enum": [
+                          0.25,
+                          0.5,
+                          1,
+                          2,
+                          3
+                        ]
+                      },
+                      "confidence": {
+                        "description": "0..1, e.g. 0.8 = 80%",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "effort": {
+                        "description": "Person-months by default; also used for capacity",
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "businessValue": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "timeCriticality": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "riskReductionOpportunity": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "jobSize": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "dependsOn": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "mandatory": {
+                        "default": false,
+                        "type": "boolean"
+                      },
+                      "earliestStart": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "deadline": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "title"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "items"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "file"
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024,
+                  "description": "Path inside one of the configured allowedRoots"
+                },
+                "format": {
+                  "description": "Defaults to the file extension",
+                  "type": "string",
+                  "enum": [
+                    "csv",
+                    "json"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "path"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "demo"
+                },
+                "name": {
+                  "default": "saas-roadmap",
+                  "description": "Bundled synthetic dataset",
+                  "type": "string",
+                  "enum": [
+                    "saas-roadmap"
+                  ]
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "RICE",
+            "WSJF"
+          ]
+        },
+        "ids": {
+          "minItems": 1,
+          "maxItems": 10,
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Initiatives to explain"
+        },
+        "compareWith": {
+          "default": "neighbors",
+          "description": "neighbors: items ranked just above and below; top1: the #1 item",
+          "type": "string",
+          "enum": [
+            "neighbors",
+            "top1",
+            "none"
+          ]
+        }
+      },
+      "required": [
+        "initiatives",
+        "method",
+        "ids"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "RICE",
+            "WSJF"
+          ]
+        },
+        "explanations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "rank": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "score": {
+                "type": "number"
+              },
+              "contributions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "component": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "number"
+                    },
+                    "vsMedian": {
+                      "type": "number",
+                      "description": "ln(value / set median); positive = pushes the score up"
+                    },
+                    "logShare": {
+                      "type": "number",
+                      "description": "Share of this component in the distance from a median item"
+                    }
+                  },
+                  "required": [
+                    "component",
+                    "value",
+                    "vsMedian",
+                    "logShare"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "costOfDelayBreakdown": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "sensitivity": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "component": {
+                      "type": "string"
+                    },
+                    "toOvertake": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "requiredValue": {
+                              "type": "number"
+                            },
+                            "changePct": {
+                              "type": "number"
+                            },
+                            "targetId": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "requiredValue",
+                            "changePct",
+                            "targetId"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "toBeOvertaken": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "byId": {
+                              "type": "string"
+                            },
+                            "thresholdValue": {
+                              "type": "number"
+                            },
+                            "changePct": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "byId",
+                            "thresholdValue",
+                            "changePct"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "component",
+                    "toOvertake",
+                    "toBeOvertaken"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "flags": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "LOW_CONFIDENCE",
+                    "HIGH_EFFORT_OUTLIER",
+                    "SINGLE_COMPONENT_DOMINATES",
+                    "NEAR_TIE"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "rank",
+              "score",
+              "contributions",
+              "sensitivity",
+              "flags"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "computedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            },
+            "inputHash": {
+              "type": "string"
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "itemIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "code",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "cloudId": {
+                  "type": "string"
+                },
+                "siteUrl": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "fromCache": {
+                  "type": "boolean"
+                },
+                "fetchedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "requestsMade": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "estimatedPoints": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "cloudId",
+                "siteUrl",
+                "fromCache",
+                "fetchedAt",
+                "requestsMade",
+                "estimatedPoints"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "computedAt",
+            "inputHash",
+            "warnings"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "method",
+        "explanations",
+        "meta"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  }
+]
