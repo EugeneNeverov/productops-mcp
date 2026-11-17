@@ -21,6 +21,12 @@ pnpm client packages/mcp-prioritization/dist/bin.js calculate_rice '{"initiative
 
 Your own backlog goes in a CSV or JSON file inside an allowed folder (default `./data`, configurable in `productops.config.json`). The columns match the fields in [docs/algorithms.md](docs/algorithms.md). Sample outputs are in [examples/reports/demo](examples/reports/demo).
 
+## Skills
+
+[`skills/roadmap-prioritization`](skills/roadmap-prioritization/SKILL.md) turns the tools into a recommendation a product manager can act on: what to take, what to defer, the trade-offs, where the methods disagree, and how to reproduce every number. It is also served as the MCP prompt `roadmap-prioritization`, so it works in clients without Agent Skills support, such as LM Studio. See [skills/README.md](skills/README.md) and an [example report](skills/roadmap-prioritization/examples/demo-report.md).
+
+Skill quality is measured by [evals](evals/README.md): 10 cases, deterministic checks (every number and id must come from a tool), and a runner for any OpenAI-compatible endpoint, LM Studio included.
+
 ## Development
 
 Requires Node.js ≥ 22.12 and pnpm 10 (`corepack enable`). Published packages run on Node ≥ 20.

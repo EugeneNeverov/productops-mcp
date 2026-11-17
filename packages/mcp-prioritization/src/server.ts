@@ -29,6 +29,7 @@ import {
 } from './tools/explain.js';
 import { createPingHandler, PingInput, PingOutput } from './tools/ping.js';
 import { METHOD_RESOURCES } from './resources.js';
+import { loadRoadmapSkill, RoadmapPromptArgs, roadmapPromptText } from './prompts.js';
 
 export const SERVER_NAME = 'productops-prioritization';
 
@@ -150,6 +151,17 @@ export function createServer(deps: ServerDeps): McpServer {
       }),
     );
   }
+
+  const skill = loadRoadmapSkill();
+  server.registerPrompt(
+    'roadmap-prioritization',
+    { title: 'Roadmap prioritization', description: skill.description, argsSchema: RoadmapPromptArgs },
+    (args) => ({
+      messages: [
+        { role: 'user' as const, content: { type: 'text' as const, text: roadmapPromptText(skill, args) } },
+      ],
+    }),
+  );
 
   return server;
 }

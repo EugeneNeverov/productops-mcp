@@ -7,6 +7,9 @@ export default defineConfig({
         test: { name: 'unit', include: ['packages/*/src/**/*.test.ts'] },
       },
       {
+        test: { name: 'evals', include: ['evals/**/*.test.mjs'] },
+      },
+      {
         test: { name: 'e2e', include: ['packages/*/test/**/*.test.ts'], testTimeout: 30_000 },
       },
     ],

@@ -1926,6 +1926,16 @@
               "name": {
                 "type": "string"
               },
+              "includedCount": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "deferredCount": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
               "included": {
                 "type": "array",
                 "items": {
@@ -2042,6 +2052,8 @@
             },
             "required": [
               "name",
+              "includedCount",
+              "deferredCount",
               "included",
               "deferred",
               "utilization",

@@ -21,6 +21,8 @@ export type DeferReason = 'CAPACITY' | 'DEPENDENCY' | 'FORCED_OUT';
 
 export interface ScenarioResult {
   name: string;
+  includedCount: number;
+  deferredCount: number;
   included: {
     id: string;
     rank: number;
@@ -223,6 +225,8 @@ export function simulateCapacity(input: CapacityInput): {
       input.rankBy === 'INPUT_ORDER' ? null : round(inc.reduce((s, i) => s + (scoreOf.get(i.id) ?? 0), 0));
     return {
       name: scenario.name,
+      includedCount: inc.length,
+      deferredCount: deferred.length,
       included: inc,
       deferred: deferred.sort((a, b) => a.rank - b.rank),
       utilization,

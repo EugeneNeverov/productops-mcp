@@ -1,0 +1,8 @@
+{
+  "id": "06-inline-small",
+  "prompt": "Prioritize these with RICE and tell me what fits into 6 person-months (one team):\n\n| id | title | reach | impact | confidence | effort |\n|---|---|---|---|---|---|\n| A-1 | Faster search | 4000 | 1 | 0.8 | 2 |\n| A-2 | CSV export | 900 | 0.5 | 1 | 0.5 |\n| A-3 | New onboarding | 2500 | 2 | 0.5 | 3 |\n| A-4 | SSO | 300 | 3 | 0.8 | 4 |\n| A-5 | Dark mode | 6000 | 0.25 | 1 | 1 |",
+  "expect": {
+    "mustCall": ["calculate_rice", "simulate_capacity"],
+    "mustMention": ["A-1", "A-4"]
+  }
+}

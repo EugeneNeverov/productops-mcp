@@ -38,6 +38,8 @@ export const SimulateCapacityOutput = z.object({
   scenarios: z.array(
     z.object({
       name: z.string(),
+      includedCount: z.number().int(),
+      deferredCount: z.number().int(),
       included: z.array(
         z.object({
           id: z.string(),

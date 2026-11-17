@@ -18,7 +18,8 @@
   },
   "files": [
     "dist",
-    "demo-data"
+    "demo-data",
+    "skills"
   ],
   "scripts": {
     "build": "tsc -b"

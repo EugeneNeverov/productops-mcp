@@ -1,0 +1,8 @@
+{
+  "id": "03-demo-compare",
+  "prompt": "On the demo backlog, how different are the RICE and WSJF rankings? Which initiatives do they disagree on most, and why? Capacity is Growth 10, Platform 12, Mobile 12 person-months.",
+  "expect": {
+    "mustCall": ["compare_initiatives"],
+    "mustMention": ["INIT-013"]
+  }
+}

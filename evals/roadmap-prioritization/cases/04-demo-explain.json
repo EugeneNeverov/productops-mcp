@@ -1,0 +1,8 @@
+{
+  "id": "04-demo-explain",
+  "prompt": "In the demo backlog, why is INIT-013 so low in RICE, and what would it take to move it up? Capacity: Growth 10, Platform 12, Mobile 12 person-months.",
+  "expect": {
+    "mustCall": ["explain_ranking"],
+    "mustMention": ["INIT-013", "INIT-019"]
+  }
+}

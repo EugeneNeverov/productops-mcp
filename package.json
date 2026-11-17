@@ -8,7 +8,7 @@
     "node": ">=22.12"
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "node scripts/copy-skills.mjs && tsc -b",
     "clean": "tsc -b --clean",
     "typecheck": "tsc -b --pretty",
     "test": "pnpm build && vitest run",

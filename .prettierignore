@@ -7,3 +7,4 @@ LICENSE
 examples/reports/
 packages/core/src/scoring/__fixtures__/
 coverage/
+packages/*/skills/

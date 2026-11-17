@@ -8,3 +8,4 @@ coverage/
 .env.*
 *.db
 *.db-journal
+packages/*/skills/

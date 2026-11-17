@@ -1,0 +1,10 @@
+{
+  "id": "07-incomplete-data",
+  "prompt": "Rank these with RICE; nothing else is needed.\n\n- B-1 Payments retry: reach 1200, impact 2, confidence 0.8, effort 1\n- B-2 Audit trail: reach 300, impact 1, effort 2 (we have no confidence estimate yet)\n- B-3 Mobile widgets: reach 5000, impact 0.5, confidence 0.5, effort 1.5",
+  "expect": {
+    "mustCall": ["calculate_rice"],
+    "mustMention": ["B-2", "confidence"],
+    "sections": false,
+    "reproducibility": false
+  }
+}

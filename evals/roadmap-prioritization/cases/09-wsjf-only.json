@@ -1,0 +1,9 @@
+{
+  "id": "09-wsjf-only",
+  "prompt": "We use SAFe WSJF only. Rank these features (Fibonacci estimates), no capacity planning needed:\n\n- F-1 Partner API: business value 13, time criticality 5, risk reduction 8, job size 8\n- F-2 Invoice PDF: business value 5, time criticality 13, risk reduction 2, job size 3\n- F-3 Usage dashboard: business value 8, time criticality 3, risk reduction 3, job size 5\n- F-4 GDPR export: business value 3, time criticality 20, risk reduction 13, job size 5",
+  "expect": {
+    "mustCall": ["calculate_wsjf"],
+    "mustMention": ["F-4"],
+    "sections": false
+  }
+}

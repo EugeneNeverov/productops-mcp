@@ -219,3 +219,25 @@ describe('method resources', () => {
     }
   });
 });
+
+describe('roadmap-prioritization prompt', () => {
+  it('serves the skill as an MCP prompt with the task filled in', async () => {
+    const c = await connect();
+    try {
+      const { prompts } = await c.client.listPrompts();
+      expect(prompts.map((p) => p.name)).toEqual(['roadmap-prioritization']);
+      expect(prompts[0]!.description).toContain('Prioritize a product backlog');
+      const p = await c.client.getPrompt({
+        name: 'roadmap-prioritization',
+        arguments: { source: 'demo', capacity: 'Growth 10, Platform 12, Mobile 12' },
+      });
+      const text = (p.messages[0]!.content as { text: string }).text;
+      expect(text).toContain('Never compute a score');
+      expect(text).toContain('## Reproducibility');
+      expect(text).toContain('Capacity: Growth 10, Platform 12, Mobile 12');
+      expect(text).not.toMatch(/^---\nname:/);
+    } finally {
+      await c.client.close();
+    }
+  });
+});

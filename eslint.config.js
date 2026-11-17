@@ -13,16 +13,18 @@ export default tseslint.config(
         URL: 'readonly',
         setTimeout: 'readonly',
         clearTimeout: 'readonly',
+        fetch: 'readonly',
+        performance: 'readonly',
       },
     },
     rules: {
       // stdout is reserved for the MCP protocol; log through the core logger (stderr).
       'no-console': ['error', { allow: ['error'] }],
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
     },
   },
   {
-    files: ['scripts/**', '**/*.test.ts', '**/test/**'],
+    files: ['scripts/**', 'evals/**', '**/*.test.ts', '**/test/**'],
     rules: { 'no-console': 'off' },
   },
 );

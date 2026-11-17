@@ -37,6 +37,8 @@
     "scenarios": [
       {
         "name": "base",
+        "includedCount": 23,
+        "deferredCount": 17,
         "included": [
           {
             "id": "INIT-034",
@@ -323,6 +325,8 @@
       },
       {
         "name": "minus-20-percent-people",
+        "includedCount": 20,
+        "deferredCount": 20,
         "included": [
           {
             "id": "INIT-034",
@@ -606,6 +610,8 @@
       },
       {
         "name": "estimates-30-percent-low",
+        "includedCount": 18,
+        "deferredCount": 22,
         "included": [
           {
             "id": "INIT-034",

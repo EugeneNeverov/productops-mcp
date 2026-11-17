@@ -1,0 +1,8 @@
+{
+  "id": "02-demo-scenarios",
+  "prompt": "Demo backlog, capacity Growth 10, Platform 12, Mobile 12 person-months. What changes if we have 20% fewer people, or if our estimates are 30% too low?",
+  "expect": {
+    "mustCall": ["simulate_capacity"],
+    "mustMention": ["INIT-024"]
+  }
+}

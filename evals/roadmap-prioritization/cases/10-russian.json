@@ -1,0 +1,9 @@
+{
+  "id": "10-russian",
+  "prompt": "Возьми демо-бэклог. Что берём в следующий квартал? Ёмкость: Growth 10, Platform 12, Mobile 12 человеко-месяцев. Ответь по-русски.",
+  "expect": {
+    "mustCall": ["calculate_rice", "simulate_capacity"],
+    "mustMention": ["INIT-014"],
+    "language": "ru"
+  }
+}
