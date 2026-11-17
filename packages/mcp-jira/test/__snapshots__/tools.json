@@ -749,10 +749,16 @@
           "type": "object",
           "properties": {
             "from": {
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "to": {
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "sprints": {
               "type": "array",

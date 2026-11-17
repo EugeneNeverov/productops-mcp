@@ -227,10 +227,23 @@ export class AtlassianMcpSource implements JiraSource {
     return issues.map((issue, i) => this.toWorkItem(site, issue, changelogs[i] ?? [], session, sprintId));
   }
 
+  /**
+   * Remembers a status's category by id and by name. The board op carries the category key but no
+   * status id, and changelogs and JQL results name statuses without the key, so both are needed.
+   */
   private learnStatus(status: Json) {
     if (!status) return;
     const cat = categoryOf(status.statusCategory);
-    if (cat && status.id !== undefined) this.statusCategories.set(String(status.id), cat);
+    if (!cat) return;
+    if (status.id !== undefined && status.id !== null) this.statusCategories.set(String(status.id), cat);
+    if (status.name) this.statusCategories.set(statusNameKey(status.name), cat);
+  }
+
+  private knownCategory(id: unknown, name: unknown): StatusCategory | undefined {
+    return (
+      (id !== undefined && id !== null && id !== '' ? this.statusCategories.get(String(id)) : undefined) ??
+      (name ? this.statusCategories.get(statusNameKey(name)) : undefined)
+    );
   }
 
   private toWorkItem(
@@ -244,11 +257,9 @@ export class AtlassianMcpSource implements JiraSource {
     const key = String(issue.key);
     const custom: Json = f.customFields ?? {};
     const status = f.status ?? {};
-    const statusCategory =
-      categoryOf(status.statusCategory) ??
-      this.statusCategories.get(String(status.id)) ??
-      guessCategory(status.name);
-    if (!categoryOf(status.statusCategory) && !this.statusCategories.has(String(status.id))) {
+    const known = categoryOf(status.statusCategory) ?? this.knownCategory(status.id, status.name);
+    const statusCategory = known ?? guessCategory(status.name);
+    if (!known) {
       warnOnce(
         session,
         'UNKNOWN_STATUS_CATEGORY',
@@ -271,7 +282,7 @@ export class AtlassianMcpSource implements JiraSource {
             at,
             from: String(item.fromString ?? item.from ?? ''),
             to: toName,
-            toCategory: this.statusCategories.get(toId) ?? guessCategory(toName),
+            toCategory: this.knownCategory(toId, toName) ?? guessCategory(toName),
           });
         } else if (field === 'sprint') {
           const from = idList(item.from);
@@ -336,6 +347,10 @@ export function arrayIn(v: Json, keys: string[]): Json[] | undefined {
     if (inner) return inner;
   }
   return undefined;
+}
+
+function statusNameKey(name: unknown): string {
+  return `name:${String(name).trim().toLowerCase()}`;
 }
 
 export function categoryOf(cat: Json): StatusCategory | undefined {

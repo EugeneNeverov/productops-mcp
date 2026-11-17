@@ -20,22 +20,35 @@ const CLOUD = '11111111-2222-4333-8444-555555555555';
 const START = '2026-11-02T09:00:00.000+0000';
 const NOW = new Date('2026-11-09T09:00:00.000Z');
 
+// As recorded live (2026-11-17): JQL results carry the status id and name but only the localized
+// category name, never its key; the board op carries the category key but no status id. A custom
+// to-do status name that the name guesser would get wrong proves categories come from Jira.
 const status = (id: string, name: string, key: 'new' | 'indeterminate' | 'done') => ({
   id,
   name,
-  statusCategory: { key, name: key === 'done' ? 'Готово' : key === 'new' ? 'К выполнению' : 'В работе' },
+  key,
+  statusCategory: { name: key === 'done' ? 'Готово' : key === 'new' ? 'К выполнению' : 'В работе' },
 });
-const TODO = status('10000', 'К выполнению', 'new');
+const boardStatus = (st: { name: string; key: string }) => ({
+  name: st.name,
+  statusCategory: { key: st.key },
+});
+const TODO = status('10000', 'Готов к разработке', 'new');
 const DOING = status('10001', 'В работе', 'indeterminate');
 const DONE = status('10002', 'Готово', 'done');
 const sprintValue = [{ id: 2, name: 'PO Demo Sprint 1', state: 'active', boardId: 2 }];
 
-const issue = (key: string, st: object, points: number | null, extra: Record<string, unknown> = {}) => ({
+const issue = (
+  key: string,
+  st: ReturnType<typeof status>,
+  points: number | null,
+  extra: Record<string, unknown> = {},
+) => ({
   id: key.split('-')[1],
   key,
   fields: {
     summary: `Summary ${key}`,
-    status: st,
+    status: { id: st.id, name: st.name, statusCategory: st.statusCategory },
     issuetype: { name: points === null ? 'Баг' : 'История' },
     assignee: { displayName: 'Dev One', accountId: 'acc-1' },
     created: '2026-11-01T10:00:00.000+0000',
@@ -163,7 +176,12 @@ function fakeAtlassian(opts: FakeOptions = {}) {
             isLast: true,
           });
         case 'getJiraBoardSprintData':
-          return text({ issues: ISSUES.map((i) => ({ key: i.key, status: i.fields.status })) });
+          return text({
+            issues: ISSUES.map((i) => ({
+              key: i.key,
+              status: boardStatus([TODO, DOING, DONE].find((st) => st.id === i.fields.status.id)!),
+            })),
+          });
         case 'listJiraIssueChangelogs': {
           const values = CHANGELOGS[inputs.issueIdOrKey!] ?? [];
           return text({ values, startAt: 0, maxResults: 50, total: values.length, isLast: true });

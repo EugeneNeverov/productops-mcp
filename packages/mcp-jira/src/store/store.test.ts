@@ -3,6 +3,7 @@ import { JiraConfig } from '@productops/core';
 import { DEMO_FIXTURES, FixtureSource, loadFixtureFile } from '../source/fixtures.js';
 import { Normalizer } from '../source/normalize.js';
 import { Session } from '../source/types.js';
+import { withSession } from '../tools/common.js';
 import { CachingSource, TTL } from './caching.js';
 import { auditCsv, openStore } from './store.js';
 
@@ -65,6 +66,20 @@ describe('CachingSource', () => {
     await source.sprintItems(1, 4, again);
     expect(again.cacheHits).toBe(0);
     expect(again.calls).toBeGreaterThan(0);
+  });
+
+  it('reports fromCache only when the whole answer came from the cache', async () => {
+    const { source } = await make();
+    const env = { source, config };
+    const ctx = { warn: () => {}, signal: new AbortController().signal };
+    const sprintsOnly = (_s: Session) => source.sprints(1, _s);
+    await withSession(env, ctx, sprintsOnly);
+    // The site and sprint list are cached now, the sprint items are not: a partial hit.
+    const partial = await withSession(env, ctx, (s) => source.sprintItems(1, 5, s));
+    expect(partial.source.upstreamCalls).toBeGreaterThan(0);
+    expect(partial.source.fromCache).toBe(false);
+    const full = await withSession(env, ctx, (s) => source.sprintItems(1, 5, s));
+    expect(full.source).toMatchObject({ upstreamCalls: 0, fromCache: true });
   });
 
   it('keeps closed sprints for a week and active ones for minutes', () => {

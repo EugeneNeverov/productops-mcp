@@ -119,7 +119,8 @@ export function withToolRuntime<I, T extends Record<string, unknown>>(
       const meta: Meta = {
         tool: toolName,
         version: deps.version,
-        computedAt,
+        // When the result was computed, so after any data it reports as fetched.
+        computedAt: now().toISOString(),
         inputHash: inputHash(input),
         warnings,
         ...(outcome.source ? { source: outcome.source } : {}),

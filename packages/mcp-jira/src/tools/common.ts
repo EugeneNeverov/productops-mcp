@@ -99,7 +99,9 @@ export function resolveSprint(sprints: readonly Sprint[], selector: SprintSelect
       hint:
         selector === 'active'
           ? 'Use sprint: "last_closed" for a retrospective.'
-          : 'Check the board id with list_projects.',
+          : selector === 'last_closed'
+            ? 'The board has no closed sprint yet. Use sprint: "active", or check the board id with list_projects.'
+            : 'Check the sprint id, or the board id with list_projects.',
     });
   }
   return found;
@@ -142,9 +144,14 @@ export async function withSession<T>(
       mode: env.source.mode,
       cloudId: site.cloudId,
       siteUrl: site.url,
-      // true when any part of the answer came from the cache; fetchedAt is then the oldest cached read.
-      fromCache: session.cacheHits > 0,
-      fetchedAt: new Date(session.oldestCached ?? env.source.now().getTime()).toISOString(),
+      // true only when the whole answer came from the cache (no upstream call); fetchedAt is then the
+      // oldest cached read. A partly cached answer reports fromCache false and the current time.
+      fromCache: session.calls === 0 && session.cacheHits > 0,
+      fetchedAt: new Date(
+        session.calls === 0 && session.oldestCached !== undefined
+          ? session.oldestCached
+          : env.source.now().getTime(),
+      ).toISOString(),
       upstreamCalls: session.calls,
     },
   };

@@ -24,7 +24,7 @@ Every upstream call may spend **Rovo credits** on your Atlassian plan. Each resu
 
 ## Cache and audit log
 
-In live mode responses are cached in `cache.db` next to the credentials ([ADR 0003](decisions/0003-sqlite-cache-and-audit.md)). Closed sprints are kept for 7 days, an active sprint for 5 minutes, sprint lists for 15 minutes, projects for an hour. A repeated `assess_sprint_health` within those times spends no upstream calls; `meta.source.fromCache` and `fetchedAt` say when the data was read. Pass `refresh: true` to any tool to read fresh data.
+In live mode responses are cached in `cache.db` next to the credentials ([ADR 0003](decisions/0003-sqlite-cache-and-audit.md)). Closed sprints are kept for 7 days, an active sprint for 5 minutes, sprint lists for 15 minutes, projects for an hour. A repeated `assess_sprint_health` within those times spends no upstream calls; `meta.source.fromCache` is true only when the whole answer came from the cache, and `fetchedAt` is then the time of the oldest cached read. Pass `refresh: true` to any tool to read fresh data.
 
 Every tool call is also written to an audit log: time, tool, a hash of the input, outcome, duration and upstream calls. Arguments and Jira content are never stored. Rows older than `audit.retentionDays` (default 30) are deleted.
 
@@ -54,5 +54,6 @@ The cache and log need Node 22.13 or newer (built-in `node:sqlite`). On Node 20 
 
 ## Known gaps (live mode)
 
-- Issues removed from a sprint are not listed yet, so `SCOPE_CREEP` counts added work only (warning `REMOVED_ITEMS_UNKNOWN`).
-- Status categories of statuses that only appear in changelogs are learned from other issues, or guessed from the status name (warning `UNKNOWN_STATUS_CATEGORY`).
+- Issues removed from a sprint are not listed, so `SCOPE_CREEP` counts added work only (warning `REMOVED_ITEMS_UNKNOWN`). The live check on 2026-11-17 confirmed that JQL cannot find them through the Atlassian MCP server: `sprint WAS N`, `sprint CHANGED FROM N` and `removedAfterSprintStart()` are all rejected. Only an issue's own changelog shows the removal.
+- Status categories come from the board's sprint data, which carries the category key, and are matched to changelog statuses by name. A status seen nowhere else is guessed from its name (warning `UNKNOWN_STATUS_CATEGORY`).
+- One sprint read costs about 4 upstream calls plus one changelog call per issue (17 for a 13-issue sprint in the live check).

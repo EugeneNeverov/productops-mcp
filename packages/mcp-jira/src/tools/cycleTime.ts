@@ -40,7 +40,11 @@ const CycleStatsOut = z.object({
 });
 
 export const AnalyzeCycleTimeOutput = z.object({
-  window: z.object({ from: z.string(), to: z.string(), sprints: z.array(z.number().int()) }),
+  window: z.object({
+    from: z.string().nullable(),
+    to: z.string().nullable(),
+    sprints: z.array(z.number().int()),
+  }),
   population: z.object({
     completed: z.number().int(),
     excludedNoStart: z.number().int(),
@@ -67,6 +71,12 @@ export function createAnalyzeCycleTimeHandler(env: JiraEnv) {
         if ('lastSprints' in input.window) {
           const sprints = await env.source.sprints(input.boardId, session);
           const picked = lastClosed(sprints, input.window.lastSprints);
+          if (picked.length === 0) {
+            ctx.warn({
+              code: 'NO_CLOSED_SPRINTS',
+              message: `Board ${input.boardId} has no closed sprint yet, so there is no completed work to measure. Use a from/to window instead.`,
+            });
+          }
           const byKey = new Map<string, WorkItem>();
           for (const s of picked) {
             const scope = sprintScope(await env.source.sprintItems(input.boardId, s.id, session), s, now);
@@ -78,8 +88,8 @@ export function createAnalyzeCycleTimeHandler(env: JiraEnv) {
           return {
             items: [...byKey.values()],
             window: {
-              from: starts[0] ?? '',
-              to: ends.at(-1) ?? '',
+              from: starts[0] || null,
+              to: ends.at(-1) || null,
               sprints: picked.map((s) => s.id).sort((a, b) => a - b),
             },
           };
