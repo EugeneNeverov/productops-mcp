@@ -111,3 +111,48 @@ describe('withToolRuntime', () => {
     expect(ran).toBe(false);
   });
 });
+
+describe('audit hook', () => {
+  it('records one row per call with outcome and no arguments', async () => {
+    const rows: unknown[] = [];
+    const logger = { debug() {}, info() {}, warn() {}, error() {} };
+    const ok = withToolRuntime(
+      't_ok',
+      { version: '1', logger, audit: (r) => rows.push(r), now: () => new Date('2026-01-01T00:00:00Z') },
+      async () => ({
+        data: {},
+        summary: 's',
+        source: {
+          mode: 'fixtures' as const,
+          cloudId: 'c',
+          siteUrl: 'https://example.atlassian.net',
+          fromCache: false,
+          fetchedAt: '2026-01-01T00:00:00.000Z',
+          upstreamCalls: 7,
+        },
+      }),
+    );
+    const bad = withToolRuntime('t_bad', { version: '1', logger, audit: (r) => rows.push(r) }, async () => {
+      throw new ToolFailure('NOT_FOUND', 'nope');
+    });
+    const throwing = withToolRuntime(
+      't_audit_fails',
+      {
+        version: '1',
+        logger,
+        audit: () => {
+          throw new Error('disk full');
+        },
+      },
+      async () => ({ data: {}, summary: 's' }),
+    );
+    await ok({ secret: 'x' });
+    await bad({});
+    expect((await throwing({})).isError).toBeUndefined();
+    expect(rows).toMatchObject([
+      { ts: '2026-01-01T00:00:00.000Z', tool: 't_ok', outcome: 'ok', upstreamCalls: 7 },
+      { tool: 't_bad', outcome: 'NOT_FOUND', upstreamCalls: 0 },
+    ]);
+    expect(JSON.stringify(rows)).not.toContain('secret');
+  });
+});

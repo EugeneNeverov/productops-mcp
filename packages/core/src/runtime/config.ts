@@ -36,6 +36,13 @@ export const ProductOpsConfig = z.object({
     .object({ allowedRoots: z.array(z.string()).default(['./data']) })
     .default({ allowedRoots: ['./data'] }),
   jira: JiraConfig.default(JiraConfig.parse({})),
+  /** Local audit log (live Jira mode): one row per tool call, no arguments or content. */
+  audit: z
+    .object({
+      enabled: z.boolean().default(true),
+      retentionDays: z.number().int().min(1).max(365).default(30),
+    })
+    .default({ enabled: true, retentionDays: 30 }),
 });
 export type ProductOpsConfig = z.infer<typeof ProductOpsConfig>;
 

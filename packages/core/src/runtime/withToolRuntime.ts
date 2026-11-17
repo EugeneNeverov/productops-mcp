@@ -33,6 +33,18 @@ export interface RuntimeDeps {
   policy?: ToolPolicy;
   /** Injectable clock for deterministic tests. */
   now?: () => Date;
+  /** Receives one record per call, without arguments or content (spec §6.4). Errors here are ignored. */
+  audit?: (record: AuditEntry) => void;
+}
+
+export interface AuditEntry {
+  ts: string;
+  tool: string;
+  inputHash: string;
+  /** "ok" or the error code. */
+  outcome: string;
+  durationMs: number;
+  upstreamCalls: number;
 }
 
 export interface ToolRuntimeOptions {
@@ -61,9 +73,25 @@ export function withToolRuntime<I, T extends Record<string, unknown>>(
     const started = Date.now();
     const computedAt = now().toISOString();
     const errorMeta = { tool: toolName, version: deps.version, computedAt };
+    const audit = (outcome: string, upstreamCalls = 0) => {
+      if (!deps.audit) return;
+      try {
+        deps.audit({
+          ts: computedAt,
+          tool: toolName,
+          inputHash: inputHash(input),
+          outcome,
+          durationMs: Date.now() - started,
+          upstreamCalls,
+        });
+      } catch (err) {
+        deps.logger.warn('audit write failed', { tool: toolName, error: err });
+      }
+    };
 
     if (!policy.isAllowed(toolName)) {
       deps.logger.warn('tool denied by policy', { tool: toolName });
+      audit('PERMISSION_DENIED');
       return errorResult(
         new ToolFailure('PERMISSION_DENIED', `Tool "${toolName}" is disabled by the server configuration.`, {
           hint: 'Check tools.allow / tools.deny in productops.config.json.',
@@ -102,6 +130,7 @@ export function withToolRuntime<I, T extends Record<string, unknown>>(
         durationMs: Date.now() - started,
         warnings: warnings.length,
       });
+      audit('ok', outcome.source?.upstreamCalls ?? 0);
       return {
         content: [{ type: 'text', text: renderText(outcome.summary, structured) }],
         structuredContent: structured,
@@ -114,6 +143,7 @@ export function withToolRuntime<I, T extends Record<string, unknown>>(
         code: failure?.code ?? 'INTERNAL',
         ...(failure ? {} : { error: err }),
       });
+      audit(failure?.code ?? 'INTERNAL');
       return errorResult(
         failure ??
           new ToolFailure('INTERNAL', `Tool "${toolName}" failed unexpectedly.`, {

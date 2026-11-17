@@ -614,6 +614,7 @@ Out: z.object({
 
 - `meta.source.fromCache` честно отражает, откуда данные. Параметр `refresh: true` есть у каждого tool и обходит кэш, но не rate limiter.
 - Файл БД: `~/.productops/cache.db`, права 0600. Команда `productops cache clear` очищает кэш.
+- *Реализация (этап 4, ADR 0003):* `node:sqlite`, только live-режим; колонки `etag` нет (MCP Atlassian не отдаёт ETag); TTL выбранных задач по окну — 1 ч; команды — `productops-jira cache clear` и `productops-jira audit export`.
 
 ---
 
@@ -869,7 +870,7 @@ Gateway (`packages/mcp-gateway`) не создаём до v0.3. Тесты ле�
 3. **Имя npm-scope:** `@productops` может быть занят — проверить и при необходимости выбрать другое имя до этапа 1.
 4. **Лицензия:** Apache-2.0 или MIT.
 5. **Эталонная локальная модель для LM Studio:** выбрать на этапе 3 по результатам eval.
-6. **`node:sqlite` или `better-sqlite3`:** решить на этапе 1 по статусу стабильности в Node 22/24.
+6. **`node:sqlite` или `better-sqlite3`:** ~~решить на этапе 1~~ Решено: `node:sqlite`, без хранилища на Node 20 (ADR 0003).
 
 ---
 

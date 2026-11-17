@@ -59,19 +59,24 @@ export const assessSprintHealthDescription =
 
 export function createAssessSprintHealthHandler(env: JiraEnv) {
   return async (input: AssessSprintHealthInput, ctx: ToolContext) => {
-    const { result, source } = await withSession(env, ctx, async (session) => {
-      const sprints = await env.source.sprints(input.boardId, session);
-      const sprint = resolveSprint(sprints, input.sprint, input.boardId);
-      const current: SprintData = {
-        sprint,
-        items: await env.source.sprintItems(input.boardId, sprint.id, session),
-      };
-      const baseline: SprintData[] = [];
-      for (const s of lastClosed(sprints, input.baselineSprints, sprint)) {
-        baseline.push({ sprint: s, items: await env.source.sprintItems(input.boardId, s.id, session) });
-      }
-      return { sprint, current, baseline };
-    });
+    const { result, source } = await withSession(
+      env,
+      ctx,
+      async (session) => {
+        const sprints = await env.source.sprints(input.boardId, session);
+        const sprint = resolveSprint(sprints, input.sprint, input.boardId);
+        const current: SprintData = {
+          sprint,
+          items: await env.source.sprintItems(input.boardId, sprint.id, session),
+        };
+        const baseline: SprintData[] = [];
+        for (const s of lastClosed(sprints, input.baselineSprints, sprint)) {
+          baseline.push({ sprint: s, items: await env.source.sprintItems(input.boardId, s.id, session) });
+        }
+        return { sprint, current, baseline };
+      },
+      { refresh: input.refresh },
+    );
     const health = assessSprintHealth({
       current: result.current,
       baseline: result.baseline,

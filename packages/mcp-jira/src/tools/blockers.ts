@@ -51,19 +51,24 @@ export const findBlockersDescription =
 
 export function createFindBlockersHandler(env: JiraEnv) {
   return async (input: FindBlockersInput, ctx: ToolContext) => {
-    const { result, source } = await withSession(env, ctx, async (session, site) => {
-      const sprints = await env.source.sprints(input.boardId, session);
-      const sprint = resolveSprint(sprints, input.sprint, input.boardId);
-      const items = await env.source.sprintItems(input.boardId, sprint.id, session);
-      const now = env.source.now();
-      const scope = sprintScope(items, sprint, now);
-      const found = findBlockers(scope.members, {
-        now: new Date(scope.evaluatedAt),
-        staleDays: input.staleDays,
-        blockedStatuses: env.config.blockedStatuses,
-      });
-      return { sprint, found, site };
-    });
+    const { result, source } = await withSession(
+      env,
+      ctx,
+      async (session, site) => {
+        const sprints = await env.source.sprints(input.boardId, session);
+        const sprint = resolveSprint(sprints, input.sprint, input.boardId);
+        const items = await env.source.sprintItems(input.boardId, sprint.id, session);
+        const now = env.source.now();
+        const scope = sprintScope(items, sprint, now);
+        const found = findBlockers(scope.members, {
+          now: new Date(scope.evaluatedAt),
+          staleDays: input.staleDays,
+          blockedStatuses: env.config.blockedStatuses,
+        });
+        return { sprint, found, site };
+      },
+      { refresh: input.refresh },
+    );
     const shown = result.found.slice(0, input.limit);
     const blockers = shown.map((b) => ({
       key: b.item.key,

@@ -121,8 +121,10 @@ export async function withSession<T>(
   env: JiraEnv,
   ctx: ToolContext,
   body: (session: Session, site: { cloudId: string; url: string }) => Promise<T>,
+  options: { refresh?: boolean } = {},
 ): Promise<{ result: T; source: SourceInfo }> {
   const session = new Session(env.config.budget.maxCallsPerTool);
+  session.refresh = options.refresh ?? false;
   const site = await env.source.site(session);
   const result = await body(session, site);
   for (const w of session.warnings) ctx.warn(w);
@@ -140,8 +142,9 @@ export async function withSession<T>(
       mode: env.source.mode,
       cloudId: site.cloudId,
       siteUrl: site.url,
-      fromCache: false,
-      fetchedAt: env.source.now().toISOString(),
+      // true when any part of the answer came from the cache; fetchedAt is then the oldest cached read.
+      fromCache: session.cacheHits > 0,
+      fetchedAt: new Date(session.oldestCached ?? env.source.now().getTime()).toISOString(),
       upstreamCalls: session.calls,
     },
   };

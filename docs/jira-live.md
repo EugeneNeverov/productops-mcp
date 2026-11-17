@@ -22,6 +22,19 @@ If the sign-in expires or is revoked, tools return `AUTH_EXPIRED` and ask you to
 
 Every upstream call may spend **Rovo credits** on your Atlassian plan. Each result reports `meta.source.upstreamCalls`. A sprint costs about 1 board call + 1 search call per 50 issues + 1 changelog call per issue; `assess_sprint_health` reads the sprint plus the baseline sprints. A tool stops before reading when its estimate exceeds `jira.budget.maxCallsPerTool` (default 600) and returns `QUOTA_BUDGET_EXCEEDED`. The spike measured 0 credits for 12 read calls on the Free plan, but plans and usage reporting differ.
 
+## Cache and audit log
+
+In live mode responses are cached in `cache.db` next to the credentials ([ADR 0003](decisions/0003-sqlite-cache-and-audit.md)). Closed sprints are kept for 7 days, an active sprint for 5 minutes, sprint lists for 15 minutes, projects for an hour. A repeated `assess_sprint_health` within those times spends no upstream calls; `meta.source.fromCache` and `fetchedAt` say when the data was read. Pass `refresh: true` to any tool to read fresh data.
+
+Every tool call is also written to an audit log: time, tool, a hash of the input, outcome, duration and upstream calls. Arguments and Jira content are never stored. Rows older than `audit.retentionDays` (default 30) are deleted.
+
+```sh
+npx productops-jira cache clear    # empty the cache
+npx productops-jira audit export   # audit log as CSV on stdout
+```
+
+The cache and log need Node 22.13 or newer (built-in `node:sqlite`). On Node 20 the server works without them.
+
 ## Configuration (`productops.config.json`)
 
 ```jsonc
@@ -35,6 +48,7 @@ Every upstream call may spend **Rovo credits** on your Atlassian plan. Each resu
     "blockedStatuses": ["Blocked"],
     "fields": { "storyPoints": "customfield_10016" }, // optional; found by name otherwise
   },
+  "audit": { "enabled": true, "retentionDays": 30 },
 }
 ```
 
@@ -42,4 +56,3 @@ Every upstream call may spend **Rovo credits** on your Atlassian plan. Each resu
 
 - Issues removed from a sprint are not listed yet, so `SCOPE_CREEP` counts added work only (warning `REMOVED_ITEMS_UNKNOWN`).
 - Status categories of statuses that only appear in changelogs are learned from other issues, or guessed from the status name (warning `UNKNOWN_STATUS_CATEGORY`).
-- Responses are not cached yet; a SQLite cache is the next step.

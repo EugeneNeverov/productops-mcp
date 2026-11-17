@@ -60,37 +60,46 @@ export const analyzeCycleTimeDescription =
 export function createAnalyzeCycleTimeHandler(env: JiraEnv) {
   return async (input: AnalyzeCycleTimeInput, ctx: ToolContext) => {
     const now = env.source.now();
-    const { result, source } = await withSession(env, ctx, async (session) => {
-      if ('lastSprints' in input.window) {
-        const sprints = await env.source.sprints(input.boardId, session);
-        const picked = lastClosed(sprints, input.window.lastSprints);
-        const byKey = new Map<string, WorkItem>();
-        for (const s of picked) {
-          const scope = sprintScope(await env.source.sprintItems(input.boardId, s.id, session), s, now);
-          for (const i of scope.members) if (categoryAt(i, scope.evaluatedAt) === 'done') byKey.set(i.key, i);
+    const { result, source } = await withSession(
+      env,
+      ctx,
+      async (session) => {
+        if ('lastSprints' in input.window) {
+          const sprints = await env.source.sprints(input.boardId, session);
+          const picked = lastClosed(sprints, input.window.lastSprints);
+          const byKey = new Map<string, WorkItem>();
+          for (const s of picked) {
+            const scope = sprintScope(await env.source.sprintItems(input.boardId, s.id, session), s, now);
+            for (const i of scope.members)
+              if (categoryAt(i, scope.evaluatedAt) === 'done') byKey.set(i.key, i);
+          }
+          const starts = picked.map((s) => s.startDate ?? '').sort();
+          const ends = picked.map((s) => s.completeDate ?? s.endDate ?? '').sort();
+          return {
+            items: [...byKey.values()],
+            window: {
+              from: starts[0] ?? '',
+              to: ends.at(-1) ?? '',
+              sprints: picked.map((s) => s.id).sort((a, b) => a - b),
+            },
+          };
         }
-        const starts = picked.map((s) => s.startDate ?? '').sort();
-        const ends = picked.map((s) => s.completeDate ?? s.endDate ?? '').sort();
+        const from = new Date(`${input.window.from}T00:00:00.000Z`);
+        const to = new Date(new Date(`${input.window.to}T00:00:00.000Z`).getTime() + 86_400_000);
+        const days = (to.getTime() - from.getTime()) / 86_400_000;
+        if (days <= 0 || days > MAX_WINDOW_DAYS + 1) {
+          throw new ToolFailure(
+            'VALIDATION_ERROR',
+            `window must cover 1–${MAX_WINDOW_DAYS} days, from ≤ to.`,
+          );
+        }
         return {
-          items: [...byKey.values()],
-          window: {
-            from: starts[0] ?? '',
-            to: ends.at(-1) ?? '',
-            sprints: picked.map((s) => s.id).sort((a, b) => a - b),
-          },
+          items: await env.source.completedItems(input.boardId, from, to, session),
+          window: { from: input.window.from, to: input.window.to, sprints: [] },
         };
-      }
-      const from = new Date(`${input.window.from}T00:00:00.000Z`);
-      const to = new Date(new Date(`${input.window.to}T00:00:00.000Z`).getTime() + 86_400_000);
-      const days = (to.getTime() - from.getTime()) / 86_400_000;
-      if (days <= 0 || days > MAX_WINDOW_DAYS + 1) {
-        throw new ToolFailure('VALIDATION_ERROR', `window must cover 1–${MAX_WINDOW_DAYS} days, from ≤ to.`);
-      }
-      return {
-        items: await env.source.completedItems(input.boardId, from, to, session),
-        window: { from: input.window.from, to: input.window.to, sprints: [] },
-      };
-    });
+      },
+      { refresh: input.refresh },
+    );
 
     const { records, population } = cycleTimes(result.items);
     const days = records.map((r) => r.days);

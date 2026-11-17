@@ -45,12 +45,17 @@ export const getSprintIssuesDescription =
 
 export function createGetSprintIssuesHandler(env: JiraEnv) {
   return async (input: GetSprintIssuesInput, ctx: ToolContext) => {
-    const { result, source } = await withSession(env, ctx, async (session) => {
-      const sprints = await env.source.sprints(input.boardId, session);
-      const sprint = resolveSprint(sprints, input.sprint, input.boardId);
-      const items = await env.source.sprintItems(input.boardId, sprint.id, session);
-      return { sprint, scope: sprintScope(items, sprint, env.source.now()) };
-    });
+    const { result, source } = await withSession(
+      env,
+      ctx,
+      async (session) => {
+        const sprints = await env.source.sprints(input.boardId, session);
+        const sprint = resolveSprint(sprints, input.sprint, input.boardId);
+        const items = await env.source.sprintItems(input.boardId, sprint.id, session);
+        return { sprint, scope: sprintScope(items, sprint, env.source.now()) };
+      },
+      { refresh: input.refresh },
+    );
     const { sprint, scope } = result;
     const summary = summarizeSprint(scope);
     const members = [...scope.members].sort((a, b) => a.key.localeCompare(b.key, 'en', { numeric: true }));

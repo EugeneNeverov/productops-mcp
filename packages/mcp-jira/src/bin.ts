@@ -2,7 +2,15 @@
 import { exec } from 'node:child_process';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
 import { createLogger, ToolFailure } from '@productops/core';
-import { createServer, loadDeps, SERVER_NAME, SERVER_VERSION, type ServerDeps } from './server.js';
+import {
+  createServer,
+  defaultStorePath,
+  loadDeps,
+  SERVER_NAME,
+  SERVER_VERSION,
+  type ServerDeps,
+} from './server.js';
+import { auditCsv, openStore } from './store/store.js';
 import { defaultCredentialsPath, FileCredentialStore } from './source/atlassian/auth.js';
 import { login } from './source/atlassian/connect.js';
 
@@ -19,13 +27,31 @@ function openBrowser(url: URL) {
   exec(cmd, () => {});
 }
 
-if (command === 'login' || command === 'logout' || command === 'status') {
+if (command === 'cache' || command === 'audit') {
+  const sub = process.argv[3];
+  const store = await openStore(defaultStorePath(), { retentionDays: 365 });
+  if (store.kind === 'none') {
+    process.stderr.write('The cache and audit log need Node 22.13 or newer (node:sqlite).\n');
+    process.exitCode = 1;
+  } else if (command === 'cache' && sub === 'clear') {
+    process.stderr.write(`Removed ${store.cacheClear()} cached response(s).\n`);
+  } else if (command === 'audit' && sub === 'export') {
+    process.stdout.write(auditCsv(store.auditRows()));
+  } else {
+    process.stderr.write('Usage: productops-jira cache clear | audit export\n');
+    process.exitCode = 2;
+  }
+  store.close();
+} else if (command === 'login' || command === 'logout' || command === 'status') {
   // CLI commands talk to the terminal; the MCP server below keeps stdout for JSON-RPC only.
   const store = new FileCredentialStore(defaultCredentialsPath());
   const say = (line: string) => process.stderr.write(line + '\n');
   if (command === 'logout') {
     store.clear();
-    say(`Signed out: removed ${store.path}`);
+    const db = await openStore(defaultStorePath(), { retentionDays: 365 });
+    const removed = db.cacheClear();
+    db.close();
+    say(`Signed out: removed ${store.path}${removed ? ` and ${removed} cached response(s)` : ''}.`);
   } else if (command === 'status') {
     say(
       store.hasTokens()
@@ -46,7 +72,7 @@ if (command === 'login' || command === 'logout' || command === 'status') {
 } else {
   let deps: ServerDeps;
   try {
-    deps = loadDeps();
+    deps = await loadDeps();
   } catch (err) {
     const log = createLogger({ name: SERVER_NAME });
     log.error(err instanceof ToolFailure ? err.message : 'Failed to start', {

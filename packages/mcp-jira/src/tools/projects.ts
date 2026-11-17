@@ -33,14 +33,19 @@ export const listProjectsDescription =
 export function createListProjectsHandler(env: JiraEnv) {
   const allowed = createToolPolicy(env.config.projects);
   return async (input: ListProjectsInput, ctx: ToolContext) => {
-    const { result, source } = await withSession(env, ctx, async (session, site) => {
-      const q = input.query?.toLowerCase();
-      const all = (await env.source.projects(session))
-        .filter((p) => allowed.isAllowed(p.key))
-        .filter((p) => !q || p.key.toLowerCase().includes(q) || p.name.toLowerCase().includes(q))
-        .sort((a, b) => a.key.localeCompare(b.key));
-      return { site, all };
-    });
+    const { result, source } = await withSession(
+      env,
+      ctx,
+      async (session, site) => {
+        const q = input.query?.toLowerCase();
+        const all = (await env.source.projects(session))
+          .filter((p) => allowed.isAllowed(p.key))
+          .filter((p) => !q || p.key.toLowerCase().includes(q) || p.name.toLowerCase().includes(q))
+          .sort((a, b) => a.key.localeCompare(b.key));
+        return { site, all };
+      },
+      { refresh: input.refresh },
+    );
     const projects = result.all.slice(0, input.limit).map((p) => ({
       key: p.key,
       name: p.name,

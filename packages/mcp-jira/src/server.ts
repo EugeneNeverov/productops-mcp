@@ -18,6 +18,9 @@ import { AtlassianMcpSource } from './source/atlassian/adapter.js';
 import { defaultCredentialsPath, FileCredentialStore } from './source/atlassian/auth.js';
 import { serverConnector } from './source/atlassian/connect.js';
 import { Upstream } from './source/atlassian/upstream.js';
+import { CachingSource } from './store/caching.js';
+import { NO_STORE, openStore, type Store } from './store/store.js';
+import { join } from 'node:path';
 import { JIRA_READ, type JiraEnv } from './tools/common.js';
 import {
   createListProjectsHandler,
@@ -62,14 +65,20 @@ export interface ServerDeps {
   config: ProductOpsConfig;
   logger: Logger;
   source: JiraSource;
+  /** Cache and audit log; live mode only. */
+  store?: Store;
   now?: () => Date;
+}
+
+export function defaultStorePath(env: NodeJS.ProcessEnv = process.env): string {
+  return join(dirname(defaultCredentialsPath(env)), 'cache.db');
 }
 
 /**
  * Mode comes from PRODUCTOPS_JIRA_MODE, else jira.mode in the config (default "fixtures").
  * A relative fixturesFile resolves against the config file's directory.
  */
-export function loadDeps(env: NodeJS.ProcessEnv = process.env): ServerDeps {
+export async function loadDeps(env: NodeJS.ProcessEnv = process.env): Promise<ServerDeps> {
   const config = loadConfig(env);
   const mode = (env.PRODUCTOPS_JIRA_MODE || config.jira.mode) as string;
   const logger = createLogger({ name: SERVER_NAME });
@@ -82,7 +91,11 @@ export function loadDeps(env: NodeJS.ProcessEnv = process.env): ServerDeps {
   if (mode === 'live') {
     const store = new FileCredentialStore(defaultCredentialsPath(env));
     const upstream = new Upstream(serverConnector(store, env.PRODUCTOPS_ATLASSIAN_MCP_URL || undefined));
-    return { config, logger, source: new AtlassianMcpSource(upstream, config.jira, normalizer) };
+    const db = await openStore(defaultStorePath(env), { retentionDays: config.audit.retentionDays });
+    if (db.kind === 'none')
+      logger.warn('node:sqlite unavailable (Node < 22.13): running without cache and audit log');
+    const live = new AtlassianMcpSource(upstream, config.jira, normalizer);
+    return { config, logger, source: new CachingSource(live, db), store: db };
   }
   throw new ToolFailure('VALIDATION_ERROR', `Unknown Jira mode "${mode}". Use "fixtures" or "live".`);
 }
@@ -94,6 +107,7 @@ export function createServer(deps: ServerDeps): McpServer {
     logger: deps.logger,
     policy: createToolPolicy(deps.config.tools),
     ...(deps.now ? { now: deps.now } : {}),
+    ...(deps.store && deps.config.audit.enabled ? { audit: (r) => (deps.store ?? NO_STORE).audit(r) } : {}),
   };
   const env: JiraEnv = { source: deps.source, config: deps.config.jira };
   server.registerTool(

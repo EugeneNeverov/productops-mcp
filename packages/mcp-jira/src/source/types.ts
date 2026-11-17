@@ -7,7 +7,23 @@ export class Session {
   readonly suspiciousKeys = new Set<string>();
   readonly warnings: Warning[] = [];
 
+  /** Skip cache reads for this call (`refresh: true`). */
+  refresh = false;
+  cacheHits = 0;
+  fetches = 0;
+  /** Oldest fetch time among cached reads, ms. */
+  oldestCached: number | undefined;
+
   constructor(readonly maxCalls: number) {}
+
+  noteCacheHit(fetchedAt: number): void {
+    this.cacheHits++;
+    this.oldestCached = Math.min(this.oldestCached ?? fetchedAt, fetchedAt);
+  }
+
+  noteFetch(): void {
+    this.fetches++;
+  }
 
   /** Fails before spending when `n` more upstream calls would exceed the budget (ADR 0002). */
   reserve(n: number, what: string): void {
