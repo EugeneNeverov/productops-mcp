@@ -19,8 +19,7 @@ To try the pipeline without publishing, run the workflow by hand (**Actions → 
 ### npm
 
 - npm organization `productops-mcp` (done 2026-11-18).
-- **First publish.** npm trusted publishing can only be configured for a package that already exists, so the first release uses a token. Create a granular access token on npmjs.com (**Access Tokens → Generate New Token → Granular**), with read and write access to the `productops-mcp` organization's packages and "bypass 2FA" enabled, valid for 7 days. Save it in the repository as the secret `NPM_TOKEN` (**Settings → Secrets and variables → Actions**).
-- **After the first publish**, for each of the three packages on npmjs.com: **Settings → Trusted Publisher → GitHub Actions**, owner `EugeneNeverov`, repository `productops-mcp`, workflow `release.yml`, environment `release`. Then, under **Publishing access**, choose "Require two-factor authentication and disallow tokens", delete the `NPM_TOKEN` secret and revoke the token. Later releases authenticate with OIDC, with no long-lived secret.
+- **Trusted publishing** is configured for all three packages (GitHub Actions, repository `EugeneNeverov/productops-mcp`, workflow `release.yml`, environment `release`), so releases authenticate with OIDC and need no secret. To add a new package, publish its first version by hand (`npm publish <tarball> --access public --provenance=false`, confirming 2FA in the browser), then run `npm trust github <package> --file release.yml --repo EugeneNeverov/productops-mcp --env release`. npm no longer accepts 2FA-bypass tokens for direct publishing, so a token secret does not work for this.
 
 ### MCP Registry
 
