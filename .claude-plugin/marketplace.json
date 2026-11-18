@@ -1,0 +1,20 @@
+{
+  "name": "productops",
+  "owner": {
+    "name": "EugeneNeverov",
+    "url": "https://github.com/EugeneNeverov"
+  },
+  "metadata": {
+    "description": "ProductOps plugins for Claude: prioritization and Jira sprint health."
+  },
+  "plugins": [
+    {
+      "name": "productops",
+      "source": "./plugin",
+      "description": "Product prioritization (RICE, WSJF, capacity scenarios) and Jira sprint health audits. Numbers are computed by local MCP servers; Claude explains them.",
+      "version": "0.2.0",
+      "license": "Apache-2.0",
+      "homepage": "https://github.com/EugeneNeverov/productops-mcp"
+    }
+  ]
+}

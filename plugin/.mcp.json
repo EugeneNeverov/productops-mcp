@@ -2,14 +2,14 @@
   "mcpServers": {
     "productops-prioritization": {
       "command": "npx",
-      "args": ["-y", "@productops-mcp/prioritization@0.1.0"],
+      "args": ["-y", "@productops-mcp/prioritization@0.2.0"],
       "env": {
         "PRODUCTOPS_DATA_DIR": "${user_config.data_dir}"
       }
     },
     "productops-jira": {
       "command": "npx",
-      "args": ["-y", "@productops-mcp/jira@0.1.0"],
+      "args": ["-y", "@productops-mcp/jira@0.2.0"],
       "env": {
         "PRODUCTOPS_JIRA_MODE": "${user_config.jira_mode}"
       }
