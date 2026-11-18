@@ -4,7 +4,7 @@ A release publishes three npm packages (`@productops-mcp/core`, `@productops-mcp
 
 ## Every release
 
-1. Bump `version` in the three `packages/*/package.json` files, in both `packages/*/server.json` files (top level and `packages[0].version`), and in the Claude plugin: `plugin/.claude-plugin/plugin.json` and the pinned `@<version>` in `plugin/.mcp.json`. `node scripts/check-release.mjs vX.Y.Z` must pass.
+1. Bump `version` in the three `packages/*/package.json` files, in both `packages/*/server.json` files (top level and `packages[0].version`), and in the Claude plugin: `plugin/.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` and the pinned `@<version>` in `plugin/.mcp.json`. `node scripts/check-release.mjs vX.Y.Z` must pass.
 2. Add a `## [X.Y.Z] - YYYY-MM-DD` section to [CHANGELOG.md](../CHANGELOG.md); it becomes the release notes.
 3. Merge to `main`, then tag the merge commit and push the tag:
    ```sh
@@ -31,7 +31,7 @@ The workflow creates the `release` environment on its first run. Optionally add 
 
 ## Claude plugin
 
-The plugin in [`plugin/`](../plugin) runs the published npm packages at a pinned version, so bump it with every release (step 1). The Claude directory reads it from GitHub: a push to `main` reaches the directory through the portal's GitHub webhook. Check it locally with `claude plugin validate ./plugin`.
+The plugin in [`plugin/`](../plugin) runs the published npm packages at a pinned version, so bump it with every release (step 1). Users install it from this repository's marketplace (`.claude-plugin/marketplace.json`), so a merge to `main` is what they get. The Claude directory does not list it: it accepts local MCP servers only from Verified organizations. Check it locally with `claude plugin validate ./plugin`.
 
 ## Directories that pick up the release
 

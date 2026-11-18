@@ -13,6 +13,16 @@ Prioritize a product backlog and audit Jira sprints with numbers you can trust. 
 
 Both servers start with demo data, so you can try the plugin without your own backlog or a Jira account.
 
+## Install
+
+In Claude Code (2.1.275 or later):
+
+```
+/plugin install productops --marketplace eugeneneverov/productops-mcp
+```
+
+On older versions: `/plugin marketplace add EugeneNeverov/productops-mcp`, then `/plugin install productops@productops`. Requires Node.js 20 or newer.
+
 ## How to use it
 
 - "Rank the demo backlog with RICE and WSJF and tell me where they disagree."
@@ -22,7 +32,7 @@ Both servers start with demo data, so you can try the plugin without your own ba
 Options (set when you enable the plugin):
 
 - **Backlog folder**: a folder with your backlog as CSV or JSON. Columns are described in [docs/algorithms.md](https://github.com/EugeneNeverov/productops-mcp/blob/main/docs/algorithms.md).
-- **Jira data source**: `fixtures` (demo team, the default) or `live`. For live mode, run `npx -y @productops-mcp/jira@0.1.0 login` in a terminal once and sign in to Atlassian in your browser.
+- **Jira data source**: `fixtures` (demo team, the default) or `live`. For live mode, run `npx -y @productops-mcp/jira@0.2.0 login` in a terminal once and sign in to Atlassian in your browser.
 
 ## What runs and what data it sends
 

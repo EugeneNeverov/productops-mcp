@@ -32,6 +32,9 @@ for (const pkg of ['mcp-prioritization', 'mcp-jira']) {
 // The Claude plugin pins the published server versions.
 const plugin = read('plugin/.claude-plugin/plugin.json');
 if (plugin.version !== version) problems.push(`plugin/.claude-plugin/plugin.json: version ${plugin.version}`);
+const market = read('.claude-plugin/marketplace.json');
+for (const p of market.plugins)
+  if (p.version !== version) problems.push(`.claude-plugin/marketplace.json: ${p.name} version ${p.version}`);
 const mcp = read('plugin/.mcp.json');
 for (const [key, pkg] of [
   ['productops-prioritization', 'mcp-prioritization'],
