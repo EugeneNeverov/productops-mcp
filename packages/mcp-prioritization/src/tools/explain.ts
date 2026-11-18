@@ -1,5 +1,5 @@
 import * as z from 'zod/v4';
-import { explainRanking, InitiativesSource, Meta, type ToolContext } from '@productops/core';
+import { explainRanking, InitiativesSource, Meta, type ToolContext } from '@productops-mcp/core';
 import { load, type ToolEnv } from './common.js';
 
 export const ExplainRankingInput = z.object({

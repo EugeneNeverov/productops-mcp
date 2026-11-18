@@ -1,4 +1,4 @@
-import type { Project, Sprint, Warning, WorkItem } from '@productops/core';
+import type { Project, Sprint, Warning, WorkItem } from '@productops-mcp/core';
 import type { JiraSource, Session, SiteInfo } from '../source/types.js';
 import { cacheKey, type Store } from './store.js';
 

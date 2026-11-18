@@ -1,4 +1,4 @@
-import { ToolFailure } from '@productops/core';
+import { ToolFailure } from '@productops-mcp/core';
 
 /**
  * The slice of the Atlassian Rovo MCP server this package uses (docs/spikes/2026-11-17-atlassian-mcp.md).

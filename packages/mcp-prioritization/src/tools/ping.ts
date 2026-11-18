@@ -1,5 +1,5 @@
 import * as z from 'zod/v4';
-import { Meta, type ToolOutcome } from '@productops/core';
+import { Meta, type ToolOutcome } from '@productops-mcp/core';
 
 /** Stage 1 smoke tool: proves the transport, schemas and runtime wiring end to end. */
 export const PingInput = z.object({

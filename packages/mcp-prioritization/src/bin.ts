@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
-import { createLogger, ToolFailure } from '@productops/core';
+import { createLogger, ToolFailure } from '@productops-mcp/core';
 import { createServer, loadDeps, SERVER_NAME, SERVER_VERSION, type ServerDeps } from './server.js';
 
 let deps: ServerDeps;

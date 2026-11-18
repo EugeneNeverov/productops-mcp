@@ -8,7 +8,7 @@ import {
   type Transition,
   type WorkItem,
   type WorkLink,
-} from '@productops/core';
+} from '@productops-mcp/core';
 import type { Normalizer } from '../normalize.js';
 import type { JiraSource, Session, SiteInfo } from '../types.js';
 import type { Upstream } from './upstream.js';

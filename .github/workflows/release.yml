@@ -1,0 +1,110 @@
+name: Release
+
+# Push a tag vX.Y.Z (matching every package version) to publish:
+# npm packages with provenance, both servers in the official MCP Registry, and a GitHub Release
+# with the changelog section and the Claude Desktop extensions (.mcpb).
+# npm auth: trusted publishing (OIDC) once it is configured for each package on npmjs.com;
+# until then the NPM_TOKEN secret is used. Every step skips work that is already done, so a failed
+# run can be re-run safely.
+on:
+  push:
+    tags: ['v*.*.*']
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Build, test and pack only; publish nothing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Publish
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write # GitHub Release
+      id-token: write # npm provenance and trusted publishing, MCP Registry login
+    env:
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+      # Trusted publishing needs npm 11.5.1 or newer.
+      - run: npm install -g npm@11
+      - run: pnpm install --frozen-lockfile
+      - name: Check versions
+        run: node scripts/check-release.mjs ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+      - run: pnpm test
+      - name: Pack npm tarballs
+        run: |
+          mkdir -p release/npm
+          for pkg in core mcp-prioritization mcp-jira; do
+            (cd packages/$pkg && pnpm pack --pack-destination ../../release/npm)
+          done
+          ls -l release/npm
+      - name: Build Claude Desktop extensions
+        run: node scripts/build-mcpb.mjs
+
+      - name: Publish to npm
+        if: env.DRY_RUN != 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # core first: the servers depend on it.
+          for pkg in core mcp-prioritization mcp-jira; do
+            name=$(node -p "require('./packages/$pkg/package.json').name")
+            version=$(node -p "require('./packages/$pkg/package.json').version")
+            if npm view "$name@$version" version >/dev/null 2>&1; then
+              echo "$name@$version is already on npm, skipping"
+              continue
+            fi
+            tarball=$(ls release/npm/$(echo "$name" | sed 's#^@##; s#/#-#')-$version.tgz)
+            npm publish "$tarball" --access public --provenance
+          done
+
+      - name: Publish to the MCP Registry
+        if: env.DRY_RUN != 'true'
+        run: |
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
+          ./mcp-publisher login github-oidc
+          for pkg in mcp-prioritization mcp-jira; do
+            # The registry checks mcpName in the npm package, which can take a minute to appear.
+            for attempt in 1 2 3 4 5; do
+              (cd packages/$pkg && ../../mcp-publisher publish) && break
+              if [ "$attempt" = 5 ]; then exit 1; fi
+              sleep 30
+            done
+          done
+
+      - name: Create GitHub Release
+        if: env.DRY_RUN != 'true' && github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          version=${TAG#v}
+          awk -v v="$version" '$0 ~ "^## \\[" v "\\]" {on=1; next} /^## \[/ {on=0} on && !/^\[[0-9.]+\]: /' CHANGELOG.md > release/notes.md
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" release/*.mcpb --clobber
+          else
+            gh release create "$TAG" release/*.mcpb --title "$TAG" --notes-file release/notes.md --verify-tag
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ github.sha }}
+          path: |
+            release/npm/*.tgz
+            release/*.mcpb

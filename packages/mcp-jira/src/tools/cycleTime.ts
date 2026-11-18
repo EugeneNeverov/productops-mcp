@@ -12,7 +12,7 @@ import {
   ToolFailure,
   type ToolContext,
   type WorkItem,
-} from '@productops/core';
+} from '@productops-mcp/core';
 import { lastClosed, Refresh, withSession, type JiraEnv } from './common.js';
 
 const MAX_WINDOW_DAYS = 180;

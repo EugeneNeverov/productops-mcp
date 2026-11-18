@@ -8,7 +8,7 @@ import {
   scoreSummary,
   toScoredItemOut,
   type ToolContext,
-} from '@productops/core';
+} from '@productops-mcp/core';
 import { load, ScoredItem, ScoreSummary, topList, type ToolEnv } from './common.js';
 
 export const CalculateRiceInput = z.object({

@@ -1,5 +1,5 @@
-import type { Project, Sprint, Warning, WorkItem } from '@productops/core';
-import { ToolFailure } from '@productops/core';
+import type { Project, Sprint, Warning, WorkItem } from '@productops-mcp/core';
+import { ToolFailure } from '@productops-mcp/core';
 
 /** Per-tool-call state shared with the source: the call budget and soft problems found while reading. */
 export class Session {

@@ -10,3 +10,6 @@ coverage/
 *.db-journal
 packages/*/skills/
 .spike-atlassian/
+packages/*/LICENSE
+release/
+.mcpb-stage/

@@ -1,0 +1,16 @@
+# Smithery listing for the local (stdio) server: https://smithery.ai/docs
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      dataDir:
+        type: string
+        description: Folder with your backlog CSV or JSON files. Optional; the demo backlog works without it.
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', '@productops-mcp/prioritization'],
+      env: config.dataDir ? { PRODUCTOPS_DATA_DIR: config.dataDir } : {},
+    })
+  exampleConfig: {}

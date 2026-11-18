@@ -1,7 +1,8 @@
 # MCP client configs
 
+These configs run the servers from a local checkout, for development. To use the published packages instead, see [Install](../../README.md#install) (`npx -y @productops-mcp/prioritization`).
+
 Build first: `pnpm install && pnpm build`. Replace `/ABSOLUTE/PATH/TO/productops-mcp` with your checkout path.
-Once the packages are published to npm, `command: "npx"` with `args: ["-y", "@productops/mcp-prioritization"]` will work too.
 
 | Client         | File                         | Where it goes                            |
 | -------------- | ---------------------------- | ---------------------------------------- |

@@ -8,7 +8,7 @@ import type {
   OAuthClientProvider,
   OAuthTokens,
 } from '@modelcontextprotocol/client';
-import { ToolFailure } from '@productops/core';
+import { ToolFailure } from '@productops-mcp/core';
 
 export const ATLASSIAN_MCP_URL = 'https://mcp.atlassian.com/v2/mcp';
 export const LOOPBACK_PORT = 33418;

@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { Client, InMemoryTransport } from '@modelcontextprotocol/client';
 import { McpServer } from '@modelcontextprotocol/server';
-import { assessSprintHealth, JiraConfig, sprintScope, ToolFailure } from '@productops/core';
+import { assessSprintHealth, JiraConfig, sprintScope, ToolFailure } from '@productops-mcp/core';
 import * as z from 'zod/v4';
 import { afterEach, describe, expect, it } from 'vitest';
 import { Normalizer } from '../normalize.js';

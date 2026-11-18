@@ -1,7 +1,29 @@
 {
-  "name": "@productops/mcp-prioritization",
-  "version": "0.0.0",
+  "name": "@productops-mcp/prioritization",
+  "version": "0.1.0",
+  "mcpName": "io.github.EugeneNeverov/productops-prioritization",
   "description": "Local MCP server for product prioritization (RICE, WSJF, capacity scenarios). Works fully offline.",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "product-management",
+    "prioritization",
+    "rice",
+    "wsjf",
+    "roadmap",
+    "capacity-planning"
+  ],
+  "author": "EugeneNeverov (https://github.com/EugeneNeverov)",
+  "homepage": "https://github.com/EugeneNeverov/productops-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/EugeneNeverov/productops-mcp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EugeneNeverov/productops-mcp.git",
+    "directory": "packages/mcp-prioritization"
+  },
   "type": "module",
   "license": "Apache-2.0",
   "engines": {
@@ -19,14 +41,22 @@
   "files": [
     "dist",
     "demo-data",
-    "skills"
+    "skills",
+    "LICENSE",
+    "README.md",
+    "!dist/.tsbuildinfo",
+    "!dist/**/*.test.*"
   ],
   "scripts": {
     "build": "tsc -b"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.4.0",
-    "@productops/core": "workspace:*",
+    "@productops-mcp/core": "workspace:*",
     "zod": "^4.2.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

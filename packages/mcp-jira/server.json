@@ -1,0 +1,52 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.EugeneNeverov/productops-jira",
+  "title": "ProductOps Jira Sprint Health",
+  "description": "Read-only Jira sprint health: cycle time, blockers, scope creep and carry-over, with demo data.",
+  "repository": {
+    "url": "https://github.com/EugeneNeverov/productops-mcp",
+    "source": "github",
+    "subfolder": "packages/mcp-jira"
+  },
+  "websiteUrl": "https://github.com/EugeneNeverov/productops-mcp",
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@productops-mcp/jira",
+      "version": "0.1.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "PRODUCTOPS_JIRA_MODE",
+          "description": "fixtures (default, bundled synthetic demo data) or live (your Jira Cloud via the Atlassian MCP server, run `productops-jira login` first)",
+          "isRequired": false,
+          "format": "string",
+          "choices": ["fixtures", "live"]
+        },
+        {
+          "name": "PRODUCTOPS_CONFIG",
+          "description": "Path to productops.config.json (allowed folders, policy, Jira settings)",
+          "isRequired": false,
+          "format": "filepath"
+        },
+        {
+          "name": "PRODUCTOPS_HOME",
+          "description": "Folder for credentials, cache and audit log (default ~/.productops)",
+          "isRequired": false,
+          "format": "filepath"
+        },
+        {
+          "name": "PRODUCTOPS_LOG_LEVEL",
+          "description": "Log level on stderr: debug, info, warn, error or silent (default info)",
+          "isRequired": false,
+          "format": "string"
+        }
+      ]
+    }
+  ]
+}

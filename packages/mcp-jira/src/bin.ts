@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { exec } from 'node:child_process';
 import { serveStdio } from '@modelcontextprotocol/server/stdio';
-import { createLogger, ToolFailure } from '@productops/core';
+import { createLogger, ToolFailure } from '@productops-mcp/core';
 import {
   createServer,
   defaultStorePath,

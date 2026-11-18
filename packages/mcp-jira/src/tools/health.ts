@@ -1,5 +1,5 @@
 import * as z from 'zod/v4';
-import { assessSprintHealth, CheckId, Meta, type SprintData, type ToolContext } from '@productops/core';
+import { assessSprintHealth, CheckId, Meta, type SprintData, type ToolContext } from '@productops-mcp/core';
 import {
   Evidence,
   evidence,

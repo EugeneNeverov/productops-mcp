@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { JiraConfig } from '@productops/core';
+import { JiraConfig } from '@productops-mcp/core';
 import { DEMO_FIXTURES, FixtureSource, loadFixtureFile } from '../source/fixtures.js';
 import { Normalizer } from '../source/normalize.js';
 import { Session } from '../source/types.js';

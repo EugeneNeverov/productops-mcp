@@ -1,5 +1,5 @@
 import * as z from 'zod/v4';
-import { Meta, StatusCategory, sprintScope, summarizeSprint, type ToolContext } from '@productops/core';
+import { Meta, StatusCategory, sprintScope, summarizeSprint, type ToolContext } from '@productops-mcp/core';
 import {
   compact,
   Refresh,

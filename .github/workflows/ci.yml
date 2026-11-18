@@ -67,6 +67,33 @@ jobs:
       - run: node --version && node scripts/test-client.mjs packages/mcp-prioritization/dist/bin.js ping '{"message":"node20"}'
       - run: node scripts/test-client.mjs packages/mcp-jira/dist/bin.js assess_sprint_health '{"boardId":1}'
 
+  # What npm users and Claude Desktop get: install the packed tarballs like `npx` would and call a
+  # tool, and build both .mcpb extensions (the mcpb CLI validates the manifests).
+  package:
+    name: Package check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: node scripts/check-release.mjs
+      - run: pnpm build
+      - name: Pack and install the tarballs
+        run: |
+          mkdir -p release/npm "$RUNNER_TEMP/install"
+          for pkg in core mcp-prioritization mcp-jira; do
+            (cd packages/$pkg && pnpm pack --pack-destination ../../release/npm)
+          done
+          cd "$RUNNER_TEMP/install" && npm init -y >/dev/null
+          npm install --no-audit --no-fund "$GITHUB_WORKSPACE"/release/npm/*.tgz
+      - run: node scripts/test-client.mjs "$RUNNER_TEMP/install/node_modules/@productops-mcp/prioritization/dist/bin.js" calculate_rice '{"initiatives":{"kind":"demo"}}'
+      - run: node scripts/test-client.mjs "$RUNNER_TEMP/install/node_modules/@productops-mcp/jira/dist/bin.js" assess_sprint_health '{"boardId":1}'
+      - run: node scripts/build-mcpb.mjs
+
   secrets:
     name: Secret scan
     runs-on: ubuntu-latest

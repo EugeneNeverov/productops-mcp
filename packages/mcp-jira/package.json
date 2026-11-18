@@ -1,7 +1,29 @@
 {
-  "name": "@productops/mcp-jira",
-  "version": "0.0.0",
+  "name": "@productops-mcp/jira",
+  "version": "0.1.0",
+  "mcpName": "io.github.EugeneNeverov/productops-jira",
   "description": "Read-only MCP server for Jira sprint health, cycle time and blockers. Reads Jira through the official Atlassian MCP server; ships a demo dataset.",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "jira",
+    "scrum",
+    "sprint",
+    "agile",
+    "cycle-time",
+    "product-ops"
+  ],
+  "author": "EugeneNeverov (https://github.com/EugeneNeverov)",
+  "homepage": "https://github.com/EugeneNeverov/productops-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/EugeneNeverov/productops-mcp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EugeneNeverov/productops-mcp.git",
+    "directory": "packages/mcp-jira"
+  },
   "type": "module",
   "license": "Apache-2.0",
   "engines": {
@@ -19,7 +41,11 @@
   "files": [
     "dist",
     "demo-data",
-    "skills"
+    "skills",
+    "LICENSE",
+    "README.md",
+    "!dist/.tsbuildinfo",
+    "!dist/**/*.test.*"
   ],
   "scripts": {
     "build": "tsc -b"
@@ -27,7 +53,11 @@
   "dependencies": {
     "@modelcontextprotocol/client": "2.4.0",
     "@modelcontextprotocol/server": "2.4.0",
-    "@productops/core": "workspace:*",
+    "@productops-mcp/core": "workspace:*",
     "zod": "^4.2.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

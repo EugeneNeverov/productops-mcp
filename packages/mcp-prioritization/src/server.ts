@@ -10,7 +10,7 @@ import {
   type Logger,
   type ProductOpsConfig,
   type RuntimeDeps,
-} from '@productops/core';
+} from '@productops-mcp/core';
 import { READ_ONLY, type ToolEnv } from './tools/common.js';
 import { CalculateRiceInput, CalculateRiceOutput, createRiceHandler, riceDescription } from './tools/rice.js';
 import { CalculateWsjfInput, CalculateWsjfOutput, createWsjfHandler, wsjfDescription } from './tools/wsjf.js';
@@ -52,7 +52,8 @@ export interface ServerDeps {
 
 /**
  * Relative allowedRoots resolve against the config file's directory when PRODUCTOPS_CONFIG is set,
- * otherwise against the working directory the client started the server in.
+ * otherwise against the working directory the client started the server in. PRODUCTOPS_DATA_DIR adds
+ * one more folder, for clients such as Claude Desktop that start servers in an arbitrary directory.
  */
 export function loadDeps(env: NodeJS.ProcessEnv = process.env): ServerDeps {
   const config = loadConfig(env);
@@ -60,7 +61,10 @@ export function loadDeps(env: NodeJS.ProcessEnv = process.env): ServerDeps {
   return {
     config,
     logger: createLogger({ name: SERVER_NAME }),
-    allowedRoots: config.files.allowedRoots.map((r) => resolve(base, r)),
+    allowedRoots: [
+      ...config.files.allowedRoots.map((r) => resolve(base, r)),
+      ...(env.PRODUCTOPS_DATA_DIR ? [resolve(env.PRODUCTOPS_DATA_DIR)] : []),
+    ],
   };
 }
 

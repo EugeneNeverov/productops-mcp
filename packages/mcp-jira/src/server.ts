@@ -10,7 +10,7 @@ import {
   type Logger,
   type ProductOpsConfig,
   type RuntimeDeps,
-} from '@productops/core';
+} from '@productops-mcp/core';
 import { DEMO_FIXTURES, FixtureSource, loadFixtureFile } from './source/fixtures.js';
 import { Normalizer } from './source/normalize.js';
 import type { JiraSource } from './source/types.js';
