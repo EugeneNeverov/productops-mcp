@@ -1,6 +1,6 @@
 {
   "name": "@productops-mcp/jira",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "mcpName": "io.github.EugeneNeverov/productops-jira",
   "description": "Read-only MCP server for Jira sprint health, cycle time and blockers. Reads Jira through the official Atlassian MCP server; ships a demo dataset.",
   "keywords": [
