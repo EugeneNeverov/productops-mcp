@@ -2717,5 +2717,1307 @@
       "idempotentHint": true,
       "openWorldHint": false
     }
+  },
+  {
+    "name": "triumvirate_brief",
+    "title": "Triumvirate: briefs for three judges",
+    "description": "Optional alternative to RICE/WSJF. Step 1 of the triumvirate: writes one brief for each of three independent judges (dev, business/marketing, product). Run each brief as a SEPARATE agent that does not see the other judges' answers, then pass the three JSON answers to triumvirate_verdict. Use only when the user asks for independent judges or a triumvirate.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "initiatives": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "inline"
+                },
+                "items": {
+                  "minItems": 1,
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "pattern": "^[A-Za-z0-9._-]+$"
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "team": {
+                        "type": "string",
+                        "maxLength": 64
+                      },
+                      "tags": {
+                        "default": [],
+                        "maxItems": 20,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 32
+                        }
+                      },
+                      "reach": {
+                        "description": "People or events per period",
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "impact": {
+                        "description": "0.25 minimal, 0.5 low, 1 medium, 2 high, 3 massive",
+                        "type": "number",
+                        "enum": [
+                          0.25,
+                          0.5,
+                          1,
+                          2,
+                          3
+                        ]
+                      },
+                      "confidence": {
+                        "description": "0..1, e.g. 0.8 = 80%",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "effort": {
+                        "description": "Person-months by default; also used for capacity",
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "businessValue": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "timeCriticality": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "riskReductionOpportunity": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "jobSize": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "dependsOn": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "mandatory": {
+                        "default": false,
+                        "type": "boolean"
+                      },
+                      "earliestStart": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "deadline": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "title"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "items"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "file"
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024,
+                  "description": "Path inside one of the configured allowedRoots"
+                },
+                "format": {
+                  "description": "Defaults to the file extension",
+                  "type": "string",
+                  "enum": [
+                    "csv",
+                    "json"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "path"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "demo"
+                },
+                "name": {
+                  "default": "saas-roadmap",
+                  "description": "Bundled synthetic dataset",
+                  "type": "string",
+                  "enum": [
+                    "saas-roadmap"
+                  ]
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "ids": {
+          "description": "Only these initiatives (default: all, at most 60)",
+          "minItems": 1,
+          "maxItems": 60,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "context": {
+          "description": "Strategy, goals or constraints every judge should know, in the user's language",
+          "type": "string",
+          "maxLength": 2000
+        }
+      },
+      "required": [
+        "initiatives"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "judges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": [
+                  "dev",
+                  "business",
+                  "product"
+                ]
+              },
+              "title": {
+                "type": "string"
+              },
+              "criteria": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "question": {
+                      "type": "string"
+                    },
+                    "higherIsBetter": {
+                      "type": "boolean"
+                    },
+                    "low": {
+                      "type": "string"
+                    },
+                    "high": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "question",
+                    "higherIsBetter",
+                    "low",
+                    "high"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "instructions": {
+                "type": "string",
+                "description": "The full task for this judge's agent; pass it on unchanged"
+              }
+            },
+            "required": [
+              "role",
+              "title",
+              "criteria",
+              "instructions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          }
+        },
+        "protocol": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "computedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            },
+            "inputHash": {
+              "type": "string"
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "itemIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "code",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "live",
+                    "fixtures"
+                  ]
+                },
+                "cloudId": {
+                  "type": "string"
+                },
+                "siteUrl": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "fromCache": {
+                  "type": "boolean"
+                },
+                "fetchedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "upstreamCalls": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "mode",
+                "cloudId",
+                "siteUrl",
+                "fromCache",
+                "fetchedAt",
+                "upstreamCalls"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "computedAt",
+            "inputHash",
+            "warnings"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "judges",
+        "items",
+        "protocol",
+        "meta"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
+    "name": "triumvirate_verdict",
+    "title": "Triumvirate: merge the judges",
+    "description": "Step 2 of the triumvirate: merges the three independent judges' answers from triumvirate_brief. Items the judges agree on are ranked by the weighted mean score; items where they disagree strongly are NOT averaged but listed in needsDecision with each judge's score, rationale and criteria, for the user to decide.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "initiatives": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "inline"
+                },
+                "items": {
+                  "minItems": 1,
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "pattern": "^[A-Za-z0-9._-]+$"
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "team": {
+                        "type": "string",
+                        "maxLength": 64
+                      },
+                      "tags": {
+                        "default": [],
+                        "maxItems": 20,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 32
+                        }
+                      },
+                      "reach": {
+                        "description": "People or events per period",
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "impact": {
+                        "description": "0.25 minimal, 0.5 low, 1 medium, 2 high, 3 massive",
+                        "type": "number",
+                        "enum": [
+                          0.25,
+                          0.5,
+                          1,
+                          2,
+                          3
+                        ]
+                      },
+                      "confidence": {
+                        "description": "0..1, e.g. 0.8 = 80%",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "effort": {
+                        "description": "Person-months by default; also used for capacity",
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "businessValue": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "timeCriticality": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "riskReductionOpportunity": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "jobSize": {
+                        "type": "number",
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          5,
+                          8,
+                          13,
+                          20
+                        ]
+                      },
+                      "dependsOn": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "mandatory": {
+                        "default": false,
+                        "type": "boolean"
+                      },
+                      "earliestStart": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "deadline": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "title"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "items"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "file"
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024,
+                  "description": "Path inside one of the configured allowedRoots"
+                },
+                "format": {
+                  "description": "Defaults to the file extension",
+                  "type": "string",
+                  "enum": [
+                    "csv",
+                    "json"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "path"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "demo"
+                },
+                "name": {
+                  "default": "saas-roadmap",
+                  "description": "Bundled synthetic dataset",
+                  "type": "string",
+                  "enum": [
+                    "saas-roadmap"
+                  ]
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            }
+          ],
+          "description": "The same source that was passed to triumvirate_brief"
+        },
+        "verdicts": {
+          "type": "object",
+          "properties": {
+            "dev": {
+              "type": "object",
+              "properties": {
+                "judge": {
+                  "description": "Role echoed by the judge; checked against the slot",
+                  "type": "string",
+                  "maxLength": 64
+                },
+                "model": {
+                  "description": "Which agent or model answered, for the record",
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "items": {
+                  "minItems": 1,
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64
+                      },
+                      "criteria": {
+                        "default": {},
+                        "description": "Criterion key → 1..5",
+                        "type": "object",
+                        "propertyNames": {
+                          "type": "string"
+                        },
+                        "additionalProperties": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 5
+                        }
+                      },
+                      "confidence": {
+                        "default": 0.5,
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "rationale": {
+                        "default": "",
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      "abstain": {
+                        "default": false,
+                        "description": "The judge had too little data to rate this item",
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "items"
+              ]
+            },
+            "business": {
+              "type": "object",
+              "properties": {
+                "judge": {
+                  "description": "Role echoed by the judge; checked against the slot",
+                  "type": "string",
+                  "maxLength": 64
+                },
+                "model": {
+                  "description": "Which agent or model answered, for the record",
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "items": {
+                  "minItems": 1,
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64
+                      },
+                      "criteria": {
+                        "default": {},
+                        "description": "Criterion key → 1..5",
+                        "type": "object",
+                        "propertyNames": {
+                          "type": "string"
+                        },
+                        "additionalProperties": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 5
+                        }
+                      },
+                      "confidence": {
+                        "default": 0.5,
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "rationale": {
+                        "default": "",
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      "abstain": {
+                        "default": false,
+                        "description": "The judge had too little data to rate this item",
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "items"
+              ]
+            },
+            "product": {
+              "type": "object",
+              "properties": {
+                "judge": {
+                  "description": "Role echoed by the judge; checked against the slot",
+                  "type": "string",
+                  "maxLength": 64
+                },
+                "model": {
+                  "description": "Which agent or model answered, for the record",
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "items": {
+                  "minItems": 1,
+                  "maxItems": 500,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64
+                      },
+                      "criteria": {
+                        "default": {},
+                        "description": "Criterion key → 1..5",
+                        "type": "object",
+                        "propertyNames": {
+                          "type": "string"
+                        },
+                        "additionalProperties": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 5
+                        }
+                      },
+                      "confidence": {
+                        "default": 0.5,
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "rationale": {
+                        "default": "",
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      "abstain": {
+                        "default": false,
+                        "description": "The judge had too little data to rate this item",
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "items"
+              ]
+            }
+          },
+          "required": [
+            "dev",
+            "business",
+            "product"
+          ],
+          "description": "Each judge's JSON answer, unchanged"
+        },
+        "weights": {
+          "default": {
+            "dev": 1,
+            "business": 1,
+            "product": 1
+          },
+          "description": "Weight of each judge in the agreed score; 0 makes a judge advisory only",
+          "type": "object",
+          "properties": {
+            "dev": {
+              "default": 1,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10
+            },
+            "business": {
+              "default": 1,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10
+            },
+            "product": {
+              "default": 1,
+              "type": "number",
+              "minimum": 0,
+              "maximum": 10
+            }
+          }
+        },
+        "splitThreshold": {
+          "default": 40,
+          "description": "Max − min of judge scores (0..100) at which an item goes to needsDecision instead of the ranking",
+          "type": "number",
+          "minimum": 1,
+          "maximum": 101
+        }
+      },
+      "required": [
+        "initiatives",
+        "verdicts"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "ranking": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "rank": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "score": {
+                "type": "number",
+                "description": "Weighted mean of judge scores, 0..100"
+              },
+              "spread": {
+                "type": "number"
+              },
+              "scores": {
+                "type": "object",
+                "properties": {
+                  "dev": {
+                    "type": "number"
+                  },
+                  "business": {
+                    "type": "number"
+                  },
+                  "product": {
+                    "type": "number"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "lowConfidence": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "rank",
+              "score",
+              "spread",
+              "scores",
+              "lowConfidence"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "needsDecision": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "spread": {
+                "type": "number"
+              },
+              "scores": {
+                "type": "object",
+                "properties": {
+                  "dev": {
+                    "type": "number"
+                  },
+                  "business": {
+                    "type": "number"
+                  },
+                  "product": {
+                    "type": "number"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "highest": {
+                "type": "string",
+                "enum": [
+                  "dev",
+                  "business",
+                  "product"
+                ]
+              },
+              "lowest": {
+                "type": "string",
+                "enum": [
+                  "dev",
+                  "business",
+                  "product"
+                ]
+              },
+              "opinions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "judge": {
+                      "type": "string",
+                      "enum": [
+                        "dev",
+                        "business",
+                        "product"
+                      ]
+                    },
+                    "score": {
+                      "type": "number"
+                    },
+                    "confidence": {
+                      "type": "number"
+                    },
+                    "rationale": {
+                      "type": "string"
+                    },
+                    "pulls": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "criterion": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "number"
+                          },
+                          "direction": {
+                            "type": "string",
+                            "enum": [
+                              "for",
+                              "against"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "criterion",
+                          "value",
+                          "direction"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "judge",
+                    "score",
+                    "confidence",
+                    "rationale",
+                    "pulls"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "spread",
+              "scores",
+              "highest",
+              "lowest",
+              "opinions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "insufficient": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "scoredBy": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "dev",
+                    "business",
+                    "product"
+                  ]
+                }
+              },
+              "reasons": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "scoredBy",
+              "reasons"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "agreement": {
+          "type": "object",
+          "properties": {
+            "kendallTau": {
+              "description": "Mean pairwise Kendall tau between judges",
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "pairs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "a": {
+                    "type": "string",
+                    "enum": [
+                      "dev",
+                      "business",
+                      "product"
+                    ]
+                  },
+                  "b": {
+                    "type": "string",
+                    "enum": [
+                      "dev",
+                      "business",
+                      "product"
+                    ]
+                  },
+                  "kendallTau": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "meanAbsDiff": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "items": {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "a",
+                  "b",
+                  "kendallTau",
+                  "meanAbsDiff",
+                  "items"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "kendallTau",
+            "pairs"
+          ],
+          "additionalProperties": false
+        },
+        "judges": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "model": {
+                "type": "string"
+              },
+              "scored": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "abstained": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "missing": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "scored",
+              "abstained",
+              "missing"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "computedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            },
+            "inputHash": {
+              "type": "string"
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "itemIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "code",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "source": {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "live",
+                    "fixtures"
+                  ]
+                },
+                "cloudId": {
+                  "type": "string"
+                },
+                "siteUrl": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "fromCache": {
+                  "type": "boolean"
+                },
+                "fetchedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                },
+                "upstreamCalls": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "mode",
+                "cloudId",
+                "siteUrl",
+                "fromCache",
+                "fetchedAt",
+                "upstreamCalls"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "tool",
+            "version",
+            "computedAt",
+            "inputHash",
+            "warnings"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "ranking",
+        "needsDecision",
+        "insufficient",
+        "agreement",
+        "judges",
+        "meta"
+      ],
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
   }
 ]

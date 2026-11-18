@@ -28,8 +28,25 @@ import {
   ExplainRankingOutput,
 } from './tools/explain.js';
 import { createPingHandler, PingInput, PingOutput } from './tools/ping.js';
+import {
+  createTriumvirateBriefHandler,
+  createTriumvirateVerdictHandler,
+  triumvirateBriefDescription,
+  TriumvirateBriefInput,
+  TriumvirateBriefOutput,
+  triumvirateVerdictDescription,
+  TriumvirateVerdictInput,
+  TriumvirateVerdictOutput,
+} from './tools/triumvirate.js';
 import { METHOD_RESOURCES } from './resources.js';
-import { loadRoadmapSkill, RoadmapPromptArgs, roadmapPromptText } from './prompts.js';
+import {
+  loadRoadmapSkill,
+  RoadmapPromptArgs,
+  roadmapPromptText,
+  triumviratePromptDescription,
+  TriumviratePromptArgs,
+  triumviratePromptText,
+} from './prompts.js';
 
 export const SERVER_NAME = 'productops-prioritization';
 
@@ -144,6 +161,29 @@ export function createServer(deps: ServerDeps): McpServer {
     },
     withToolRuntime('explain_ranking', runtime, createExplainHandler(env)),
   );
+  // Optional method: the default flow stays RICE/WSJF; these run only when the user asks for judges.
+  server.registerTool(
+    'triumvirate_brief',
+    {
+      title: 'Triumvirate: briefs for three judges',
+      description: triumvirateBriefDescription,
+      inputSchema: TriumvirateBriefInput,
+      outputSchema: TriumvirateBriefOutput,
+      annotations: READ_ONLY,
+    },
+    withToolRuntime('triumvirate_brief', runtime, createTriumvirateBriefHandler(env)),
+  );
+  server.registerTool(
+    'triumvirate_verdict',
+    {
+      title: 'Triumvirate: merge the judges',
+      description: triumvirateVerdictDescription,
+      inputSchema: TriumvirateVerdictInput,
+      outputSchema: TriumvirateVerdictOutput,
+      annotations: READ_ONLY,
+    },
+    withToolRuntime('triumvirate_verdict', runtime, createTriumvirateVerdictHandler(env)),
+  );
 
   for (const [name, r] of Object.entries(METHOD_RESOURCES)) {
     server.registerResource(
@@ -163,6 +203,20 @@ export function createServer(deps: ServerDeps): McpServer {
     (args) => ({
       messages: [
         { role: 'user' as const, content: { type: 'text' as const, text: roadmapPromptText(skill, args) } },
+      ],
+    }),
+  );
+
+  server.registerPrompt(
+    'triumvirate-prioritization',
+    {
+      title: 'Triumvirate prioritization',
+      description: triumviratePromptDescription,
+      argsSchema: TriumviratePromptArgs,
+    },
+    (args) => ({
+      messages: [
+        { role: 'user' as const, content: { type: 'text' as const, text: triumviratePromptText(args) } },
       ],
     }),
   );

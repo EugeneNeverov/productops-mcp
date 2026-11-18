@@ -53,6 +53,8 @@ describe('prioritization tools', () => {
       'compare_initiatives',
       'simulate_capacity',
       'explain_ranking',
+      'triumvirate_brief',
+      'triumvirate_verdict',
     ]);
     for (const t of tools)
       expect(t.annotations).toMatchObject({
@@ -242,7 +244,7 @@ describe('roadmap-prioritization prompt', () => {
     const c = await connect();
     try {
       const { prompts } = await c.client.listPrompts();
-      expect(prompts.map((p) => p.name)).toEqual(['roadmap-prioritization']);
+      expect(prompts.map((p) => p.name)).toEqual(['roadmap-prioritization', 'triumvirate-prioritization']);
       expect(prompts[0]!.description).toContain('Prioritize a product backlog');
       const p = await c.client.getPrompt({
         name: 'roadmap-prioritization',
@@ -253,6 +255,52 @@ describe('roadmap-prioritization prompt', () => {
       expect(text).toContain('## Reproducibility');
       expect(text).toContain('Capacity: Growth 10, Platform 12, Mobile 12');
       expect(text).not.toMatch(/^---\nname:/);
+    } finally {
+      await c.client.close();
+    }
+  });
+
+  it('serves the triumvirate workflow as an optional prompt', async () => {
+    const c = await connect();
+    try {
+      const p = await c.client.getPrompt({
+        name: 'triumvirate-prioritization',
+        arguments: { source: 'demo', context: 'Grow self-serve revenue' },
+      });
+      const text = (p.messages[0]!.content as { text: string }).text;
+      expect(text).toContain('as separate agents');
+      expect(text).toContain('Context: Grow self-serve revenue');
+    } finally {
+      await c.client.close();
+    }
+  });
+});
+
+describe('triumvirate', () => {
+  it("rejects verdicts that use another judge's criteria", async () => {
+    const c = await connect();
+    try {
+      const args = structuredClone(REQUESTS.triumvirate_verdict) as { verdicts: Record<string, unknown> };
+      args.verdicts.dev = args.verdicts.business;
+      const r = sc((await c.client.callTool({ name: 'triumvirate_verdict', arguments: args })) as Result);
+      expect(r.error.code).toBe('VALIDATION_ERROR');
+      expect(r.error.details.issues.join('\n')).toContain('another judge');
+    } finally {
+      await c.client.close();
+    }
+  });
+
+  it('caps one round of judges and asks for a shortlist', async () => {
+    const c = await connect();
+    try {
+      const items = Array.from({ length: 61 }, (_, i) => ({ id: `i${i}`, title: `Item ${i}` }));
+      const r = sc(
+        (await c.client.callTool({
+          name: 'triumvirate_brief',
+          arguments: { initiatives: { kind: 'inline', items } },
+        })) as Result,
+      );
+      expect(r.error.code).toBe('INPUT_TOO_LARGE');
     } finally {
       await c.client.close();
     }

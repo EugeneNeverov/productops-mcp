@@ -36,7 +36,8 @@ You turn a backlog into a recommendation a product manager can act on. **The too
 
    At most 10 ids per call.
 
-6. **Write the report** using `report-template.md`. Keep it under 700 words.
+6. **Optional: triumvirate.** Only if the user asks for independent judges or a triumvirate: call `triumvirate_brief`, run each judge's `instructions` as a separate agent that never sees the other judges' answers, then call `triumvirate_verdict` with the three answers unchanged. Report `ranking`, and every `needsDecision` item as a question to the user with each judge's argument. Never average split items yourself.
+7. **Write the report** using `report-template.md`. Keep it under 700 words.
 
 ## Reading the results
 

@@ -30,8 +30,12 @@ Claude Code: `claude mcp add productops-prioritization -- npx -y @productops-mcp
 | `compare_initiatives` | Ranks with RICE, WSJF or custom weights and shows where the methods disagree   |
 | `simulate_capacity`   | Fits the ranked backlog into team capacity, respecting dependencies and musts  |
 | `explain_ranking`     | Explains why one initiative ranks above another, factor by factor              |
+| `triumvirate_brief`   | Optional: writes briefs for three independent judges (dev, business, product)  |
+| `triumvirate_verdict` | Optional: merges the judges; strong disagreements come back to you, not a mean |
 
 The prompt `roadmap-prioritization` turns these results into a recommendation: what to take, what to defer and why.
+
+**Triumvirate (optional).** Instead of one formula, three judges score the backlog independently: engineering, business and marketing, and product. The server writes a brief for each judge; your client runs each brief as a separate agent (a subagent, a new chat or a local model) and passes the three answers to `triumvirate_verdict`. Items the judges agree on are ranked; items they disagree on are listed with each judge's argument for you to decide. The prompt `triumvirate-prioritization` runs the whole flow. Details: [docs/decisions/0004-triumvirate-judges.md](https://github.com/EugeneNeverov/productops-mcp/blob/main/docs/decisions/0004-triumvirate-judges.md).
 
 ## Your data
 

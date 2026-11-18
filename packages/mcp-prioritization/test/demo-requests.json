@@ -1,26 +1,281 @@
 {
   "_comment": "Requests behind examples/reports/demo/*.json. Regenerate with: pnpm build && node scripts/gen-demo-reports.mjs",
-  "calculate_rice": { "initiatives": { "kind": "demo" } },
-  "calculate_wsjf": { "initiatives": { "kind": "demo" } },
-  "compare_initiatives": { "initiatives": { "kind": "demo" }, "methods": ["RICE", "WSJF"], "topN": 10 },
+  "calculate_rice": {
+    "initiatives": {
+      "kind": "demo"
+    }
+  },
+  "calculate_wsjf": {
+    "initiatives": {
+      "kind": "demo"
+    }
+  },
+  "compare_initiatives": {
+    "initiatives": {
+      "kind": "demo"
+    },
+    "methods": ["RICE", "WSJF"],
+    "topN": 10
+  },
   "simulate_capacity": {
-    "initiatives": { "kind": "demo" },
+    "initiatives": {
+      "kind": "demo"
+    },
     "rankBy": "RICE",
     "capacity": [
-      { "team": "Growth", "amount": 10 },
-      { "team": "Platform", "amount": 12 },
-      { "team": "Mobile", "amount": 12 }
+      {
+        "team": "Growth",
+        "amount": 10
+      },
+      {
+        "team": "Platform",
+        "amount": 12
+      },
+      {
+        "team": "Mobile",
+        "amount": 12
+      }
     ],
     "scenarios": [
-      { "name": "base" },
-      { "name": "minus-20-percent-people", "capacityMultiplier": 0.8 },
-      { "name": "estimates-30-percent-low", "effortMultiplier": 1.3 }
+      {
+        "name": "base"
+      },
+      {
+        "name": "minus-20-percent-people",
+        "capacityMultiplier": 0.8
+      },
+      {
+        "name": "estimates-30-percent-low",
+        "effortMultiplier": 1.3
+      }
     ]
   },
   "explain_ranking": {
-    "initiatives": { "kind": "demo" },
+    "initiatives": {
+      "kind": "demo"
+    },
     "method": "RICE",
     "ids": ["INIT-034", "INIT-013", "INIT-014"],
     "compareWith": "neighbors"
+  },
+  "triumvirate_brief": {
+    "initiatives": {
+      "kind": "demo"
+    },
+    "ids": ["INIT-001", "INIT-002", "INIT-003", "INIT-004", "INIT-005", "INIT-006"],
+    "context": "Goal for the next two quarters: grow self-serve revenue without adding headcount."
+  },
+  "triumvirate_verdict": {
+    "initiatives": {
+      "kind": "demo"
+    },
+    "verdicts": {
+      "dev": {
+        "judge": "dev",
+        "model": "demo-judge-dev",
+        "items": [
+          {
+            "id": "INIT-001",
+            "confidence": 0.7,
+            "rationale": "Touches every first-run screen; about a quarter of work for Growth.",
+            "criteria": {
+              "effort": 4,
+              "technicalRisk": 2,
+              "dependencies": 2,
+              "leverage": 3
+            }
+          },
+          {
+            "id": "INIT-002",
+            "confidence": 0.9,
+            "rationale": "A coupon rule in the existing checkout; days of work.",
+            "criteria": {
+              "effort": 1,
+              "technicalRisk": 1,
+              "dependencies": 2,
+              "leverage": 1
+            }
+          },
+          {
+            "id": "INIT-003",
+            "confidence": 0.8,
+            "rationale": "Standard referral codes; small and well understood.",
+            "criteria": {
+              "effort": 2,
+              "technicalRisk": 2,
+              "dependencies": 2,
+              "leverage": 2
+            }
+          },
+          {
+            "id": "INIT-004",
+            "confidence": 0.8,
+            "rationale": "Needs metering (INIT-026) and billing rework; the riskiest item on the list.",
+            "criteria": {
+              "effort": 5,
+              "technicalRisk": 5,
+              "dependencies": 5,
+              "leverage": 4
+            }
+          },
+          {
+            "id": "INIT-005",
+            "confidence": 0.9,
+            "rationale": "Templates in the existing email tool.",
+            "criteria": {
+              "effort": 1,
+              "technicalRisk": 1,
+              "dependencies": 1,
+              "leverage": 2
+            }
+          },
+          {
+            "id": "INIT-006",
+            "confidence": 0.8,
+            "rationale": "Small framework that every later pricing experiment reuses.",
+            "criteria": {
+              "effort": 2,
+              "technicalRisk": 2,
+              "dependencies": 1,
+              "leverage": 5
+            }
+          }
+        ]
+      },
+      "business": {
+        "judge": "business",
+        "model": "demo-judge-business",
+        "items": [
+          {
+            "id": "INIT-001",
+            "confidence": 0.6,
+            "rationale": "Helps activation for every new account, but the revenue link is indirect.",
+            "criteria": {
+              "revenue": 3,
+              "marketReach": 4,
+              "positioning": 2,
+              "timing": 2
+            }
+          },
+          {
+            "id": "INIT-002",
+            "confidence": 0.7,
+            "rationale": "Pulls cash forward from a few accounts; discounts dilute price.",
+            "criteria": {
+              "revenue": 3,
+              "marketReach": 2,
+              "positioning": 1,
+              "timing": 2
+            }
+          },
+          {
+            "id": "INIT-003",
+            "confidence": 0.5,
+            "rationale": "Referrals work weakly in B2B.",
+            "criteria": {
+              "revenue": 2,
+              "marketReach": 3,
+              "positioning": 2,
+              "timing": 2
+            }
+          },
+          {
+            "id": "INIT-004",
+            "confidence": 0.8,
+            "rationale": "Opens the mid-market and matches competitors' pricing; the biggest revenue lever.",
+            "criteria": {
+              "revenue": 5,
+              "marketReach": 4,
+              "positioning": 5,
+              "timing": 4
+            }
+          },
+          {
+            "id": "INIT-005",
+            "confidence": 0.8,
+            "rationale": "Direct trial-to-paid lift on every trial.",
+            "criteria": {
+              "revenue": 4,
+              "marketReach": 4,
+              "positioning": 1,
+              "timing": 3
+            }
+          },
+          {
+            "id": "INIT-006",
+            "confidence": 0.6,
+            "rationale": "Revenue comes from the experiments it enables, not from itself.",
+            "criteria": {
+              "revenue": 3,
+              "marketReach": 3,
+              "positioning": 1,
+              "timing": 3
+            }
+          }
+        ]
+      },
+      "product": {
+        "judge": "product",
+        "model": "demo-judge-product",
+        "items": [
+          {
+            "id": "INIT-001",
+            "confidence": 0.5,
+            "rationale": "Fits self-serve, but there is no data yet on where users drop off.",
+            "criteria": {
+              "userValue": 4,
+              "strategicFit": 5,
+              "evidence": 2
+            }
+          },
+          {
+            "id": "INIT-002",
+            "confidence": 0.7,
+            "rationale": "Few users care about annual billing at checkout.",
+            "criteria": {
+              "userValue": 2,
+              "strategicFit": 2,
+              "evidence": 3
+            }
+          },
+          {
+            "id": "INIT-003",
+            "confidence": 0.0,
+            "rationale": "No usage data on sharing between teams; cannot judge user value.",
+            "abstain": true
+          },
+          {
+            "id": "INIT-004",
+            "confidence": 0.6,
+            "rationale": "Users ask for paying by use; central to self-serve.",
+            "criteria": {
+              "userValue": 4,
+              "strategicFit": 5,
+              "evidence": 3
+            }
+          },
+          {
+            "id": "INIT-005",
+            "confidence": 0.8,
+            "rationale": "Clear reminder before access ends; similar products show good results.",
+            "criteria": {
+              "userValue": 3,
+              "strategicFit": 4,
+              "evidence": 4
+            }
+          },
+          {
+            "id": "INIT-006",
+            "confidence": 0.7,
+            "rationale": "No direct user value; supports the pricing strategy.",
+            "criteria": {
+              "userValue": 2,
+              "strategicFit": 4,
+              "evidence": 3
+            }
+          }
+        ]
+      }
+    }
   }
 }
