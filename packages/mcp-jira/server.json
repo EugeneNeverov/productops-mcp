@@ -9,13 +9,13 @@
     "subfolder": "packages/mcp-jira"
   },
   "websiteUrl": "https://github.com/EugeneNeverov/productops-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@productops-mcp/jira",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"

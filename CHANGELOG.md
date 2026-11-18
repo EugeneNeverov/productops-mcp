@@ -2,11 +2,15 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.2.0] - 2026-11-18
 
 ### Added
 
 - `@productops-mcp/prioritization`: optional triumvirate method. `triumvirate_brief` writes briefs for three independent judges (dev, business/marketing, product) that the client runs as separate agents; `triumvirate_verdict` merges their answers and lists strong disagreements for a human decision instead of averaging them. New prompt `triumvirate-prioritization`. RICE and WSJF stay the default ([ADR 0004](docs/decisions/0004-triumvirate-judges.md)).
+
+### Changed
+
+- The release workflow publishes to npm with trusted publishing (OIDC) only; the `NPM_TOKEN` secret is no longer used.
 
 ## [0.1.0] - 2026-11-18
 
@@ -21,4 +25,5 @@ First public release.
 - `PRODUCTOPS_DATA_DIR` adds a folder the prioritization server may read backlog files from.
 - Claude Desktop extensions (`.mcpb`) for both servers, attached to the GitHub Release.
 
+[0.2.0]: https://github.com/EugeneNeverov/productops-mcp/releases/tag/v0.2.0
 [0.1.0]: https://github.com/EugeneNeverov/productops-mcp/releases/tag/v0.1.0
