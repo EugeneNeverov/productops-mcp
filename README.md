@@ -22,6 +22,10 @@ claude mcp add productops-prioritization -- npx -y @productops-mcp/prioritizatio
 claude mcp add productops-jira -- npx -y @productops-mcp/jira
 ```
 
+**Claude (plugin)**: the [`plugin/`](plugin) folder bundles both servers and both skills as a Claude plugin; try it with `claude --plugin-dir ./plugin`. It is being submitted to the Claude plugin directory.
+
+**Claude (plugin)**: the [`plugin/`](plugin) folder bundles both servers and both skills as a Claude plugin; try it with `claude --plugin-dir ./plugin`. It is being submitted to the Claude plugin directory.
+
 **Claude Desktop**: download `productops-prioritization-<version>.mcpb` or `productops-jira-<version>.mcpb` from the [latest release](https://github.com/EugeneNeverov/productops-mcp/releases/latest) and open it, or add the servers to the config as below.
 
 **Any MCP client** (Claude Desktop, LM Studio, Cursor and others):

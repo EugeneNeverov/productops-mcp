@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Checks that a release is consistent before anything is published:
 // every package has the same version, server.json files carry it too (top level and npm package),
-// each server's mcpName matches its server.json name, and, if a tag is given, it equals v<version>.
+// each server's mcpName matches its server.json name, the Claude plugin pins this version, and, if a
+// tag is given, it equals v<version>.
 // Usage: node scripts/check-release.mjs [tag]
 import { readFileSync } from 'node:fs';
 
@@ -26,6 +27,18 @@ for (const pkg of ['mcp-prioritization', 'mcp-jira']) {
     if (p.version !== version) problems.push(`${pkg}/server.json: package version ${p.version}`);
   }
   if (server.description.length > 100) problems.push(`${pkg}/server.json: description over 100 characters`);
+}
+
+// The Claude plugin pins the published server versions.
+const plugin = read('plugin/.claude-plugin/plugin.json');
+if (plugin.version !== version) problems.push(`plugin/.claude-plugin/plugin.json: version ${plugin.version}`);
+const mcp = read('plugin/.mcp.json');
+for (const [key, pkg] of [
+  ['productops-prioritization', 'mcp-prioritization'],
+  ['productops-jira', 'mcp-jira'],
+]) {
+  const want = `${read(`packages/${pkg}/package.json`).name}@${version}`;
+  if (!mcp.mcpServers[key]?.args?.includes(want)) problems.push(`plugin/.mcp.json: ${key} must run ${want}`);
 }
 
 const tag = process.argv[2];

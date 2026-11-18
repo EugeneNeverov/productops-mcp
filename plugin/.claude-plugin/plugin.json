@@ -1,0 +1,29 @@
+{
+  "name": "productops",
+  "displayName": "ProductOps",
+  "version": "0.1.0",
+  "description": "Product prioritization (RICE, WSJF, capacity scenarios) and Jira sprint health audits. Numbers are computed by local MCP servers; Claude explains them.",
+  "author": {
+    "name": "EugeneNeverov",
+    "url": "https://github.com/EugeneNeverov"
+  },
+  "homepage": "https://github.com/EugeneNeverov/productops-mcp",
+  "repository": "https://github.com/EugeneNeverov/productops-mcp",
+  "license": "Apache-2.0",
+  "keywords": ["product-management", "prioritization", "rice", "wsjf", "jira", "sprint", "agile"],
+  "userConfig": {
+    "data_dir": {
+      "type": "directory",
+      "title": "Backlog folder",
+      "description": "Folder with your backlog CSV or JSON files. The prioritization server reads nothing outside it. Leave empty to use only the demo backlog.",
+      "required": false
+    },
+    "jira_mode": {
+      "type": "string",
+      "title": "Jira data source",
+      "description": "fixtures = bundled demo team (no account needed); live = your Jira Cloud through the official Atlassian MCP server (run `npx -y @productops-mcp/jira@0.1.0 login` in a terminal first).",
+      "required": false,
+      "default": "fixtures"
+    }
+  }
+}
