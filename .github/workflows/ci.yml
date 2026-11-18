@@ -82,6 +82,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: node scripts/check-release.mjs
       - run: pnpm build
+      - name: Plugin skills match skills/
+        run: test -z "$(git status --porcelain -- plugin/skills)" || (git status -- plugin/skills && echo "Run pnpm build and commit plugin/skills" && exit 1)
       - name: Pack and install the tarballs
         run: |
           mkdir -p release/npm "$RUNNER_TEMP/install"
