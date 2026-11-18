@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { sanitizeText, type JiraConfig, type UntrustedText } from '@productops/core';
+import { sanitizeText, type JiraConfig, type UntrustedText } from '@productops-mcp/core';
 import type { Session } from './types.js';
 
 /** Shared by every source: people privacy and untrusted-text sanitizing (spec §6.2, §9.1). */

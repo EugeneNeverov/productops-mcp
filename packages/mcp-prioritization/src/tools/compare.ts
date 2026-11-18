@@ -1,5 +1,11 @@
 import * as z from 'zod/v4';
-import { compareRankings, InitiativesSource, Meta, ToolFailure, type ToolContext } from '@productops/core';
+import {
+  compareRankings,
+  InitiativesSource,
+  Meta,
+  ToolFailure,
+  type ToolContext,
+} from '@productops-mcp/core';
 import { CustomInput, load, type ToolEnv } from './common.js';
 
 export const CompareInput = z.object({

@@ -1,7 +1,23 @@
 {
-  "name": "@productops/core",
-  "version": "0.0.0",
+  "name": "@productops-mcp/core",
+  "version": "0.1.0",
   "description": "Shared schemas, tool runtime, errors and policy for ProductOps MCP servers.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "product-ops",
+    "productops"
+  ],
+  "author": "EugeneNeverov (https://github.com/EugeneNeverov)",
+  "homepage": "https://github.com/EugeneNeverov/productops-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/EugeneNeverov/productops-mcp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EugeneNeverov/productops-mcp.git",
+    "directory": "packages/core"
+  },
   "type": "module",
   "license": "Apache-2.0",
   "engines": {
@@ -14,7 +30,11 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "README.md",
+    "!dist/.tsbuildinfo",
+    "!dist/**/*.test.*"
   ],
   "scripts": {
     "build": "tsc -b"
@@ -22,5 +42,9 @@
   "dependencies": {
     "csv-parse": "^6.2.1",
     "zod": "^4.2.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

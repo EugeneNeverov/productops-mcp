@@ -11,7 +11,7 @@ import {
   type Sprint,
   type ToolContext,
   type WorkItem,
-} from '@productops/core';
+} from '@productops-mcp/core';
 import { Session, type JiraSource } from '../source/types.js';
 
 export interface JiraEnv {

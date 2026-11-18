@@ -11,7 +11,7 @@ import {
   type Project,
   type Sprint,
   type WorkItem,
-} from '@productops/core';
+} from '@productops-mcp/core';
 import { Normalizer } from './normalize.js';
 import type { JiraSource, Session, SiteInfo } from './types.js';
 

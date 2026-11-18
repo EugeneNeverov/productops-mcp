@@ -1,0 +1,74 @@
+{
+  "manifest_version": "0.3",
+  "name": "productops-prioritization",
+  "display_name": "ProductOps Prioritization",
+  "version": "0.0.0",
+  "description": "Rank a product backlog with RICE and WSJF, compare methods and test capacity scenarios. Works offline.",
+  "long_description": "Local MCP server for product prioritization. The scores are computed by code, deterministically, and every number can be reproduced; the model only explains them. Includes a demo SaaS backlog and the roadmap-prioritization prompt, which turns the results into a recommendation: what to take, what to defer, and the trade-offs.",
+  "author": {
+    "name": "EugeneNeverov",
+    "url": "https://github.com/EugeneNeverov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EugeneNeverov/productops-mcp"
+  },
+  "homepage": "https://github.com/EugeneNeverov/productops-mcp",
+  "support": "https://github.com/EugeneNeverov/productops-mcp/issues",
+  "icon": "icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "dist/bin.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/bin.js"],
+      "env": {
+        "PRODUCTOPS_DATA_DIR": "${user_config.data_dir}",
+        "PRODUCTOPS_LOG_LEVEL": "info"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "calculate_rice",
+      "description": "Score and rank initiatives with RICE"
+    },
+    {
+      "name": "calculate_wsjf",
+      "description": "Score and rank initiatives with WSJF"
+    },
+    {
+      "name": "compare_initiatives",
+      "description": "Compare rankings across methods and show disagreements"
+    },
+    {
+      "name": "simulate_capacity",
+      "description": "Fit the backlog into team capacity, with what-if scenarios"
+    },
+    {
+      "name": "explain_ranking",
+      "description": "Explain why an initiative ranks where it does"
+    },
+    {
+      "name": "ping",
+      "description": "Health check"
+    }
+  ],
+  "keywords": ["product management", "prioritization", "RICE", "WSJF", "roadmap", "capacity"],
+  "license": "Apache-2.0",
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  },
+  "user_config": {
+    "data_dir": {
+      "type": "directory",
+      "title": "Backlog folder",
+      "description": "Folder with your backlog CSV or JSON files. The server reads nothing outside it. The demo backlog works without it.",
+      "required": false,
+      "default": "${HOME}/productops-data"
+    }
+  }
+}

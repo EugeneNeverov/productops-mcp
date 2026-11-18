@@ -1,0 +1,285 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        width: 880px;
+        height: 590px;
+        overflow: hidden;
+        background: #0f1720;
+        color: #dbe4ee;
+        font:
+          15px/1.45 -apple-system,
+          'Segoe UI',
+          'DejaVu Sans',
+          sans-serif;
+      }
+      .bar {
+        height: 38px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 16px;
+        background: #17212c;
+        border-bottom: 1px solid #243242;
+        font-size: 13px;
+        color: #8ea0b3;
+      }
+      .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #2c3b4c;
+      }
+      .bar .title {
+        margin-left: 10px;
+      }
+      .bar .srv {
+        margin-left: auto;
+        padding: 2px 8px;
+        border-radius: 10px;
+        background: #1d3a2c;
+        color: #7fd6a4;
+      }
+      main {
+        padding: 18px 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .user {
+        align-self: flex-end;
+        max-width: 75%;
+        background: #24476b;
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 14px 14px 4px 14px;
+        min-height: 42px;
+      }
+      .caret {
+        display: inline-block;
+        width: 2px;
+        height: 1.1em;
+        background: #fff;
+        vertical-align: -3px;
+        margin-left: 1px;
+      }
+      .tool {
+        border: 1px solid #2a3a4c;
+        border-radius: 10px;
+        background: #141e29;
+        overflow: hidden;
+      }
+      .tool .head {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding: 8px 12px;
+        font:
+          13px/1.3 'DejaVu Sans Mono',
+          monospace;
+        color: #9fb3c8;
+        border-bottom: 1px solid #22303f;
+      }
+      .tool .head b {
+        color: #f2b134;
+        font-weight: 600;
+      }
+      .spin {
+        margin-left: auto;
+        color: #8ea0b3;
+      }
+      .ok {
+        margin-left: auto;
+        color: #7fd6a4;
+      }
+      .summary {
+        display: flex;
+        gap: 22px;
+        padding: 10px 14px 6px;
+        align-items: baseline;
+      }
+      .score {
+        font-size: 30px;
+        font-weight: 700;
+        color: #ff9b6b;
+      }
+      .score small {
+        font-size: 14px;
+        color: #8ea0b3;
+        font-weight: 400;
+      }
+      .kv {
+        font-size: 13px;
+        color: #9fb3c8;
+      }
+      .kv b {
+        color: #dbe4ee;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font:
+          13px/1.25 'DejaVu Sans Mono',
+          monospace;
+      }
+      td {
+        padding: 3px 14px;
+        white-space: nowrap;
+      }
+      td.v {
+        text-align: right;
+        color: #dbe4ee;
+        width: 70px;
+      }
+      td.th {
+        color: #6f8396;
+      }
+      td.ev {
+        color: #6f8396;
+      }
+      .pill {
+        display: inline-block;
+        min-width: 46px;
+        text-align: center;
+        border-radius: 8px;
+        padding: 0 6px;
+        font-size: 12px;
+      }
+      .warn {
+        background: #4a3a12;
+        color: #f2c46b;
+      }
+      .risk {
+        background: #5a2020;
+        color: #ff8a80;
+      }
+      .pass {
+        background: #1d3a2c;
+        color: #7fd6a4;
+      }
+      .answer {
+        padding: 2px 4px;
+        font-size: 14.5px;
+      }
+      .answer p {
+        margin: 0 0 6px;
+      }
+      .answer .verdict {
+        font-weight: 600;
+        color: #fff;
+      }
+      .answer li {
+        margin-bottom: 3px;
+      }
+      .answer ol {
+        margin: 0;
+        padding-left: 20px;
+      }
+      code {
+        color: #f2b134;
+        font-size: 13px;
+      }
+      .foot {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: #6f8396;
+        background: #0c131b;
+        border-top: 1px solid #1d2935;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="title">MCP client</span><span class="srv">● productops-jira · demo data</span>
+    </div>
+    <main>
+      <div class="user" id="q"></div>
+      <div class="tool hidden" id="tool">
+        <div class="head">
+          <b>assess_sprint_health</b><span>{"boardId": 1}</span><span id="status" class="spin">running…</span>
+        </div>
+        <div id="res" class="hidden">
+          <div class="summary">
+            <div class="score" id="score"></div>
+            <div class="kv" id="kv"></div>
+          </div>
+          <table id="checks"></table>
+        </div>
+      </div>
+      <div class="answer hidden" id="answer"></div>
+    </main>
+    <div class="foot">
+      productops-mcp · synthetic demo sprint · numbers come from the tool, the model only explains them
+    </div>
+    <script>
+      const DATA = /*DATA*/ null;
+      const r = DATA.response;
+      const Q = 'How is the current sprint on the PAY board going?';
+      const fmt = (c) =>
+        c.id === 'CYCLE_TIME_REGRESSION'
+          ? '×' + c.value
+          : c.value + (c.id === 'BLOCKERS' || c.id === 'WIP_OVERLOAD' ? '' : '%');
+      const thr = (c) =>
+        c.id === 'CYCLE_TIME_REGRESSION'
+          ? `warn/risk ×${c.threshold.warn}/×${c.threshold.risk}`
+          : `warn/risk ${c.threshold.warn}/${c.threshold.risk}`;
+      const ev = (c) =>
+        c.evidence
+          .slice(0, 3)
+          .map((e) => e.key)
+          .join(' ') + (c.evidence.length > 3 ? ` +${c.evidence.length - 3}` : '');
+      document.getElementById('score').innerHTML = `${r.healthScore}<small> / 100</small>`;
+      document.getElementById('kv').innerHTML =
+        `${r.sprint.name} · elapsed <b>${r.elapsedPct}%</b> · done <b>${r.metrics.completionPct}%</b> · WIP max per person <b>${r.metrics.wip.perAssigneeMax}</b>`;
+      const rows = r.checks.map(
+        (c) =>
+          `<tr><td>${c.id}</td><td><span class="pill ${c.status}">${c.status}</span></td><td class="v">${fmt(c)}</td><td class="th">${thr(c)}</td><td class="ev">${ev(c)}</td></tr>`,
+      );
+      const risk = r.checks.find((c) => c.id === 'WIP_OVERLOAD');
+      const lines = [
+        `<p class="verdict">${r.sprint.name} is off track: health score ${r.healthScore} of 100.</p>`,
+        `<p>${r.elapsedPct}% of the sprint has elapsed, but only ${r.metrics.completionPct}% of the committed work is done.</p>`,
+        `<ol><li><b>WIP_OVERLOAD (risk)</b>: one person holds ${risk.value} issues in progress (risk at ${risk.threshold.risk}).</li>`,
+        `<li><b>BLOCKERS</b>: PAY-54 waits on OPS-1; PAY-53 is flagged and stale for 5 working days.</li>`,
+        `<li><b>BURNDOWN_LAG</b>: ${r.checks[0].value} points behind the elapsed share of the sprint.</li></ol>`,
+        `<p style="margin-top:6px">Next 48 hours: move PAY-55 and PAY-56 to another engineer, ask OPS for a date on OPS-1.</p>`,
+      ];
+      window.render = (t) => {
+        const typed = Math.max(0, Math.min(Q.length, Math.floor((t - 0.3) * 30)));
+        document.getElementById('q').innerHTML =
+          Q.slice(0, typed) + (t < 2.2 ? '<span class="caret"></span>' : '');
+        const tool = document.getElementById('tool');
+        tool.classList.toggle('hidden', t < 2.5);
+        const done = t >= 3.4;
+        const st = document.getElementById('status');
+        st.className = done ? 'ok' : 'spin';
+        st.textContent = done ? '✓ result' : 'running' + '.'.repeat(1 + (Math.floor(t * 4) % 3));
+        document.getElementById('res').classList.toggle('hidden', !done);
+        const shown = done ? Math.min(rows.length, Math.floor((t - 3.4) / 0.3) + 1) : 0;
+        document.getElementById('checks').innerHTML = rows.slice(0, shown).join('');
+        const ans = document.getElementById('answer');
+        ans.classList.toggle('hidden', t < 6.4);
+        const n = Math.min(lines.length, Math.floor((t - 6.4) / 0.8) + 1);
+        ans.innerHTML = t < 6.4 ? '' : lines.slice(0, n).join('');
+      };
+      window.render(0);
+    </script>
+  </body>
+</html>

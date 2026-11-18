@@ -1,5 +1,10 @@
 import * as z from 'zod/v4';
-import { loadInitiatives, type Initiative, type InitiativesSource, type ToolContext } from '@productops/core';
+import {
+  loadInitiatives,
+  type Initiative,
+  type InitiativesSource,
+  type ToolContext,
+} from '@productops-mcp/core';
 
 export interface ToolEnv {
   allowedRoots: string[];

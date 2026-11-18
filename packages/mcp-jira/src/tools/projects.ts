@@ -1,5 +1,5 @@
 import * as z from 'zod/v4';
-import { BoardType, createToolPolicy, Meta, type ToolContext } from '@productops/core';
+import { BoardType, createToolPolicy, Meta, type ToolContext } from '@productops-mcp/core';
 import { Refresh, withSession, type JiraEnv } from './common.js';
 
 export const ListProjectsInput = z.object({

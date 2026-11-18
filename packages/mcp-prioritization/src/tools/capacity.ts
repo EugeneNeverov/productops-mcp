@@ -1,5 +1,11 @@
 import * as z from 'zod/v4';
-import { InitiativesSource, Meta, simulateCapacity, ToolFailure, type ToolContext } from '@productops/core';
+import {
+  InitiativesSource,
+  Meta,
+  simulateCapacity,
+  ToolFailure,
+  type ToolContext,
+} from '@productops-mcp/core';
 import { CustomInput, load, type ToolEnv } from './common.js';
 
 const ScenarioInput = z.object({

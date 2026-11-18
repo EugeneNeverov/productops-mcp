@@ -189,6 +189,23 @@ describe('file sources and config', () => {
     }
   });
 
+  it('also allows the folder in PRODUCTOPS_DATA_DIR', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'po-e2e-'));
+    writeFileSync(join(dir, 'backlog.csv'), 'id,title,reach,impact,confidence,effort\na,A,100,1,1,1\n');
+    const c = await connect({ PRODUCTOPS_DATA_DIR: dir });
+    try {
+      const ok = sc(
+        (await c.client.callTool({
+          name: 'calculate_rice',
+          arguments: { initiatives: { kind: 'file', path: join(dir, 'backlog.csv') } },
+        })) as Result,
+      );
+      expect(ok.items.map((i: { id: string }) => i.id)).toEqual(['a']);
+    } finally {
+      await c.client.close();
+    }
+  });
+
   it('exits with a clear error on an invalid config', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'po-e2e-'));
     writeFileSync(join(dir, 'c.json'), JSON.stringify({ writes: { enabled: true } }));

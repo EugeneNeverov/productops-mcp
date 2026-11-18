@@ -1,0 +1,45 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.EugeneNeverov/productops-prioritization",
+  "title": "ProductOps Prioritization",
+  "description": "Offline product prioritization: RICE, WSJF, method comparison and capacity what-if scenarios.",
+  "repository": {
+    "url": "https://github.com/EugeneNeverov/productops-mcp",
+    "source": "github",
+    "subfolder": "packages/mcp-prioritization"
+  },
+  "websiteUrl": "https://github.com/EugeneNeverov/productops-mcp",
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@productops-mcp/prioritization",
+      "version": "0.1.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "PRODUCTOPS_DATA_DIR",
+          "description": "Folder with your backlog CSV/JSON files that the server may read",
+          "isRequired": false,
+          "format": "filepath"
+        },
+        {
+          "name": "PRODUCTOPS_CONFIG",
+          "description": "Path to productops.config.json (allowed folders, policy, Jira settings)",
+          "isRequired": false,
+          "format": "filepath"
+        },
+        {
+          "name": "PRODUCTOPS_LOG_LEVEL",
+          "description": "Log level on stderr: debug, info, warn, error or silent (default info)",
+          "isRequired": false,
+          "format": "string"
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import { createServer } from 'node:http';
 import { Client, StreamableHTTPClientTransport, UnauthorizedError } from '@modelcontextprotocol/client';
-import { ToolFailure } from '@productops/core';
+import { ToolFailure } from '@productops-mcp/core';
 import {
   ATLASSIAN_MCP_URL,
   AtlassianOAuthProvider,

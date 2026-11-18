@@ -6,7 +6,7 @@ import {
   StatusCategory,
   UntrustedText,
   type ToolContext,
-} from '@productops/core';
+} from '@productops-mcp/core';
 import { Refresh, resolveSprint, SprintSelector, withSession, type JiraEnv } from './common.js';
 
 export const FindBlockersInput = z.object({

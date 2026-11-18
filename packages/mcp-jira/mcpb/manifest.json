@@ -1,0 +1,70 @@
+{
+  "manifest_version": "0.3",
+  "name": "productops-jira",
+  "display_name": "ProductOps Jira Sprint Health",
+  "version": "0.0.0",
+  "description": "Audit Jira sprints: health score, cycle time, blockers, scope creep and carry-over. Read-only, with demo data.",
+  "long_description": "Read-only MCP server for Jira sprint health. Metrics are computed by code and every finding cites the issues behind it. Starts with a synthetic demo team, so it works without a Jira account. For your own Jira Cloud, run `npx -y @productops-mcp/jira login` once in a terminal and set the mode to live; it reads Jira through the official Atlassian MCP server.",
+  "author": {
+    "name": "EugeneNeverov",
+    "url": "https://github.com/EugeneNeverov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EugeneNeverov/productops-mcp"
+  },
+  "homepage": "https://github.com/EugeneNeverov/productops-mcp",
+  "support": "https://github.com/EugeneNeverov/productops-mcp/issues",
+  "icon": "icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "dist/bin.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/bin.js"],
+      "env": {
+        "PRODUCTOPS_JIRA_MODE": "${user_config.mode}",
+        "PRODUCTOPS_LOG_LEVEL": "info"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "list_projects",
+      "description": "Projects and boards the server may read"
+    },
+    {
+      "name": "get_sprint_issues",
+      "description": "Issues of a sprint, with counts and estimates"
+    },
+    {
+      "name": "analyze_cycle_time",
+      "description": "Cycle time percentiles and outliers"
+    },
+    {
+      "name": "find_blockers",
+      "description": "Blocked and stale issues in a sprint"
+    },
+    {
+      "name": "assess_sprint_health",
+      "description": "Sprint health score with evidence"
+    }
+  ],
+  "keywords": ["jira", "scrum", "sprint", "agile", "cycle time", "product ops"],
+  "license": "Apache-2.0",
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  },
+  "user_config": {
+    "mode": {
+      "type": "string",
+      "title": "Data source",
+      "description": "\"fixtures\" for the bundled demo team, or \"live\" for your Jira Cloud (run `npx -y @productops-mcp/jira login` first).",
+      "required": false,
+      "default": "fixtures"
+    }
+  }
+}

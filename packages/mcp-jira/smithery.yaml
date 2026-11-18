@@ -1,0 +1,19 @@
+# Smithery listing for the local (stdio) server: https://smithery.ai/docs
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      mode:
+        type: string
+        enum: [fixtures, live]
+        default: fixtures
+        description: fixtures = bundled demo team; live = your Jira Cloud (run `npx -y @productops-mcp/jira login` first).
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', '@productops-mcp/jira'],
+      env: { PRODUCTOPS_JIRA_MODE: config.mode || 'fixtures' },
+    })
+  exampleConfig:
+    mode: fixtures
