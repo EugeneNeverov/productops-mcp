@@ -50,6 +50,14 @@
       "description": "Explain why an initiative ranks where it does"
     },
     {
+      "name": "triumvirate_brief",
+      "description": "Optional: briefs for three independent judges (dev, business, product)"
+    },
+    {
+      "name": "triumvirate_verdict",
+      "description": "Optional: merge the three judges and surface their disagreements"
+    },
+    {
       "name": "ping",
       "description": "Health check"
     }

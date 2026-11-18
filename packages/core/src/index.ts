@@ -11,6 +11,7 @@ export * from './scoring/score.js';
 export * from './scoring/compare.js';
 export * from './scoring/capacity.js';
 export * from './scoring/explain.js';
+export * from './scoring/triumvirate.js';
 export * from './io/initiatives.js';
 export * from './work/model.js';
 export * from './work/sanitize.js';

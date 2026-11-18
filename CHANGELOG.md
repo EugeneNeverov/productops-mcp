@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- `@productops-mcp/prioritization`: optional triumvirate method. `triumvirate_brief` writes briefs for three independent judges (dev, business/marketing, product) that the client runs as separate agents; `triumvirate_verdict` merges their answers and lists strong disagreements for a human decision instead of averaging them. New prompt `triumvirate-prioritization`. RICE and WSJF stay the default ([ADR 0004](docs/decisions/0004-triumvirate-judges.md)).
+
 ## [0.1.0] - 2026-11-18
 
 First public release.

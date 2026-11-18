@@ -1,0 +1,660 @@
+{
+  "request": {
+    "initiatives": {
+      "kind": "demo"
+    },
+    "verdicts": {
+      "dev": {
+        "judge": "dev",
+        "model": "demo-judge-dev",
+        "items": [
+          {
+            "id": "INIT-001",
+            "confidence": 0.7,
+            "rationale": "Touches every first-run screen; about a quarter of work for Growth.",
+            "criteria": {
+              "effort": 4,
+              "technicalRisk": 2,
+              "dependencies": 2,
+              "leverage": 3
+            }
+          },
+          {
+            "id": "INIT-002",
+            "confidence": 0.9,
+            "rationale": "A coupon rule in the existing checkout; days of work.",
+            "criteria": {
+              "effort": 1,
+              "technicalRisk": 1,
+              "dependencies": 2,
+              "leverage": 1
+            }
+          },
+          {
+            "id": "INIT-003",
+            "confidence": 0.8,
+            "rationale": "Standard referral codes; small and well understood.",
+            "criteria": {
+              "effort": 2,
+              "technicalRisk": 2,
+              "dependencies": 2,
+              "leverage": 2
+            }
+          },
+          {
+            "id": "INIT-004",
+            "confidence": 0.8,
+            "rationale": "Needs metering (INIT-026) and billing rework; the riskiest item on the list.",
+            "criteria": {
+              "effort": 5,
+              "technicalRisk": 5,
+              "dependencies": 5,
+              "leverage": 4
+            }
+          },
+          {
+            "id": "INIT-005",
+            "confidence": 0.9,
+            "rationale": "Templates in the existing email tool.",
+            "criteria": {
+              "effort": 1,
+              "technicalRisk": 1,
+              "dependencies": 1,
+              "leverage": 2
+            }
+          },
+          {
+            "id": "INIT-006",
+            "confidence": 0.8,
+            "rationale": "Small framework that every later pricing experiment reuses.",
+            "criteria": {
+              "effort": 2,
+              "technicalRisk": 2,
+              "dependencies": 1,
+              "leverage": 5
+            }
+          }
+        ]
+      },
+      "business": {
+        "judge": "business",
+        "model": "demo-judge-business",
+        "items": [
+          {
+            "id": "INIT-001",
+            "confidence": 0.6,
+            "rationale": "Helps activation for every new account, but the revenue link is indirect.",
+            "criteria": {
+              "revenue": 3,
+              "marketReach": 4,
+              "positioning": 2,
+              "timing": 2
+            }
+          },
+          {
+            "id": "INIT-002",
+            "confidence": 0.7,
+            "rationale": "Pulls cash forward from a few accounts; discounts dilute price.",
+            "criteria": {
+              "revenue": 3,
+              "marketReach": 2,
+              "positioning": 1,
+              "timing": 2
+            }
+          },
+          {
+            "id": "INIT-003",
+            "confidence": 0.5,
+            "rationale": "Referrals work weakly in B2B.",
+            "criteria": {
+              "revenue": 2,
+              "marketReach": 3,
+              "positioning": 2,
+              "timing": 2
+            }
+          },
+          {
+            "id": "INIT-004",
+            "confidence": 0.8,
+            "rationale": "Opens the mid-market and matches competitors' pricing; the biggest revenue lever.",
+            "criteria": {
+              "revenue": 5,
+              "marketReach": 4,
+              "positioning": 5,
+              "timing": 4
+            }
+          },
+          {
+            "id": "INIT-005",
+            "confidence": 0.8,
+            "rationale": "Direct trial-to-paid lift on every trial.",
+            "criteria": {
+              "revenue": 4,
+              "marketReach": 4,
+              "positioning": 1,
+              "timing": 3
+            }
+          },
+          {
+            "id": "INIT-006",
+            "confidence": 0.6,
+            "rationale": "Revenue comes from the experiments it enables, not from itself.",
+            "criteria": {
+              "revenue": 3,
+              "marketReach": 3,
+              "positioning": 1,
+              "timing": 3
+            }
+          }
+        ]
+      },
+      "product": {
+        "judge": "product",
+        "model": "demo-judge-product",
+        "items": [
+          {
+            "id": "INIT-001",
+            "confidence": 0.5,
+            "rationale": "Fits self-serve, but there is no data yet on where users drop off.",
+            "criteria": {
+              "userValue": 4,
+              "strategicFit": 5,
+              "evidence": 2
+            }
+          },
+          {
+            "id": "INIT-002",
+            "confidence": 0.7,
+            "rationale": "Few users care about annual billing at checkout.",
+            "criteria": {
+              "userValue": 2,
+              "strategicFit": 2,
+              "evidence": 3
+            }
+          },
+          {
+            "id": "INIT-003",
+            "confidence": 0,
+            "rationale": "No usage data on sharing between teams; cannot judge user value.",
+            "abstain": true
+          },
+          {
+            "id": "INIT-004",
+            "confidence": 0.6,
+            "rationale": "Users ask for paying by use; central to self-serve.",
+            "criteria": {
+              "userValue": 4,
+              "strategicFit": 5,
+              "evidence": 3
+            }
+          },
+          {
+            "id": "INIT-005",
+            "confidence": 0.8,
+            "rationale": "Clear reminder before access ends; similar products show good results.",
+            "criteria": {
+              "userValue": 3,
+              "strategicFit": 4,
+              "evidence": 4
+            }
+          },
+          {
+            "id": "INIT-006",
+            "confidence": 0.7,
+            "rationale": "No direct user value; supports the pricing strategy.",
+            "criteria": {
+              "userValue": 2,
+              "strategicFit": 4,
+              "evidence": 3
+            }
+          }
+        ]
+      }
+    }
+  },
+  "response": {
+    "ranking": [
+      {
+        "id": "INIT-005",
+        "title": "Trial expiry email sequence",
+        "score": 65.97,
+        "spread": 31.25,
+        "scores": {
+          "dev": 81.25,
+          "business": 50,
+          "product": 66.67
+        },
+        "lowConfidence": false,
+        "rank": 1
+      },
+      {
+        "id": "INIT-001",
+        "title": "Self-serve onboarding checklist",
+        "score": 55.56,
+        "spread": 22.92,
+        "scores": {
+          "dev": 56.25,
+          "business": 43.75,
+          "product": 66.67
+        },
+        "lowConfidence": false,
+        "rank": 2
+      },
+      {
+        "id": "INIT-003",
+        "title": "In-app referral program",
+        "score": 46.88,
+        "spread": 31.25,
+        "scores": {
+          "dev": 62.5,
+          "business": 31.25
+        },
+        "lowConfidence": false,
+        "rank": 3
+      }
+    ],
+    "needsDecision": [
+      {
+        "id": "INIT-004",
+        "title": "Usage-based pricing tier",
+        "spread": 68.75,
+        "scores": {
+          "dev": 18.75,
+          "business": 87.5,
+          "product": 75
+        },
+        "highest": "business",
+        "lowest": "dev",
+        "opinions": [
+          {
+            "judge": "business",
+            "score": 87.5,
+            "confidence": 0.8,
+            "rationale": "Opens the mid-market and matches competitors' pricing; the biggest revenue lever.",
+            "pulls": [
+              {
+                "criterion": "revenue",
+                "value": 5,
+                "direction": "for"
+              },
+              {
+                "criterion": "marketReach",
+                "value": 4,
+                "direction": "for"
+              },
+              {
+                "criterion": "positioning",
+                "value": 5,
+                "direction": "for"
+              },
+              {
+                "criterion": "timing",
+                "value": 4,
+                "direction": "for"
+              }
+            ]
+          },
+          {
+            "judge": "product",
+            "score": 75,
+            "confidence": 0.6,
+            "rationale": "Users ask for paying by use; central to self-serve.",
+            "pulls": [
+              {
+                "criterion": "userValue",
+                "value": 4,
+                "direction": "for"
+              },
+              {
+                "criterion": "strategicFit",
+                "value": 5,
+                "direction": "for"
+              }
+            ]
+          },
+          {
+            "judge": "dev",
+            "score": 18.75,
+            "confidence": 0.8,
+            "rationale": "Needs metering (INIT-026) and billing rework; the riskiest item on the list.",
+            "pulls": [
+              {
+                "criterion": "effort",
+                "value": 5,
+                "direction": "against"
+              },
+              {
+                "criterion": "technicalRisk",
+                "value": 5,
+                "direction": "against"
+              },
+              {
+                "criterion": "dependencies",
+                "value": 5,
+                "direction": "against"
+              },
+              {
+                "criterion": "leverage",
+                "value": 4,
+                "direction": "for"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "INIT-006",
+        "title": "Pricing page A/B test framework",
+        "spread": 50,
+        "scores": {
+          "dev": 87.5,
+          "business": 37.5,
+          "product": 50
+        },
+        "highest": "dev",
+        "lowest": "business",
+        "opinions": [
+          {
+            "judge": "dev",
+            "score": 87.5,
+            "confidence": 0.8,
+            "rationale": "Small framework that every later pricing experiment reuses.",
+            "pulls": [
+              {
+                "criterion": "effort",
+                "value": 2,
+                "direction": "for"
+              },
+              {
+                "criterion": "technicalRisk",
+                "value": 2,
+                "direction": "for"
+              },
+              {
+                "criterion": "dependencies",
+                "value": 1,
+                "direction": "for"
+              },
+              {
+                "criterion": "leverage",
+                "value": 5,
+                "direction": "for"
+              }
+            ]
+          },
+          {
+            "judge": "product",
+            "score": 50,
+            "confidence": 0.7,
+            "rationale": "No direct user value; supports the pricing strategy.",
+            "pulls": [
+              {
+                "criterion": "userValue",
+                "value": 2,
+                "direction": "against"
+              },
+              {
+                "criterion": "strategicFit",
+                "value": 4,
+                "direction": "for"
+              }
+            ]
+          },
+          {
+            "judge": "business",
+            "score": 37.5,
+            "confidence": 0.6,
+            "rationale": "Revenue comes from the experiments it enables, not from itself.",
+            "pulls": [
+              {
+                "criterion": "positioning",
+                "value": 1,
+                "direction": "against"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "INIT-002",
+        "title": "Annual plan discount at checkout",
+        "spread": 43.75,
+        "scores": {
+          "dev": 68.75,
+          "business": 25,
+          "product": 33.33
+        },
+        "highest": "dev",
+        "lowest": "business",
+        "opinions": [
+          {
+            "judge": "dev",
+            "score": 68.75,
+            "confidence": 0.9,
+            "rationale": "A coupon rule in the existing checkout; days of work.",
+            "pulls": [
+              {
+                "criterion": "effort",
+                "value": 1,
+                "direction": "for"
+              },
+              {
+                "criterion": "technicalRisk",
+                "value": 1,
+                "direction": "for"
+              },
+              {
+                "criterion": "dependencies",
+                "value": 2,
+                "direction": "for"
+              },
+              {
+                "criterion": "leverage",
+                "value": 1,
+                "direction": "against"
+              }
+            ]
+          },
+          {
+            "judge": "product",
+            "score": 33.33,
+            "confidence": 0.7,
+            "rationale": "Few users care about annual billing at checkout.",
+            "pulls": [
+              {
+                "criterion": "userValue",
+                "value": 2,
+                "direction": "against"
+              },
+              {
+                "criterion": "strategicFit",
+                "value": 2,
+                "direction": "against"
+              }
+            ]
+          },
+          {
+            "judge": "business",
+            "score": 25,
+            "confidence": 0.7,
+            "rationale": "Pulls cash forward from a few accounts; discounts dilute price.",
+            "pulls": [
+              {
+                "criterion": "marketReach",
+                "value": 2,
+                "direction": "against"
+              },
+              {
+                "criterion": "positioning",
+                "value": 1,
+                "direction": "against"
+              },
+              {
+                "criterion": "timing",
+                "value": 2,
+                "direction": "against"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "insufficient": [],
+    "agreement": {
+      "kendallTau": -0.0444,
+      "pairs": [
+        {
+          "a": "dev",
+          "b": "business",
+          "kendallTau": -0.3333,
+          "meanAbsDiff": 39.58,
+          "items": 6
+        },
+        {
+          "a": "dev",
+          "b": "product",
+          "kendallTau": -0.6,
+          "meanAbsDiff": 30.83,
+          "items": 5
+        },
+        {
+          "a": "business",
+          "b": "product",
+          "kendallTau": 0.8,
+          "meanAbsDiff": 14.58,
+          "items": 5
+        }
+      ]
+    },
+    "judges": {
+      "dev": {
+        "model": "demo-judge-dev",
+        "scored": 6,
+        "abstained": 0,
+        "missing": [
+          "INIT-007",
+          "INIT-008",
+          "INIT-009",
+          "INIT-010",
+          "INIT-011",
+          "INIT-012",
+          "INIT-013",
+          "INIT-014",
+          "INIT-015",
+          "INIT-016",
+          "INIT-017",
+          "INIT-018",
+          "INIT-019",
+          "INIT-020",
+          "INIT-021",
+          "INIT-022",
+          "INIT-023",
+          "INIT-024",
+          "INIT-025",
+          "INIT-026",
+          "INIT-027",
+          "INIT-028",
+          "INIT-029",
+          "INIT-030",
+          "INIT-031",
+          "INIT-032",
+          "INIT-033",
+          "INIT-034",
+          "INIT-035",
+          "INIT-036",
+          "INIT-037",
+          "INIT-038",
+          "INIT-039",
+          "INIT-040"
+        ]
+      },
+      "business": {
+        "model": "demo-judge-business",
+        "scored": 6,
+        "abstained": 0,
+        "missing": [
+          "INIT-007",
+          "INIT-008",
+          "INIT-009",
+          "INIT-010",
+          "INIT-011",
+          "INIT-012",
+          "INIT-013",
+          "INIT-014",
+          "INIT-015",
+          "INIT-016",
+          "INIT-017",
+          "INIT-018",
+          "INIT-019",
+          "INIT-020",
+          "INIT-021",
+          "INIT-022",
+          "INIT-023",
+          "INIT-024",
+          "INIT-025",
+          "INIT-026",
+          "INIT-027",
+          "INIT-028",
+          "INIT-029",
+          "INIT-030",
+          "INIT-031",
+          "INIT-032",
+          "INIT-033",
+          "INIT-034",
+          "INIT-035",
+          "INIT-036",
+          "INIT-037",
+          "INIT-038",
+          "INIT-039",
+          "INIT-040"
+        ]
+      },
+      "product": {
+        "model": "demo-judge-product",
+        "scored": 5,
+        "abstained": 1,
+        "missing": [
+          "INIT-007",
+          "INIT-008",
+          "INIT-009",
+          "INIT-010",
+          "INIT-011",
+          "INIT-012",
+          "INIT-013",
+          "INIT-014",
+          "INIT-015",
+          "INIT-016",
+          "INIT-017",
+          "INIT-018",
+          "INIT-019",
+          "INIT-020",
+          "INIT-021",
+          "INIT-022",
+          "INIT-023",
+          "INIT-024",
+          "INIT-025",
+          "INIT-026",
+          "INIT-027",
+          "INIT-028",
+          "INIT-029",
+          "INIT-030",
+          "INIT-031",
+          "INIT-032",
+          "INIT-033",
+          "INIT-034",
+          "INIT-035",
+          "INIT-036",
+          "INIT-037",
+          "INIT-038",
+          "INIT-039",
+          "INIT-040"
+        ]
+      }
+    },
+    "meta": {
+      "tool": "triumvirate_verdict",
+      "inputHash": "sha256:53dc859ca301b39deee3810bf954d9ba717466e1cf61f676afbb92aa9adef0e2",
+      "warnings": []
+    }
+  }
+}
