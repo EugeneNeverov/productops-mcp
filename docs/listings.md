@@ -11,6 +11,26 @@ Where the servers are listed, and what to submit.
 | [Smithery](https://smithery.ai)                                                     | Optional: **Publish server** → base directory `packages/mcp-prioritization` or `packages/mcp-jira`                                                                                                | `packages/*/smithery.yaml`                                       |
 | [Glama](https://glama.ai/mcp/servers)                                               | Now part of Arcade.dev; no submission planned                                                                                                                                                     | `glama.json`                                                     |
 | [mcp.so](https://mcp.so)                                                            | Paid listing only; skipped                                                                                                                                                                        | none                                                             |
+| [awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers)              | Not submitted yet: a pull request from the owner's account adding one line (text below)                                                                                                           | none                                                             |
+| [mcpservers.org](https://mcpservers.org)                                            | Not submitted yet: free submission form on the site                                                                                                                                               | none                                                             |
+
+## Search visibility
+
+On 2026-11-23 a web search for "productops-mcp" or "ProductOps MCP server" did not show this repository; it showed similar projects instead. The repository went public on 2026-11-17, so search engines have had little time, and the GitHub page had no description or topics. What helps, in order of effect:
+
+1. **GitHub repository settings** (owner only, gear icon next to About):
+   - Description: `ProductOps MCP servers for product managers: RICE/WSJF prioritization and read-only Jira sprint health audits. Local, offline demo data, works with Claude, Cursor, LM Studio.`
+   - Website: `https://www.npmjs.com/package/@productops-mcp/prioritization`
+   - Topics: `mcp`, `mcp-server`, `model-context-protocol`, `product-management`, `product-ops`, `prioritization`, `rice`, `wsjf`, `roadmap`, `jira`, `scrum`, `sprint`, `agile`, `claude`, `claude-code`, `ai-agents`
+   - Or from a machine with the GitHub CLI: `gh repo edit EugeneNeverov/productops-mcp --description "…" --homepage "…" --add-topic mcp,mcp-server,model-context-protocol,product-management,product-ops,prioritization,rice,wsjf,roadmap,jira,scrum,sprint,agile,claude,claude-code,ai-agents`
+2. **Links from pages search engines already crawl**: the awesome-mcp-servers list, mcpservers.org, Smithery, and the launch post (Habr, LinkedIn). Each link from an indexed page speeds up indexing of the repository.
+3. **Google Search Console** is not available for github.com pages, so there is nothing to submit there; links are the way in.
+
+One line for awesome-mcp-servers (TypeScript, local):
+
+```
+- [EugeneNeverov/productops-mcp](https://github.com/EugeneNeverov/productops-mcp) 📇 🏠 - ProductOps MCP servers for product managers: RICE/WSJF backlog prioritization with capacity scenarios, and read-only Jira sprint health (cycle time, blockers, scope creep). Ships demo data.
+```
 
 ## Submission text
 
