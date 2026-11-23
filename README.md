@@ -1,11 +1,18 @@
-# productops-mcp
+# ProductOps MCP: prioritization and Jira sprint health for product managers
 
 [![npm: prioritization](https://img.shields.io/npm/v/@productops-mcp/prioritization?label=%40productops-mcp%2Fprioritization)](https://www.npmjs.com/package/@productops-mcp/prioritization)
 [![npm: jira](https://img.shields.io/npm/v/@productops-mcp/jira?label=%40productops-mcp%2Fjira)](https://www.npmjs.com/package/@productops-mcp/jira)
 [![CI](https://github.com/EugeneNeverov/productops-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/EugeneNeverov/productops-mcp/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 
-Open-source Product Operations toolkit built on the Model Context Protocol: local prioritization (RICE, WSJF, capacity scenarios) and Jira sprint intelligence, plus reusable agent skills. Calculations are done by code; the model only explains the results.
+**ProductOps MCP** (`productops-mcp`) is an open-source Product Operations toolkit built on the Model Context Protocol. It gives Claude, Cursor, LM Studio and any other MCP client two local MCP servers for product managers and delivery leads:
+
+- **Prioritization MCP server**: rank a backlog with RICE and WSJF, compare the methods, and fit the result into team capacity with what-if scenarios. Fully offline.
+- **Jira MCP server**: read-only Jira sprint health audit with cycle time, blockers, scope creep, carry-over and a health score.
+
+Calculations are done by code; the model only explains the results. Both servers ship demo data, and two agent skills (`roadmap-prioritization`, `sprint-health-audit`) turn the numbers into a recommendation.
+
+Listed in the [official MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=productops) as `io.github.EugeneNeverov/productops-prioritization` and `io.github.EugeneNeverov/productops-jira`, and on npm as [`@productops-mcp/prioritization`](https://www.npmjs.com/package/@productops-mcp/prioritization) and [`@productops-mcp/jira`](https://www.npmjs.com/package/@productops-mcp/jira).
 
 ![A sprint health audit on the bundled demo data](docs/assets/demo.gif)
 
