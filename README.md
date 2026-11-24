@@ -1,3 +1,4 @@
+[![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/eugeneneverov/productops-mcp)
 # ProductOps MCP: prioritization and Jira sprint health for product managers
 
 [![npm: prioritization](https://img.shields.io/npm/v/@productops-mcp/prioritization?label=%40productops-mcp%2Fprioritization)](https://www.npmjs.com/package/@productops-mcp/prioritization)
